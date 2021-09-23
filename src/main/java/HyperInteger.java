@@ -1,11 +1,6 @@
-import java.util.ArrayList;
-
 public class HyperInteger {
-	int sign;
-	byte[] digits;
-
-	private HyperInteger() {
-	}
+	final int sign;
+	final byte[] digits;
 
 	public HyperInteger(String number) {
 		int cursor = 0;
@@ -30,6 +25,52 @@ public class HyperInteger {
 		}
 
 		this.digits = num;
+	}
+
+	public HyperInteger add(HyperInteger number2) {
+		StringBuilder sum = new StringBuilder();
+
+		reverse(digits);
+		reverse(number2.digits);
+
+		int i = 0, j = 0;
+		int carry = 0;
+
+		do {
+			int localSum = 0;
+			localSum += carry;
+
+			if (i<digits.length) localSum += digits[i];
+			if (j<number2.digits.length) localSum += number2.digits[j];
+
+			i++;
+			j++;
+
+			if (localSum > 9) {
+				localSum -= 10;
+				carry = 1;
+			} else {
+				carry = 0;
+			}
+
+			sum.append(localSum);
+		} while (carry > 0 || i<digits.length || j<number2.digits.length);
+
+
+		reverse(digits);
+		reverse(number2.digits);
+		sum.reverse();
+
+		return new HyperInteger(sum.toString());
+	}
+
+	private void reverse(byte[] num) {
+		byte tmp;
+		for (int i = 0; i < num.length / 2; i++) {
+			tmp = num[i];
+			num[i] = num[num.length - 1 - i];
+			num[num.length - 1 - i] = tmp;
+		}
 	}
 
 	public String toString() {
