@@ -88,26 +88,38 @@ public class HyperInteger implements Comparable<HyperInteger> {
 		if (this.sign >= 0 && number2.sign >= 0) {
 			return substract(this, number2);
 		}
-		/*
-		if (this.sign >= 0 && number2.sign < 0 || this.sign < 0 && number2.sign >= 0)
-			return new HyperInteger(substract(digits, number2.digits));
-		if (this.sign < 0 && number2.sign < 0)
-			return new HyperInteger(add(digits, number2.digits), -1);
 
-		 */
+		if (this.sign < 0 && number2.sign < 0)
+			if (this.compareTo(number2) < 0)
+				return new HyperInteger(substract(digits, number2.digits), -1);
+			else
+				return new HyperInteger(substract(number2.digits, this.digits), 1);
+
+		if (this.compareTo(number2) > 0)
+			return new HyperInteger(add(digits, number2.digits));
+		if (this.compareTo(number2) < 0)
+			return new HyperInteger(add(digits, number2.digits),-1);
+
 		return null;
 	}
 
 	private HyperInteger substract(HyperInteger number1, HyperInteger number2) {
-		HyperInteger diff = null;
+		HyperInteger diff;
 
 		if (number1.compareTo(number2) < 0) {
 			swap(number1, number2);
 			diff = new HyperInteger(substract(number1.digits, number2.digits));
 			diff.sign = -1;
 			swap(number1, number2);
+			return diff;
 		}
 
+		if (number1.compareTo(number2) == 0) {
+			diff = new HyperInteger("0");
+			return diff;
+		}
+
+		diff = new HyperInteger(substract(number1.digits, number2.digits));
 		return diff;
 	}
 
