@@ -73,6 +73,14 @@ public class TestHyperInteger {
 	}
 
 	@Test
+	void addTwoNumbers() {
+		for (int i = -1000; i <= 1000; i++) // +/- 10000-nél már több perc lehet a futásidő!
+			for (int j = -1000; j <= 1000; j++) {
+				assertEquals(String.valueOf(i + j), new HyperInteger(String.valueOf(i)).add(new HyperInteger(String.valueOf(j))).toString());
+			}
+	}
+
+	@Test
 	void substractTwoNumbers() {
 		assertEquals("3", new HyperInteger("5").substract(new HyperInteger("2")).toString());
 		assertEquals("5", new HyperInteger("5").substract(new HyperInteger("0")).toString());
@@ -89,6 +97,11 @@ public class TestHyperInteger {
 		assertEquals("16", new HyperInteger("1").substract(new HyperInteger("-15")).toString());
 		assertEquals("4", new HyperInteger("-1").substract(new HyperInteger("-5")).toString());
 		assertEquals("-2", new HyperInteger("-17").substract(new HyperInteger("-15")).toString());
+		assertEquals("9", new HyperInteger("20").substract(new HyperInteger("11")).toString());
+
+		for (int i = -1000; i <= 1000; i++) // +/- 10000-nél már több perc lehet a futásidő!
+			for (int j = -1000; j <= 1000; j++)
+				assertEquals(String.valueOf(i - j), new HyperInteger(String.valueOf(i)).substract(new HyperInteger(String.valueOf(j))).toString());
 	}
 
 	@Test
@@ -100,5 +113,6 @@ public class TestHyperInteger {
 		assertEquals(1, new HyperInteger("1").compareTo(new HyperInteger("-1")));
 		assertEquals(1, new HyperInteger("1").compareTo(new HyperInteger("0")));
 		assertEquals(1, new HyperInteger("-2").compareTo(new HyperInteger("-3")));
+		assertEquals(1, new HyperInteger("20").compareTo(new HyperInteger("11")));
 	}
 }
