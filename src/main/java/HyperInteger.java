@@ -1,8 +1,17 @@
 public class HyperInteger {
-	final int sign;
-	final byte[] digits;
+	int sign;
+	byte[] digits;
 
 	public HyperInteger(String number) {
+		parseString(number);
+	}
+
+	public HyperInteger(String number, int sign) {
+		parseString(number);
+		this.sign = sign;
+	}
+
+	private void parseString(String number) {
 		int cursor = 0;
 		int numDigits;
 
@@ -28,10 +37,18 @@ public class HyperInteger {
 	}
 
 	public HyperInteger add(HyperInteger number2) {
+		if (this.sign >= 0 && number2.sign >= 0)
+			return new HyperInteger(add(digits, number2.digits));
+		if (this.sign < 0 && number2.sign < 0)
+			return new HyperInteger(add(digits, number2.digits), -1);
+		return null;
+	}
+
+	private String add(byte[] number1, byte[] number2) {
 		StringBuilder sum = new StringBuilder();
 
-		reverse(digits);
-		reverse(number2.digits);
+		reverse(number1);
+		reverse(number2);
 
 		int i = 0, j = 0;
 		int carry = 0;
@@ -40,8 +57,8 @@ public class HyperInteger {
 			int localSum = 0;
 			localSum += carry;
 
-			if (i<digits.length) localSum += digits[i];
-			if (j<number2.digits.length) localSum += number2.digits[j];
+			if (i < number1.length) localSum += number1[i];
+			if (j < number2.length) localSum += number2[j];
 
 			i++;
 			j++;
@@ -54,14 +71,13 @@ public class HyperInteger {
 			}
 
 			sum.append(localSum);
-		} while (carry > 0 || i<digits.length || j<number2.digits.length);
+		} while (carry > 0 || i < number1.length || j < number2.length);
 
-
-		reverse(digits);
-		reverse(number2.digits);
+		reverse(number1);
+		reverse(number2);
 		sum.reverse();
 
-		return new HyperInteger(sum.toString());
+		return sum.toString();
 	}
 
 	private void reverse(byte[] num) {
