@@ -12,6 +12,10 @@ public class HyperInteger implements Comparable<HyperInteger> {
 	}
 
 	private void parseString(String number) {
+		setValue(number);
+	}
+
+	public void setValue(String number) {
 		int cursor = 0;
 		int numDigits;
 
