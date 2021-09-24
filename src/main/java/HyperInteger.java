@@ -183,7 +183,6 @@ public class HyperInteger implements Comparable<HyperInteger> {
 	@Override
 	public int compareTo(HyperInteger number2) {
 		if (this.sign > number2.sign) return 1;
-		if (this.sign == number2.sign) return 0;
 		if (this.sign < number2.sign) return -1;
 
 		if (this.digits.length < number2.digits.length) return -1;
@@ -192,8 +191,12 @@ public class HyperInteger implements Comparable<HyperInteger> {
 
 		int i = this.digits.length - 1;
 		while (i >= 0) {
-			if (this.digits[i] > number2.digits[i]) return 1;
-			if (this.digits[i] < number2.digits[i]) return -1;
+			if (this.digits[i] > number2.digits[i])
+				if (this.sign == 1) return 1;
+				else return -1;
+			if (this.digits[i] < number2.digits[i])
+				if (this.sign == 1) return -1;
+				else return 1;
 			i--;
 		}
 
