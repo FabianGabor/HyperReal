@@ -1,7 +1,7 @@
 public class HyperInteger implements Comparable<HyperInteger> {
 	int sign;
 	byte[] digits;
-	
+
 	public HyperInteger(String number) {
 		parseString(number);
 	}
