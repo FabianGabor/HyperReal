@@ -71,4 +71,34 @@ public class TestHyperInteger {
 		assertEquals("-111111111011111111100", hyperIntegerSum.toString());
 		assertEquals(-1, hyperIntegerSum.sign);
 	}
+
+	@Test
+	void substractTwoNumbers() {
+		assertEquals("3", new HyperInteger("5").substract(new HyperInteger("2")).toString());
+		assertEquals("5", new HyperInteger("5").substract(new HyperInteger("0")).toString());
+		assertEquals("0", new HyperInteger("0").substract(new HyperInteger("0")).toString());
+
+		assertEquals("-5", new HyperInteger("0").substract(new HyperInteger("5")).toString());
+		assertEquals("-519", new HyperInteger("0").substract(new HyperInteger("519")).toString());
+		assertEquals("-2", new HyperInteger("5").substract(new HyperInteger("7")).toString());
+		assertEquals("-7", new HyperInteger("5").substract(new HyperInteger("12")).toString());
+		assertEquals("-14", new HyperInteger("15").substract(new HyperInteger("29")).toString());
+		assertEquals("-85", new HyperInteger("15").substract(new HyperInteger("100")).toString());
+
+		assertEquals("6", new HyperInteger("1").substract(new HyperInteger("-5")).toString());
+		assertEquals("16", new HyperInteger("1").substract(new HyperInteger("-15")).toString());
+		assertEquals("4", new HyperInteger("-1").substract(new HyperInteger("-5")).toString());
+		assertEquals("-2", new HyperInteger("-17").substract(new HyperInteger("-15")).toString());
+	}
+
+	@Test
+	void compareTo() {
+		assertEquals(0, new HyperInteger("-1").compareTo(new HyperInteger("-1")));
+		assertEquals(0, new HyperInteger("0").compareTo(new HyperInteger("0")));
+		assertEquals(0, new HyperInteger("1").compareTo(new HyperInteger("1")));
+
+		assertEquals(1, new HyperInteger("1").compareTo(new HyperInteger("-1")));
+		assertEquals(1, new HyperInteger("1").compareTo(new HyperInteger("0")));
+		assertEquals(1, new HyperInteger("-2").compareTo(new HyperInteger("-3")));
+	}
 }
