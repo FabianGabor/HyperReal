@@ -1,7 +1,7 @@
-public class HyperInteger {
+public class HyperInteger implements Comparable<HyperInteger> {
 	int sign;
 	byte[] digits;
-
+	
 	public HyperInteger(String number) {
 		parseString(number);
 	}
@@ -98,5 +98,24 @@ public class HyperInteger {
 			sb.append(b);
 		}
 		return sb.toString();
+	}
+
+	@Override
+	public int compareTo(HyperInteger number2) {
+		if (this.digits.length < number2.digits.length) {
+			return -1;
+		}
+		if (this.digits.length > number2.digits.length) {
+			return 1;
+		}
+
+		int i = this.digits.length - 1;
+		while (i >= 0) {
+			if (this.digits[i] > number2.digits[i]) return 1;
+			if (this.digits[i] < number2.digits[i]) return -1;
+			i--;
+		}
+
+		return 0;
 	}
 }
