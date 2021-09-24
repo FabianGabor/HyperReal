@@ -44,6 +44,14 @@ public class HyperInteger implements Comparable<HyperInteger> {
 			return new HyperInteger(add(digits, number2.digits));
 		if (this.sign < 0 && number2.sign < 0)
 			return new HyperInteger(add(digits, number2.digits), -1);
+
+		if (this.abs().compareTo(number2.abs()) == 0)
+			return new HyperInteger("0");
+
+		if (this.compareTo(number2) > 0)
+			return new HyperInteger(substract(digits, number2.digits));
+		if (this.compareTo(number2) < 0)
+			return new HyperInteger(substract(number2.digits, this.digits));
 		return null;
 	}
 
@@ -166,7 +174,7 @@ public class HyperInteger implements Comparable<HyperInteger> {
 	}
 
 	private void stripLeadingZeros(StringBuilder diff) {
-		while (diff.charAt(0) == '0')
+		while (diff.charAt(0) == '0' && diff.length() > 0)
 			diff.deleteCharAt(0);
 	}
 
@@ -196,7 +204,7 @@ public class HyperInteger implements Comparable<HyperInteger> {
 		if (this.digits.length < number2.digits.length) return -1;
 
 		if (this.digits.length > number2.digits.length) return 1;
-		
+
 		for (int i=0; i<this.digits.length; i++) {
 			if (this.digits[i] > number2.digits[i])
 				if (this.sign == 1) return 1;
