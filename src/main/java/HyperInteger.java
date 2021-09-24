@@ -213,4 +213,8 @@ public class HyperInteger implements Comparable<HyperInteger> {
 
 		return 0;
 	}
+
+	public HyperInteger abs() {
+		return new HyperInteger(this.toString(), 1);
+	}
 }
