@@ -40,6 +40,9 @@ public class HyperInteger implements Comparable<HyperInteger> {
 	}
 
 	public HyperInteger add(HyperInteger number2) {
+		if (this.toString().equals("0")) return number2;
+		if (number2.toString().equals("0")) return this;
+
 		if (this.sign >= 0 && number2.sign >= 0)
 			return new HyperInteger(add(digits, number2.digits));
 		if (this.sign < 0 && number2.sign < 0)
@@ -49,9 +52,15 @@ public class HyperInteger implements Comparable<HyperInteger> {
 			return new HyperInteger("0");
 
 		if (this.compareTo(number2) > 0)
-			return new HyperInteger(substract(digits, number2.digits));
+			if (this.abs().compareTo(number2.abs()) == 1)
+				return new HyperInteger(substract(this.digits, number2.digits));
+			else
+				return new HyperInteger(substract(number2.digits, this.digits), -1);
 		if (this.compareTo(number2) < 0)
-			return new HyperInteger(substract(number2.digits, this.digits));
+			if (this.abs().compareTo(number2.abs()) == 1)
+				return new HyperInteger(substract(this.digits, number2.digits), -1);
+			else
+				return new HyperInteger(substract(number2.digits, this.digits));
 		return null;
 	}
 
@@ -205,7 +214,7 @@ public class HyperInteger implements Comparable<HyperInteger> {
 
 		if (this.digits.length > number2.digits.length) return 1;
 
-		for (int i=0; i<this.digits.length; i++) {
+		for (int i = 0; i < this.digits.length; i++) {
 			if (this.digits[i] > number2.digits[i])
 				if (this.sign == 1) return 1;
 				else return -1;
