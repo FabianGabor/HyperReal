@@ -25,9 +25,8 @@ public class HyperInteger implements Comparable<HyperInteger> {
 		if (negative >= 0) {
 			sign = -1;
 			cursor = 1;
-		} else if (positive >= 0) {
+		} else if (positive >= 0)
 			cursor = 1;
-		}
 
 		numDigits = number.length() - cursor;
 		this.sign = sign;
@@ -70,9 +69,8 @@ public class HyperInteger implements Comparable<HyperInteger> {
 			if (localSum > 9) {
 				localSum -= 10;
 				carry = 1;
-			} else {
+			} else
 				carry = 0;
-			}
 
 			sum.append(localSum);
 		} while (carry > 0 || i < number1.length || j < number2.length);
@@ -97,7 +95,7 @@ public class HyperInteger implements Comparable<HyperInteger> {
 		if (this.compareTo(number2) > 0)
 			return new HyperInteger(add(digits, number2.digits));
 		if (this.compareTo(number2) < 0)
-			return new HyperInteger(add(digits, number2.digits),-1);
+			return new HyperInteger(add(digits, number2.digits), -1);
 
 		return null;
 	}
@@ -144,9 +142,8 @@ public class HyperInteger implements Comparable<HyperInteger> {
 			if (localDiff < 0) {
 				localDiff += 10;
 				carry = 1;
-			} else {
+			} else
 				carry = 0;
-			}
 
 			diff.append(localDiff);
 		} while (carry > 0 || i < number1.length || j < number2.length);
@@ -166,9 +163,8 @@ public class HyperInteger implements Comparable<HyperInteger> {
 	}
 
 	private void stripLeadingZeros(StringBuilder diff) {
-		while (diff.charAt(0) == '0') {
+		while (diff.charAt(0) == '0')
 			diff.deleteCharAt(0);
-		}
 	}
 
 	private void reverse(byte[] num) {
@@ -182,12 +178,10 @@ public class HyperInteger implements Comparable<HyperInteger> {
 
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		if (sign < 0) {
+		if (sign < 0)
 			sb.insert(0, '-');
-		}
-		for (byte b : digits) {
+		for (byte b : digits)
 			sb.append(b);
-		}
 		return sb.toString();
 	}
 
