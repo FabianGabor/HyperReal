@@ -74,8 +74,8 @@ public class TestHyperInteger {
 
 	@Test
 	void addTwoNumbers() {
-		for (int i = -1000; i <= 1000; i++) // +/- 10000-nél már több perc lehet a futásidő!
-			for (int j = -1000; j <= 1000; j++) {
+		for (int i = -10000; i <= 10000; i++) // +/- 10000-nél már több perc lehet a futásidő!
+			for (int j = -10000; j <= 10000; j++) {
 				assertEquals(String.valueOf(i + j), new HyperInteger(String.valueOf(i)).add(new HyperInteger(String.valueOf(j))).toString());
 			}
 	}

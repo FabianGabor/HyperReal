@@ -48,6 +48,7 @@ public class HyperInteger implements Comparable<HyperInteger> {
 		if (this.sign < 0 && number2.sign < 0)
 			return new HyperInteger(add(digits, number2.digits), -1);
 
+		// fentebb ellenőriztük az előjelek egyezését. Alább már különböző előjelűek a számok
 		if (this.abs().compareTo(number2.abs()) == 0)
 			return new HyperInteger("0");
 
