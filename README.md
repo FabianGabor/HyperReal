@@ -1,5 +1,7 @@
 # Szakdolgozat
 
+Nyíregyházi Egyetem - Programtervező informatikus
+
 Nagypontosságú számábrázolási osztály készítése (JAVA)
 
 Konzulens: Dr. Falucskai János
