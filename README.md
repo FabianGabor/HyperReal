@@ -1,10 +1,10 @@
-#Szakdolgozat
+# Szakdolgozat
 
 Nagypontosságú számábrázolási osztály készítése (JAVA)
 
 Konzulens: Dr. Falucskai János
 
-##HyperReal
+## HyperReal
 
 * Egész számok
   - [x] összeadás
