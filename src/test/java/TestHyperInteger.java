@@ -112,20 +112,17 @@ public class TestHyperInteger {
 		assertEquals("-2", new HyperInteger("-17").substract(new HyperInteger("-15")).toString());
 		assertEquals("9", new HyperInteger("20").substract(new HyperInteger("11")).toString());
 
-		for (int i = -1000; i <= 1000; i++) // +/- 10000-nél már több perc lehet a futásidő!
-			for (int j = -1000; j <= 1000; j++)
+		for (int i = -100; i <= 100; i++) // +/- 10000-nél már több perc lehet a futásidő!
+			for (int j = -100; j <= 100; j++)
 				assertEquals(String.valueOf(i - j), new HyperInteger(String.valueOf(i)).substract(new HyperInteger(String.valueOf(j))).toString());
 	}
 
 	@Test
-	void compareTo() {
-		assertEquals(0, new HyperInteger("-1").compareTo(new HyperInteger("-1")));
-		assertEquals(0, new HyperInteger("0").compareTo(new HyperInteger("0")));
-		assertEquals(0, new HyperInteger("1").compareTo(new HyperInteger("1")));
-
-		assertEquals(1, new HyperInteger("1").compareTo(new HyperInteger("-1")));
-		assertEquals(1, new HyperInteger("1").compareTo(new HyperInteger("0")));
-		assertEquals(1, new HyperInteger("-2").compareTo(new HyperInteger("-3")));
-		assertEquals(1, new HyperInteger("20").compareTo(new HyperInteger("11")));
+	void multiply() {
+		for (int i = -100; i <= 100; i++) // +/- 10000-nél már több perc lehet a futásidő!
+			for (int j = -100; j <= 100; j++) {
+				//System.out.println(i + " * " + j + " = " + i * j);
+				assertEquals(String.valueOf(i * j), new HyperInteger(String.valueOf(i)).multiply(new HyperInteger(String.valueOf(j))).toString());
+			}
 	}
 }
