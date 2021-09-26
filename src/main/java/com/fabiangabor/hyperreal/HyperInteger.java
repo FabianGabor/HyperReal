@@ -218,7 +218,7 @@ public class HyperInteger implements Comparable<HyperInteger> {
 
 			for (int j = number1.length - 1; j >= 0; j--) {
 				graph.get(i).add((number2[i] * number1[j] + carry) % 10);
-				carry = number2[i] * number1[j] / 10;
+				carry = (number2[i] * number1[j] + carry) / 10;
 			}
 			if (carry > 0) graph.get(i).add(carry);
 		}
