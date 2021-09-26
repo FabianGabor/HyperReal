@@ -1,6 +1,14 @@
+package com.fabiangabor.hyperreal;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class HyperInteger implements Comparable<HyperInteger> {
-	int sign;
+	public int sign;
 	byte[] digits;
+
+	private HyperInteger() {
+	}
 
 	public HyperInteger(String number) {
 		parseString(number);
@@ -175,6 +183,56 @@ public class HyperInteger implements Comparable<HyperInteger> {
 		stripLeadingZeros(diff);
 
 		return diff.toString();
+	}
+
+	public HyperInteger multiply(HyperInteger number2) {
+		HyperInteger prod;
+		if (this.toString().equals("1")) return number2;
+		if (number2.toString().equals("1")) return this;
+
+		if (this.abs().compareTo(number2.abs()) < 0) {
+			swap(this, number2);
+			prod = multiply(this.digits, number2.digits);
+			swap(this, number2);
+		} else {
+			prod = multiply(this.digits, number2.digits);
+		}
+		if (this.sign != number2.sign) {
+			prod.sign = -1;
+		}
+
+		return prod;
+	}
+
+	private HyperInteger multiply(byte[] number1, byte[] number2) {
+		ArrayList<ArrayList<Integer>> graph = new ArrayList<>(number2.length);
+		for (int i = 0; i < number2.length; i++)
+			graph.add(new ArrayList());
+
+		for (int i = number2.length - 1; i >= 0; i--) {
+			int carry = 0;
+
+			for (int k = i; k < number2.length - 1; k++)
+				graph.get(i).add(0);
+
+			for (int j = number1.length - 1; j >= 0; j--) {
+				graph.get(i).add((number2[i] * number1[j] + carry) % 10);
+				carry = number2[i] * number1[j] / 10;
+			}
+			if (carry > 0) graph.get(i).add(carry);
+		}
+
+		HyperInteger sum = new HyperInteger("0");
+		for (int i = 0; i < graph.size(); i++) {
+			Collections.reverse(graph.get(i));
+			HyperInteger tmp = new HyperInteger();
+			tmp.digits = new byte[graph.get(i).size()];
+			for (int j = 0; j< graph.get(i).size(); j++)
+				tmp.digits[j] = graph.get(i).get(j).byteValue();
+			sum = sum.add(tmp);
+		}
+
+		return sum;
 	}
 
 	private void swap(HyperInteger number1, HyperInteger number2) {
