@@ -187,6 +187,7 @@ public class HyperInteger implements Comparable<HyperInteger> {
 
 	public HyperInteger multiply(HyperInteger number2) {
 		HyperInteger prod;
+		if (this.toString().equals("0") || number2.toString().equals("0")) return new HyperInteger("0");
 		if (this.toString().equals("1")) return number2;
 		if (number2.toString().equals("1")) return this;
 
