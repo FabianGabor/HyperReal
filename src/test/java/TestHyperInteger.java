@@ -119,8 +119,8 @@ public class TestHyperInteger {
 
 	@Test
 	void multiply() {
-		for (int i = -100; i <= 100; i++) // +/- 10000-nél már több perc lehet a futásidő!
-			for (int j = -100; j <= 100; j++) {
+		for (int i = -1000; i <= 1000; i++) // +/- 10000-nél már több perc lehet a futásidő!
+			for (int j = -1000; j <= 1000; j++) {
 				//System.out.println(i + " * " + j + " = " + i * j);
 				assertEquals(String.valueOf(i * j), new HyperInteger(String.valueOf(i)).multiply(new HyperInteger(String.valueOf(j))).toString());
 			}
