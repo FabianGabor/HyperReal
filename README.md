@@ -1,12 +1,12 @@
 # Szakdolgozat
 
-Nyíregyházi Egyetem - Programtervező informatikus
-
-Nagypontosságú számábrázolási osztály készítése (JAVA)
+## Nagypontosságú számábrázolási osztály készítése (JAVA)
 
 Konzulens: Dr. Falucskai János
 
-## HyperReal
+Nyíregyházi Egyetem - Programtervező informatikus
+
+### HyperReal
 
 * Egész számok
   - [x] összeadás
