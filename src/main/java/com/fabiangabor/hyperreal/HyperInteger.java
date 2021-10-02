@@ -16,7 +16,10 @@ public class HyperInteger implements Comparable<HyperInteger> {
 
 	public HyperInteger(String number, int sign) {
 		parseString(number);
-		this.sign = sign;
+		if (number.equals("0"))
+			this.sign = 0;
+		else
+			this.sign = sign;
 	}
 
 	private void parseString(String number) {
@@ -24,27 +27,32 @@ public class HyperInteger implements Comparable<HyperInteger> {
 	}
 
 	public void setValue(String number) {
-		int cursor = 0;
-		int numDigits;
+		if (number.equals("0")) {
+			this.sign = 0;
+			this.digits = new byte[]{0};
+		} else {
+			int cursor = 0;
+			int numDigits;
+			int sign = 1;
 
-		int sign = 1;
-		int negative = number.lastIndexOf('-');
-		int positive = number.lastIndexOf('+');
-		if (negative >= 0) {
-			sign = -1;
-			cursor = 1;
-		} else if (positive >= 0)
-			cursor = 1;
+			int negative = number.lastIndexOf('-');
+			int positive = number.lastIndexOf('+');
+			if (negative >= 0) {
+				sign = -1;
+				cursor = 1;
+			} else if (positive >= 0)
+				cursor = 1;
 
-		numDigits = number.length() - cursor;
-		this.sign = sign;
+			numDigits = number.length() - cursor;
+			this.sign = sign;
 
-		byte[] num = new byte[numDigits];
-		for (int i = cursor; i < number.length(); i++) {
-			num[i - cursor] = Byte.parseByte(String.valueOf(number.charAt(i)));
+			byte[] num = new byte[numDigits];
+			for (int i = cursor; i < number.length(); i++) {
+				num[i - cursor] = Byte.parseByte(String.valueOf(number.charAt(i)));
+			}
+
+			this.digits = num;
 		}
-
-		this.digits = num;
 	}
 
 	public HyperInteger add(HyperInteger number2) {
