@@ -200,6 +200,8 @@ public class HyperInteger implements Comparable<HyperInteger> {
 		}
 		if (this.sign != number2.sign) {
 			prod.sign = -1;
+		} else {
+			prod.sign = 1;
 		}
 
 		return prod;
