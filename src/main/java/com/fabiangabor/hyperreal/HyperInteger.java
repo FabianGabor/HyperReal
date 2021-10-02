@@ -291,4 +291,21 @@ public class HyperInteger implements Comparable<HyperInteger> {
 	public HyperInteger abs() {
 		return new HyperInteger(this.toString(), 1);
 	}
+
+	public HyperInteger subArray(HyperInteger arr, int start, int end) {
+		/*
+		String[] subarray = IntStream.range(start, end + 1)
+				.mapToObj(i -> arr.digits[i])
+				.toArray(String[]::new);
+
+		 */
+
+		//byte[] subarray = Arrays.copyOfRange(arr.digits, start, end);
+		String s = "";
+		for (int i=start; i<end; i++) {
+			s +=arr.digits[i];
+		}
+		HyperInteger returnValue = new HyperInteger(s, arr.sign);
+		return returnValue;
+	}
 }
