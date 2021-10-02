@@ -16,7 +16,10 @@ public class HyperInteger implements Comparable<HyperInteger> {
 
 	public HyperInteger(String number, int sign) {
 		parseString(number);
-		this.sign = sign;
+		if (number.equals("0"))
+			this.sign = 0;
+		else
+			this.sign = sign;
 	}
 
 	private void parseString(String number) {
@@ -24,27 +27,32 @@ public class HyperInteger implements Comparable<HyperInteger> {
 	}
 
 	public void setValue(String number) {
-		int cursor = 0;
-		int numDigits;
+		if (number.equals("0")) {
+			this.sign = 0;
+			this.digits = new byte[]{0};
+		} else {
+			int cursor = 0;
+			int numDigits;
+			int sign = 1;
 
-		int sign = 1;
-		int negative = number.lastIndexOf('-');
-		int positive = number.lastIndexOf('+');
-		if (negative >= 0) {
-			sign = -1;
-			cursor = 1;
-		} else if (positive >= 0)
-			cursor = 1;
+			int negative = number.lastIndexOf('-');
+			int positive = number.lastIndexOf('+');
+			if (negative >= 0) {
+				sign = -1;
+				cursor = 1;
+			} else if (positive >= 0)
+				cursor = 1;
 
-		numDigits = number.length() - cursor;
-		this.sign = sign;
+			numDigits = number.length() - cursor;
+			this.sign = sign;
 
-		byte[] num = new byte[numDigits];
-		for (int i = cursor; i < number.length(); i++) {
-			num[i - cursor] = Byte.parseByte(String.valueOf(number.charAt(i)));
+			byte[] num = new byte[numDigits];
+			for (int i = cursor; i < number.length(); i++) {
+				num[i - cursor] = Byte.parseByte(String.valueOf(number.charAt(i)));
+			}
+
+			this.digits = num;
 		}
-
-		this.digits = num;
 	}
 
 	public HyperInteger add(HyperInteger number2) {
@@ -61,12 +69,12 @@ public class HyperInteger implements Comparable<HyperInteger> {
 			return new HyperInteger("0");
 
 		if (this.compareTo(number2) > 0)
-			if (this.abs().compareTo(number2.abs()) == 1)
+			if (this.abs().compareTo(number2.abs()) > 0)
 				return new HyperInteger(substract(this.digits, number2.digits));
 			else
 				return new HyperInteger(substract(number2.digits, this.digits), -1);
 		if (this.compareTo(number2) < 0)
-			if (this.abs().compareTo(number2.abs()) == 1)
+			if (this.abs().compareTo(number2.abs()) > 0)
 				return new HyperInteger(substract(this.digits, number2.digits), -1);
 			else
 				return new HyperInteger(substract(number2.digits, this.digits));
@@ -200,6 +208,8 @@ public class HyperInteger implements Comparable<HyperInteger> {
 		}
 		if (this.sign != number2.sign) {
 			prod.sign = -1;
+		} else {
+			prod.sign = 1;
 		}
 
 		return prod;
@@ -208,7 +218,7 @@ public class HyperInteger implements Comparable<HyperInteger> {
 	private HyperInteger multiply(byte[] number1, byte[] number2) {
 		ArrayList<ArrayList<Integer>> graph = new ArrayList<>(number2.length);
 		for (int i = 0; i < number2.length; i++)
-			graph.add(new ArrayList());
+			graph.add(new ArrayList<>());
 
 		for (int i = number2.length - 1; i >= 0; i--) {
 			int carry = 0;
@@ -224,16 +234,64 @@ public class HyperInteger implements Comparable<HyperInteger> {
 		}
 
 		HyperInteger sum = new HyperInteger("0");
-		for (int i = 0; i < graph.size(); i++) {
-			Collections.reverse(graph.get(i));
+		for (ArrayList<Integer> integers : graph) {
+			Collections.reverse(integers);
 			HyperInteger tmp = new HyperInteger();
-			tmp.digits = new byte[graph.get(i).size()];
-			for (int j = 0; j< graph.get(i).size(); j++)
-				tmp.digits[j] = graph.get(i).get(j).byteValue();
+			tmp.digits = new byte[integers.size()];
+			for (int j = 0; j < integers.size(); j++)
+				tmp.digits[j] = integers.get(j).byteValue();
 			sum = sum.add(tmp);
 		}
 
 		return sum;
+	}
+
+	public HyperInteger divide(HyperInteger number2) throws Exception {
+		if (this.toString().equals("0")) return new HyperInteger("0");
+		if (number2.toString().equals("0")) throw new Exception("Divison by 0");
+		if (number2.toString().equals("1")) return this;
+		if (number2.abs().toString().equals("1")) return new HyperInteger(this.toString(), this.sign * number2.sign);
+		if (this.compareTo(number2) == 0) return new HyperInteger("1");
+		if (this.abs().compareTo(number2.abs()) == 0) return new HyperInteger("-1");
+		if (this.abs().compareTo(number2.abs()) < 0) return new HyperInteger("0");
+		if (this.digits.length == number2.digits.length && this.digits[0] / number2.digits[0] == 1)
+			return new HyperInteger("1", this.sign * number2.sign);
+
+		return divide(this, number2);
+	}
+
+	private HyperInteger divide(HyperInteger number1, HyperInteger number2) {
+		int start = 0;
+		int end = 1;
+		HyperInteger zero = new HyperInteger("0");
+		StringBuilder sq = new StringBuilder();
+		HyperInteger subDivident;
+		HyperInteger remainder = new HyperInteger("0");
+
+		for (end = 1; end < number1.digits.length + 1; end++) {
+			if (remainder.sign == 0)
+				subDivident = subArray(number1, start, end).abs();
+			else {
+				subDivident = subArray(number1, start, end).abs().add(remainder.multiply(new HyperInteger("10")).abs());
+			}
+
+			HyperInteger subQuotient = new HyperInteger("10");
+			HyperInteger tmp;
+			do {
+				subQuotient = subQuotient.substract(new HyperInteger("1")); // subQuotient--
+				tmp = number2.multiply(subQuotient).abs();
+			} while (tmp.compareTo(subDivident.abs()) > 0);
+			start = end;
+
+			remainder = subDivident.abs().substract(tmp);
+
+			sq.append(subQuotient.toString());
+		}
+
+
+		HyperInteger quotient = new HyperInteger(sq.toString());
+		quotient.sign = number1.sign * number2.sign;
+		return quotient.stripLeadingZeros();
 	}
 
 	private void swap(HyperInteger number1, HyperInteger number2) {
@@ -245,6 +303,14 @@ public class HyperInteger implements Comparable<HyperInteger> {
 	private void stripLeadingZeros(StringBuilder diff) {
 		while (diff.charAt(0) == '0' && diff.length() > 0)
 			diff.deleteCharAt(0);
+	}
+
+	private HyperInteger stripLeadingZeros() {
+		StringBuilder sb = new StringBuilder(this.toString());
+		int i = (this.sign < 0) ? 1 : 0;
+		while (sb.charAt(i) == '0' && sb.length() > 0)
+			sb.deleteCharAt(i);
+		return new HyperInteger(sb.toString());
 	}
 
 	private void reverse(byte[] num) {
@@ -288,5 +354,16 @@ public class HyperInteger implements Comparable<HyperInteger> {
 
 	public HyperInteger abs() {
 		return new HyperInteger(this.toString(), 1);
+	}
+
+	public HyperInteger subArray(HyperInteger arr, int start, int end) {
+		StringBuilder s = new StringBuilder();
+		for (int i = start; i < end; i++) s.append(arr.digits[i]);
+		return new HyperInteger(s.toString(), arr.sign);
+	}
+	public HyperInteger subArray(HyperInteger arr, int start, int end, int prepend) {
+		StringBuilder s = new StringBuilder(prepend);
+		for (int i = start; i < end; i++) s.append(arr.digits[i]);
+		return new HyperInteger(s.toString(), arr.sign);
 	}
 }
