@@ -69,12 +69,12 @@ public class HyperInteger implements Comparable<HyperInteger> {
 			return new HyperInteger("0");
 
 		if (this.compareTo(number2) > 0)
-			if (this.abs().compareTo(number2.abs()) == 1)
+			if (this.abs().compareTo(number2.abs()) > 0)
 				return new HyperInteger(substract(this.digits, number2.digits));
 			else
 				return new HyperInteger(substract(number2.digits, this.digits), -1);
 		if (this.compareTo(number2) < 0)
-			if (this.abs().compareTo(number2.abs()) == 1)
+			if (this.abs().compareTo(number2.abs()) > 0)
 				return new HyperInteger(substract(this.digits, number2.digits), -1);
 			else
 				return new HyperInteger(substract(number2.digits, this.digits));
@@ -218,7 +218,7 @@ public class HyperInteger implements Comparable<HyperInteger> {
 	private HyperInteger multiply(byte[] number1, byte[] number2) {
 		ArrayList<ArrayList<Integer>> graph = new ArrayList<>(number2.length);
 		for (int i = 0; i < number2.length; i++)
-			graph.add(new ArrayList());
+			graph.add(new ArrayList<>());
 
 		for (int i = number2.length - 1; i >= 0; i--) {
 			int carry = 0;
@@ -234,12 +234,12 @@ public class HyperInteger implements Comparable<HyperInteger> {
 		}
 
 		HyperInteger sum = new HyperInteger("0");
-		for (int i = 0; i < graph.size(); i++) {
-			Collections.reverse(graph.get(i));
+		for (ArrayList<Integer> integers : graph) {
+			Collections.reverse(integers);
 			HyperInteger tmp = new HyperInteger();
-			tmp.digits = new byte[graph.get(i).size()];
-			for (int j = 0; j< graph.get(i).size(); j++)
-				tmp.digits[j] = graph.get(i).get(j).byteValue();
+			tmp.digits = new byte[integers.size()];
+			for (int j = 0; j < integers.size(); j++)
+				tmp.digits[j] = integers.get(j).byteValue();
 			sum = sum.add(tmp);
 		}
 
