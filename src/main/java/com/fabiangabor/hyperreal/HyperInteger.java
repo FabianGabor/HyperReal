@@ -351,19 +351,13 @@ public class HyperInteger implements Comparable<HyperInteger> {
 	}
 
 	public HyperInteger subArray(HyperInteger arr, int start, int end) {
-		/*
-		String[] subarray = IntStream.range(start, end + 1)
-				.mapToObj(i -> arr.digits[i])
-				.toArray(String[]::new);
-
-		 */
-
-		//byte[] subarray = Arrays.copyOfRange(arr.digits, start, end);
-		String s = "";
-		for (int i=start; i<end; i++) {
-			s +=arr.digits[i];
-		}
-		HyperInteger returnValue = new HyperInteger(s, arr.sign);
-		return returnValue;
+		StringBuilder s = new StringBuilder();
+		for (int i = start; i < end; i++) s.append(arr.digits[i]);
+		return new HyperInteger(s.toString(), arr.sign);
+	}
+	public HyperInteger subArray(HyperInteger arr, int start, int end, int prepend) {
+		StringBuilder s = new StringBuilder(prepend);
+		for (int i = start; i < end; i++) s.append(arr.digits[i]);
+		return new HyperInteger(s.toString(), arr.sign);
 	}
 }
