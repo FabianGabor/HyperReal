@@ -299,6 +299,14 @@ public class HyperInteger implements Comparable<HyperInteger> {
 			diff.deleteCharAt(0);
 	}
 
+	private HyperInteger stripLeadingZeros() {
+		StringBuilder sb = new StringBuilder(this.toString());
+		int i = (this.sign < 0) ? 1 : 0;
+		while (sb.charAt(i) == '0' && sb.length() > 0)
+			sb.deleteCharAt(i);
+		return new HyperInteger(sb.toString());
+	}
+
 	private void reverse(byte[] num) {
 		byte tmp;
 		for (int i = 0; i < num.length / 2; i++) {
