@@ -250,42 +250,48 @@ public class HyperInteger implements Comparable<HyperInteger> {
 		if (this.toString().equals("0")) return new HyperInteger("0");
 		if (number2.toString().equals("0")) throw new Exception("Divison by 0");
 		if (number2.toString().equals("1")) return this;
+		if (number2.abs().toString().equals("1")) return new HyperInteger(this.toString(), this.sign * number2.sign);
 		if (this.compareTo(number2) == 0) return new HyperInteger("1");
 		if (this.abs().compareTo(number2.abs()) == 0) return new HyperInteger("-1");
 		if (this.abs().compareTo(number2.abs()) < 0) return new HyperInteger("0");
-		if (this.digits.length == number2.digits.length && this.digits[0] / number2.digits[0] == 1) return new HyperInteger("1");
+		if (this.digits.length == number2.digits.length && this.digits[0] / number2.digits[0] == 1)
+			return new HyperInteger("1", this.sign * number2.sign);
 
 		return divide(this, number2);
 	}
 
 	private HyperInteger divide(HyperInteger number1, HyperInteger number2) {
-		HyperInteger quotient;
 		int start = 0;
 		int end = 1;
-
+		HyperInteger zero = new HyperInteger("0");
+		StringBuilder sq = new StringBuilder();
 		HyperInteger subDivident;
-		{ // ide valami ciklus kell
-			do {
-				subDivident = subArray(number1, start, end);
-				end++;
-			} while (subDivident.abs().compareTo(number2.abs()) < 0);
-			//start = end;
+		HyperInteger remainder = new HyperInteger("0");
+
+		for (end = 1; end < number1.digits.length + 1; end++) {
+			if (remainder.sign == 0)
+				subDivident = subArray(number1, start, end).abs();
+			else {
+				subDivident = subArray(number1, start, end).abs().add(remainder.multiply(new HyperInteger("10")).abs());
+			}
 
 			HyperInteger subQuotient = new HyperInteger("10");
 			HyperInteger tmp;
 			do {
-				subQuotient = subQuotient.substract(new HyperInteger("1"));
+				subQuotient = subQuotient.substract(new HyperInteger("1")); // subQuotient--
 				tmp = number2.multiply(subQuotient).abs();
-			} while (tmp.compareTo(subDivident.abs()) == 1);
+			} while (tmp.compareTo(subDivident.abs()) > 0);
+			start = end;
 
-			return subQuotient;
+			remainder = subDivident.abs().substract(tmp);
+
+			sq.append(subQuotient.toString());
 		}
 
-		//return null;
-	}
 
-	private HyperInteger divide(byte[] number1, byte[] number2) {
-		return null;
+		HyperInteger quotient = new HyperInteger(sq.toString());
+		quotient.sign = number1.sign * number2.sign;
+		return quotient.stripLeadingZeros();
 	}
 
 	private void swap(HyperInteger number1, HyperInteger number2) {
