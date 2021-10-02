@@ -238,6 +238,48 @@ public class HyperInteger implements Comparable<HyperInteger> {
 		return sum;
 	}
 
+	public HyperInteger divide(HyperInteger number2) throws Exception {
+		if (this.toString().equals("0")) return new HyperInteger("0");
+		if (number2.toString().equals("0")) throw new Exception("Divison by 0");
+		if (number2.toString().equals("1")) return this;
+		if (this.compareTo(number2) == 0) return new HyperInteger("1");
+		if (this.abs().compareTo(number2.abs()) == 0) return new HyperInteger("-1");
+		if (this.abs().compareTo(number2.abs()) < 0) return new HyperInteger("0");
+		if (this.digits.length == number2.digits.length && this.digits[0] / number2.digits[0] == 1) return new HyperInteger("1");
+
+		return divide(this, number2);
+	}
+
+	private HyperInteger divide(HyperInteger number1, HyperInteger number2) {
+		HyperInteger quotient;
+		int start = 0;
+		int end = 1;
+
+		HyperInteger subDivident;
+		{ // ide valami ciklus kell
+			do {
+				subDivident = subArray(number1, start, end);
+				end++;
+			} while (subDivident.abs().compareTo(number2.abs()) < 0);
+			//start = end;
+
+			HyperInteger subQuotient = new HyperInteger("10");
+			HyperInteger tmp;
+			do {
+				subQuotient = subQuotient.substract(new HyperInteger("1"));
+				tmp = number2.multiply(subQuotient).abs();
+			} while (tmp.compareTo(subDivident.abs()) == 1);
+
+			return subQuotient;
+		}
+
+		//return null;
+	}
+
+	private HyperInteger divide(byte[] number1, byte[] number2) {
+		return null;
+	}
+
 	private void swap(HyperInteger number1, HyperInteger number2) {
 		byte[] tmp = number1.digits;
 		number1.digits = number2.digits;
