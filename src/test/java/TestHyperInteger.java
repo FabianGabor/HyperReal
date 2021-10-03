@@ -1,14 +1,26 @@
+/*
+ * Fábián Gábor
+ * Copyright (c) 2021.
+ * https://github.com/FabianGabor
+ */
+
 import com.fabiangabor.hyperreal.HyperInteger;
 import org.junit.jupiter.api.Test;
+
+import java.math.BigInteger;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestHyperInteger {
 	@Test
 	void testZero() {
-		HyperInteger hyperInteger1 = new HyperInteger("0");
-		assertEquals("0", hyperInteger1.toString());
-		assertEquals(1, hyperInteger1.sign);
+		assertEquals("0", new HyperInteger("0").toString());
+		assertEquals("0", new HyperInteger("00").toString());
+		assertEquals("0", new HyperInteger("+0").toString());
+		assertEquals("0", new HyperInteger("-0").toString());
+		assertEquals("0", new HyperInteger("+++000").toString());
+		assertEquals(0, new HyperInteger("00").sign);
 	}
 
 	@Test
@@ -95,23 +107,6 @@ public class TestHyperInteger {
 
 	@Test
 	void substractTwoNumbers() {
-		assertEquals("3", new HyperInteger("5").substract(new HyperInteger("2")).toString());
-		assertEquals("5", new HyperInteger("5").substract(new HyperInteger("0")).toString());
-		assertEquals("0", new HyperInteger("0").substract(new HyperInteger("0")).toString());
-
-		assertEquals("-5", new HyperInteger("0").substract(new HyperInteger("5")).toString());
-		assertEquals("-519", new HyperInteger("0").substract(new HyperInteger("519")).toString());
-		assertEquals("-2", new HyperInteger("5").substract(new HyperInteger("7")).toString());
-		assertEquals("-7", new HyperInteger("5").substract(new HyperInteger("12")).toString());
-		assertEquals("-14", new HyperInteger("15").substract(new HyperInteger("29")).toString());
-		assertEquals("-85", new HyperInteger("15").substract(new HyperInteger("100")).toString());
-
-		assertEquals("6", new HyperInteger("1").substract(new HyperInteger("-5")).toString());
-		assertEquals("16", new HyperInteger("1").substract(new HyperInteger("-15")).toString());
-		assertEquals("4", new HyperInteger("-1").substract(new HyperInteger("-5")).toString());
-		assertEquals("-2", new HyperInteger("-17").substract(new HyperInteger("-15")).toString());
-		assertEquals("9", new HyperInteger("20").substract(new HyperInteger("11")).toString());
-
 		for (int i = -100; i <= 100; i++) // +/- 10000-nél már több perc lehet a futásidő!
 			for (int j = -100; j <= 100; j++)
 				assertEquals(String.valueOf(i - j), new HyperInteger(String.valueOf(i)).substract(new HyperInteger(String.valueOf(j))).toString());
@@ -119,10 +114,85 @@ public class TestHyperInteger {
 
 	@Test
 	void multiply() {
-		for (int i = -1000; i <= 1000; i++) // +/- 10000-nél már több perc lehet a futásidő!
-			for (int j = -1000; j <= 1000; j++) {
+		for (int i = -100; i <= 100; i++) // +/- 10000-nél már több perc lehet a futásidő!
+			for (int j = -100; j <= 100; j++) {
 				//System.out.println(i + " * " + j + " = " + i * j);
 				assertEquals(String.valueOf(i * j), new HyperInteger(String.valueOf(i)).multiply(new HyperInteger(String.valueOf(j))).toString());
 			}
+	}
+
+	@Test
+	void divide() throws Exception {
+		for (int i = -100; i <= 100; i++) // +/- 10000-nél már több perc lehet a futásidő!
+			for (int j = -100; j <= 100; j++) {
+				if (j != 0) {
+					assertEquals(String.valueOf(i / j), new HyperInteger(String.valueOf(i)).divide(new HyperInteger(String.valueOf(j))).toString());
+				}
+			}
+	}
+
+
+	void addTwoBigNumbers() {
+		String aString = "", bString = "";
+		Random random = new Random();
+
+		for (int i = 0; i < random.nextInt(1000000) + 1; i++)
+			aString += random.nextInt(10);
+
+		for (int i = 0; i < random.nextInt(1000000) + 1; i++)
+			bString += random.nextInt(10);
+
+		BigInteger sum = new BigInteger(aString).add(new BigInteger(bString));
+		assertEquals(sum.toString(), new HyperInteger(aString).add(new HyperInteger(bString)).toString());
+	}
+
+	@Test
+	void addTwoBigNumbersLoop() {
+		for (int i = 0; i < 1000; i++)
+			addTwoBigNumbers();
+	}
+
+	void substractTwoBigNumbers() {
+		String aString = "", bString = "";
+		Random random = new Random();
+
+		for (int i = 0; i < random.nextInt(1000000) + 1; i++)
+			aString += random.nextInt(10);
+
+		for (int i = 0; i < random.nextInt(1000000) + 1; i++)
+			bString += random.nextInt(10);
+
+		BigInteger sum = new BigInteger(aString).subtract(new BigInteger(bString));
+		assertEquals(sum.toString(), new HyperInteger(aString).substract(new HyperInteger(bString)).toString());
+	}
+
+	@Test
+	void substractTwoBigNumbersLoop() {
+		for (int i = 0; i < 1000; i++)
+			substractTwoBigNumbers();
+	}
+
+	void multiplyTwoBigNumbers() {
+		String aString = "", bString = "";
+		Random random = new Random();
+
+		for (int i = 0; i < random.nextInt(1000) + 1; i++)
+			aString += random.nextInt(10);
+
+		for (int i = 0; i < random.nextInt(1000) + 1; i++)
+			bString += random.nextInt(10);
+
+		BigInteger sum = new BigInteger(aString).multiply(new BigInteger(bString));
+		assertEquals(sum.toString(), new HyperInteger(aString).multiply(new HyperInteger(bString)).toString());
+	}
+
+
+
+	@Test
+	void multiplyTwoBigNumbersLoop() {
+		int n = 100000;
+		for (int i = 0; i < n; i++) {
+			multiplyTwoBigNumbers();
+		}
 	}
 }
