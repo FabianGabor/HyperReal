@@ -12,7 +12,7 @@ Nyíregyházi Egyetem - Programtervező informatikus
   - [x] összeadás
   - [x] kivonás
   - [x] szorzás
-  - [ ] osztás
+  - [x] osztás
   - [ ] hatványozás
   - [ ] gyökvonás
 * Valós számok
