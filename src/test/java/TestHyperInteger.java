@@ -1,3 +1,9 @@
+/*
+ * Fábián Gábor
+ * Copyright (c) 2021.
+ * https://github.com/FabianGabor
+ */
+
 import com.fabiangabor.hyperreal.HyperInteger;
 import org.junit.jupiter.api.Test;
 

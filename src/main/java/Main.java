@@ -1,3 +1,9 @@
+/*
+ * Fábián Gábor
+ * Copyright (c) 2021.
+ * https://github.com/FabianGabor
+ */
+
 import com.fabiangabor.hyperreal.HyperInteger;
 
 public class Main {

@@ -1,3 +1,9 @@
+/*
+ * Fábián Gábor
+ * Copyright (c) 2021.
+ * https://github.com/FabianGabor
+ */
+
 package com.fabiangabor.hyperreal;
 
 import java.util.ArrayList;
