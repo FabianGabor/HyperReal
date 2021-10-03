@@ -17,19 +17,15 @@ public class HyperInteger implements Comparable<HyperInteger> {
 	}
 
 	public HyperInteger(String number) {
-		parseString(number);
+		setValue(number);
 	}
 
 	public HyperInteger(String number, int sign) {
-		parseString(number);
+		setValue(number);
 		if (number.equals("0"))
 			this.sign = 0;
 		else
 			this.sign = sign;
-	}
-
-	private void parseString(String number) {
-		setValue(number);
 	}
 
 	public void setValue(String number) {
@@ -43,11 +39,14 @@ public class HyperInteger implements Comparable<HyperInteger> {
 
 			int negative = number.lastIndexOf('-');
 			int positive = number.lastIndexOf('+');
+
 			if (negative >= 0) {
 				sign = -1;
-				cursor = 1;
+				cursor = negative + 1;
 			} else if (positive >= 0)
-				cursor = 1;
+				cursor = positive + 1;
+
+			number = stripLeadingZeros(number, cursor);
 
 			numDigits = number.length() - cursor;
 			this.sign = sign;
@@ -58,6 +57,9 @@ public class HyperInteger implements Comparable<HyperInteger> {
 			}
 
 			this.digits = num;
+
+			if (this.digits.length == 1 && this.digits[0] == 0)
+				this.sign = 0;
 		}
 	}
 
@@ -196,7 +198,7 @@ public class HyperInteger implements Comparable<HyperInteger> {
 		diff.reverse();
 		stripLeadingZeros(diff);
 
-		return diff.toString();
+		return stripLeadingZeros(diff);
 	}
 
 	public HyperInteger multiply(HyperInteger number2) {
@@ -306,15 +308,23 @@ public class HyperInteger implements Comparable<HyperInteger> {
 		number2.digits = tmp;
 	}
 
-	private void stripLeadingZeros(StringBuilder diff) {
-		while (diff.charAt(0) == '0' && diff.length() > 0)
+	private String stripLeadingZeros(StringBuilder diff) {
+		while (diff.charAt(0) == '0' && diff.length() > 1)
 			diff.deleteCharAt(0);
+		return diff.toString();
+	}
+
+	private String stripLeadingZeros(String s, int i) {
+		StringBuilder diff = new StringBuilder(s);
+		while (diff.charAt(i) == '0' && diff.length() > i+1)
+			diff.deleteCharAt(i);
+		return diff.toString();
 	}
 
 	private HyperInteger stripLeadingZeros() {
 		StringBuilder sb = new StringBuilder(this.toString());
 		int i = (this.sign < 0) ? 1 : 0;
-		while (sb.charAt(i) == '0' && sb.length() > 0)
+		while (sb.charAt(i) == '0' && sb.length() > 1)
 			sb.deleteCharAt(i);
 		return new HyperInteger(sb.toString());
 	}
