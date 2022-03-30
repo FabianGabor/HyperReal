@@ -6,9 +6,9 @@
 
 package com.fabiangabor.hyperreal.operation;
 
-import com.fabiangabor.hyperreal.HyperInteger;
+import com.fabiangabor.hyperreal.domain.HyperInteger;
 
-import static com.fabiangabor.hyperreal.HyperInteger.ZERO;
+import static com.fabiangabor.hyperreal.domain.HyperInteger.ZERO;
 import static com.fabiangabor.hyperreal.service.HelperService.*;
 
 public class AddOperation implements Operation {

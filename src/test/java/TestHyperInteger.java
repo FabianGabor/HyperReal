@@ -4,7 +4,7 @@
  * https://github.com/FabianGabor
  */
 
-import com.fabiangabor.hyperreal.HyperInteger;
+import com.fabiangabor.hyperreal.domain.HyperInteger;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

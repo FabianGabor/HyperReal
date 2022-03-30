@@ -1,4 +1,10 @@
-package com.fabiangabor.hyperreal;
+/*
+ * Fábián Gábor
+ * Copyright (c) 2022.
+ * https://github.com/FabianGabor
+ */
+
+package com.fabiangabor.hyperreal.domain;
 
 public interface HyperReal {
 
@@ -14,15 +20,4 @@ public interface HyperReal {
 
     int compareTo(HyperInteger x);
 
-    /*
-
-    byte[] getDigits();
-
-    int getSign();
-
-    void setSign(int i);
-
-    void setDigits(byte[] digits);
-
-     */
 }
