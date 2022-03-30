@@ -8,6 +8,7 @@ package com.fabiangabor.hyperreal.operation;
 
 import com.fabiangabor.hyperreal.HyperInteger;
 
+import static com.fabiangabor.hyperreal.HyperInteger.ZERO;
 import static com.fabiangabor.hyperreal.service.HelperService.*;
 
 public class AddOperation implements Operation {
@@ -15,8 +16,8 @@ public class AddOperation implements Operation {
     public HyperInteger execute(HyperInteger number1, HyperInteger number2) {
         Operation subtract = new SubtractOperation();
 
-        if (number1.toString().equals(HyperInteger.ZERO)) return number2;
-        if (number2.toString().equals(HyperInteger.ZERO)) return number1;
+        if (number1.toString().equals(ZERO)) return number2;
+        if (number2.toString().equals(ZERO)) return number1;
 
         if (number1.getSign() >= 0 && number2.getSign() >= 0) {
             return new HyperInteger(add(number1.getDigits(), number2.getDigits()));
@@ -27,7 +28,7 @@ public class AddOperation implements Operation {
 
         // fentebb ellenőriztük az előjelek egyezését. Alább már különböző előjelűek a számok
         if (number1.abs().compareTo(number2.abs()) == 0) {
-            return new HyperInteger(HyperInteger.ZERO);
+            return new HyperInteger(ZERO);
         }
 
         if (isNumber1BiggerThanNumber2(number1.compareTo(number2), 0)) {

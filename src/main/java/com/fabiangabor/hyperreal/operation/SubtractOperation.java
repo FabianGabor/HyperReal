@@ -9,6 +9,7 @@ package com.fabiangabor.hyperreal.operation;
 import com.fabiangabor.hyperreal.HyperInteger;
 import com.fabiangabor.hyperreal.service.ConversionService;
 
+import static com.fabiangabor.hyperreal.HyperInteger.ZERO;
 import static com.fabiangabor.hyperreal.service.HelperService.*;
 
 public class SubtractOperation implements Operation {
@@ -17,7 +18,7 @@ public class SubtractOperation implements Operation {
         Operation add = new AddOperation();
 
         if (number1.compareTo(number2) == 0) {
-            return new HyperInteger(HyperInteger.ZERO);
+            return new HyperInteger(ZERO);
         }
 
         if (number1.getSign() >= 0 && number2.getSign() >= 0) {
@@ -54,7 +55,7 @@ public class SubtractOperation implements Operation {
         }
 
         if (number1.compareTo(number2) == 0) {
-            diff = new HyperInteger(HyperInteger.ZERO);
+            diff = new HyperInteger(ZERO);
             return diff;
         }
 

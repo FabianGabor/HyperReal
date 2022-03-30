@@ -29,4 +29,10 @@ public final class HelperService {
     public static boolean isNumber1BiggerThanNumber2(int number1, int number2) {
         return number1 > number2;
     }
+
+    public static HyperInteger subArray(HyperInteger arr, int start, int end) {
+        StringBuilder s = new StringBuilder();
+        for (int i = start; i < end; i++) s.append(arr.getDigits()[i]);
+        return new HyperInteger(s.toString(), arr.getSign());
+    }
 }
