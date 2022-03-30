@@ -6,7 +6,7 @@
 
 package com.fabiangabor.hyperreal.service;
 
-import com.fabiangabor.hyperreal.HyperInteger;
+import com.fabiangabor.hyperreal.domain.HyperInteger;
 
 public final class HelperService {
 

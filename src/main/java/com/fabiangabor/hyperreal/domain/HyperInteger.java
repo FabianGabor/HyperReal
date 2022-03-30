@@ -1,10 +1,10 @@
 /*
  * Fábián Gábor
- * Copyright (c) 2021.
+ * Copyright (c) 2021-2022.
  * https://github.com/FabianGabor
  */
 
-package com.fabiangabor.hyperreal;
+package com.fabiangabor.hyperreal.domain;
 
 import com.fabiangabor.hyperreal.operation.*;
 
