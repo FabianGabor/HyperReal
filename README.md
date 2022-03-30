@@ -6,7 +6,7 @@ Konzulens: Dr. Falucskai János
 
 Nyíregyházi Egyetem - Programtervező informatikus
 
-### HyperReal
+### HyperInteger
 
 * Egész számok
   - [x] összeadás
