@@ -2,17 +2,19 @@ package com.fabiangabor.hyperreal;
 
 public interface HyperReal {
 
-    HyperReal add(HyperReal x);
+    HyperInteger add(HyperInteger x);
 
-    HyperReal subtract(HyperReal x);
+    HyperInteger subtract(HyperInteger x);
 
-    HyperReal multiply(HyperReal x);
+    HyperInteger multiply(HyperInteger x);
 
-    HyperReal divide(HyperReal x);
+    HyperInteger divide(HyperInteger x);
 
-    HyperReal abs();
+    HyperInteger abs();
 
-    int compareTo(HyperReal x);
+    int compareTo(HyperInteger x);
+
+    /*
 
     byte[] getDigits();
 
@@ -21,4 +23,6 @@ public interface HyperReal {
     void setSign(int i);
 
     void setDigits(byte[] digits);
+
+     */
 }

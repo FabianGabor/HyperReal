@@ -9,11 +9,12 @@ package com.fabiangabor.hyperreal;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class HyperInteger implements HyperReal {
+public class HyperInteger {
     private int sign;
     private byte[] digits;
+    public static final String ZERO = "0";
 
-    private HyperInteger() {
+    public HyperInteger() {
     }
 
     public HyperInteger(String number) {
@@ -22,7 +23,7 @@ public class HyperInteger implements HyperReal {
 
     public HyperInteger(String number, int sign) {
         setValue(number);
-        if (number.equals("0"))
+        if (number.equals(ZERO))
             this.sign = 0;
         else
             this.sign = sign;
@@ -32,56 +33,28 @@ public class HyperInteger implements HyperReal {
         return sign;
     }
 
-    public byte[] getDigits() {
-        return digits;
-    }
-
-    public void setValue(String number) {
-        if (number.equals("0")) {
-            this.sign = 0;
-            this.digits = new byte[]{0};
-        } else {
-            int cursor = 0;
-            int numDigits;
-            int sign = 1;
-
-            int negative = number.lastIndexOf('-');
-            int positive = number.lastIndexOf('+');
-
-            if (negative >= 0) {
-                sign = -1;
-                cursor = negative + 1;
-            } else if (positive >= 0)
-                cursor = positive + 1;
-
-            number = stripLeadingZeros(number, cursor);
-
-            numDigits = number.length() - cursor;
-            this.sign = sign;
-
-            byte[] num = new byte[numDigits];
-            for (int i = cursor; i < number.length(); i++) {
-                num[i - cursor] = Byte.parseByte(String.valueOf(number.charAt(i)));
-            }
-
-            this.digits = num;
-
-            if (this.digits.length == 1 && this.digits[0] == 0)
-                this.sign = 0;
-        }
-    }
-
     public void setSign(int sign) {
         this.sign = sign;
+    }
+
+    public byte[] getDigits() {
+        return digits;
     }
 
     public void setDigits(byte[] digits) {
         this.digits = digits;
     }
 
-    public HyperReal add(HyperReal number2) {
-        if (this.toString().equals("0")) return number2;
-        if (number2.toString().equals("0")) return this;
+    private void setValue(String number) {
+        HyperInteger hyperInteger = ConversionService.convertToHyperInteger(number);
+        this.digits = hyperInteger.getDigits();
+        this.sign = hyperInteger.getSign();
+    }
+
+
+    public HyperInteger add(HyperInteger number2) {
+        if (this.toString().equals(ZERO)) return number2;
+        if (number2.toString().equals(ZERO)) return this;
 
         if (this.sign >= 0 && number2.getSign() >= 0) {
             return new HyperInteger(add(digits, number2.getDigits()));
@@ -92,7 +65,7 @@ public class HyperInteger implements HyperReal {
 
         // fentebb ellenőriztük az előjelek egyezését. Alább már különböző előjelűek a számok
         if (this.abs().compareTo(number2.abs()) == 0) {
-            return new HyperInteger("0");
+            return new HyperInteger(ZERO);
         }
 
         if (this.compareTo(number2) > 0) {
@@ -153,9 +126,9 @@ public class HyperInteger implements HyperReal {
         return sum.toString();
     }
 
-    public HyperReal subtract(HyperReal number2) {
+    public HyperInteger subtract(HyperInteger number2) {
         if (this.compareTo(number2) == 0) {
-            return new HyperInteger("0");
+            return new HyperInteger(ZERO);
         }
 
         if (this.sign >= 0 && number2.getSign() >= 0) {
@@ -180,7 +153,7 @@ public class HyperInteger implements HyperReal {
         return null;
     }
 
-    private HyperReal subtract(HyperReal number1, HyperReal number2) {
+    private HyperInteger subtract(HyperInteger number1, HyperInteger number2) {
         HyperInteger diff;
 
         if (number1.compareTo(number2) < 0) {
@@ -192,7 +165,7 @@ public class HyperInteger implements HyperReal {
         }
 
         if (number1.compareTo(number2) == 0) {
-            diff = new HyperInteger("0");
+            diff = new HyperInteger(ZERO);
             return diff;
         }
 
@@ -233,14 +206,13 @@ public class HyperInteger implements HyperReal {
         reverse(number1);
         reverse(number2);
         diff.reverse();
-        stripLeadingZeros(diff);
 
-        return stripLeadingZeros(diff);
+        return ConversionService.stripLeadingZeros(diff);
     }
 
-    public HyperReal multiply(HyperReal number2) {
-        HyperReal prod;
-        if (this.toString().equals("0") || number2.toString().equals("0")) return new HyperInteger("0");
+    public HyperInteger multiply(HyperInteger number2) {
+        HyperInteger prod;
+        if (this.toString().equals(ZERO) || number2.toString().equals(ZERO)) return new HyperInteger(ZERO);
         if (this.toString().equals("1")) return number2;
         if (number2.toString().equals("1")) return this;
 
@@ -260,7 +232,7 @@ public class HyperInteger implements HyperReal {
         return prod;
     }
 
-    private HyperReal multiply(byte[] number1, byte[] number2) {
+    private HyperInteger multiply(byte[] number1, byte[] number2) {
         ArrayList<ArrayList<Integer>> graph = new ArrayList<>(number2.length);
         for (int i = 0; i < number2.length; i++)
             graph.add(new ArrayList<>());
@@ -278,7 +250,7 @@ public class HyperInteger implements HyperReal {
             if (carry > 0) graph.get(i).add(carry);
         }
 
-        HyperReal sum = new HyperInteger("0");
+        HyperInteger sum = new HyperInteger(ZERO);
         for (ArrayList<Integer> integers : graph) {
             Collections.reverse(integers);
             HyperInteger tmp = new HyperInteger();
@@ -291,26 +263,26 @@ public class HyperInteger implements HyperReal {
         return sum;
     }
 
-    public HyperReal divide(HyperReal number2) throws ArithmeticException {
-        if (this.toString().equals("0")) return new HyperInteger("0");
-        if (number2.toString().equals("0")) throw new ArithmeticException("Division by 0");
+    public HyperInteger divide(HyperInteger number2) throws ArithmeticException {
+        if (this.toString().equals(ZERO)) return new HyperInteger(ZERO);
+        if (number2.toString().equals(ZERO)) throw new ArithmeticException("Division by 0");
         if (number2.toString().equals("1")) return this;
         if (number2.abs().toString().equals("1"))
             return new HyperInteger(this.toString(), this.sign * number2.getSign());
         if (this.compareTo(number2) == 0) return new HyperInteger("1");
         if (this.abs().compareTo(number2.abs()) == 0) return new HyperInteger("-1");
-        if (this.abs().compareTo(number2.abs()) < 0) return new HyperInteger("0");
+        if (this.abs().compareTo(number2.abs()) < 0) return new HyperInteger(ZERO);
         if (this.digits.length == number2.getDigits().length && this.digits[0] / number2.getDigits()[0] == 1)
             return new HyperInteger("1", this.sign * number2.getSign());
 
         return divide(this, number2);
     }
 
-    private HyperReal divide(HyperReal number1, HyperReal number2) {
+    private HyperInteger divide(HyperInteger number1, HyperInteger number2) {
         int start = 0;
         StringBuilder sq = new StringBuilder();
-        HyperReal subDivident;
-        HyperReal remainder = new HyperInteger("0");
+        HyperInteger subDivident;
+        HyperInteger remainder = new HyperInteger(ZERO);
 
         for (int end = 1; end < number1.getDigits().length + 1; end++) {
             if (remainder.getSign() == 0) {
@@ -319,8 +291,8 @@ public class HyperInteger implements HyperReal {
                 subDivident = subArray(number1, start, end).abs().add(remainder.multiply(new HyperInteger("10")).abs());
             }
 
-            HyperReal subQuotient = new HyperInteger("10");
-            HyperReal tmp;
+            HyperInteger subQuotient = new HyperInteger("10");
+            HyperInteger tmp;
             do {
                 subQuotient = subQuotient.subtract(new HyperInteger("1")); // subQuotient--
                 tmp = number2.multiply(subQuotient).abs();
@@ -331,40 +303,18 @@ public class HyperInteger implements HyperReal {
 
             sq.append(subQuotient.toString());
         }
-
-
+        
         HyperInteger quotient = new HyperInteger(sq.toString());
         quotient.sign = number1.getSign() * number2.getSign();
-        return quotient.stripLeadingZeros();
+        return ConversionService.stripLeadingZeros(quotient);
     }
 
-    private void swap(HyperReal number1, HyperReal number2) {
+    private void swap(HyperInteger number1, HyperInteger number2) {
         byte[] tmp = number1.getDigits();
         number1.setDigits(number2.getDigits());
         number2.setDigits(tmp);
     }
-
-    private String stripLeadingZeros(StringBuilder diff) {
-        while (diff.charAt(0) == '0' && diff.length() > 1)
-            diff.deleteCharAt(0);
-        return diff.toString();
-    }
-
-    private String stripLeadingZeros(String s, int i) {
-        StringBuilder diff = new StringBuilder(s);
-        while (diff.charAt(i) == '0' && diff.length() > i + 1)
-            diff.deleteCharAt(i);
-        return diff.toString();
-    }
-
-    private HyperReal stripLeadingZeros() {
-        StringBuilder sb = new StringBuilder(this.toString());
-        int i = (this.sign < 0) ? 1 : 0;
-        while (sb.charAt(i) == '0' && sb.length() > 1)
-            sb.deleteCharAt(i);
-        return new HyperInteger(sb.toString());
-    }
-
+    
     private void reverse(byte[] num) {
         byte tmp;
         for (int i = 0; i < num.length / 2; i++) {
@@ -383,7 +333,7 @@ public class HyperInteger implements HyperReal {
         return sb.toString();
     }
 
-    public int compareTo(HyperReal number2) {
+    public int compareTo(HyperInteger number2) {
         if (this.sign > number2.getSign()) return 1;
         if (this.sign < number2.getSign()) return -1;
 
@@ -411,11 +361,11 @@ public class HyperInteger implements HyperReal {
         return 0;
     }
 
-    public HyperReal abs() {
+    public HyperInteger abs() {
         return new HyperInteger(this.toString(), 1);
     }
 
-    public HyperReal subArray(HyperReal arr, int start, int end) {
+    public HyperInteger subArray(HyperInteger arr, int start, int end) {
         StringBuilder s = new StringBuilder();
         for (int i = start; i < end; i++) s.append(arr.getDigits()[i]);
         return new HyperInteger(s.toString(), arr.getSign());

@@ -5,7 +5,6 @@
  */
 
 import com.fabiangabor.hyperreal.HyperInteger;
-import com.fabiangabor.hyperreal.HyperReal;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -14,10 +13,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TestHyperInteger {
 
-    HyperReal underTest;
+    HyperInteger underTest;
 
     @ParameterizedTest
-    @ValueSource(strings = {"0", "00", "+0", "-0", "++0", "--0", "+-0"})
+    @ValueSource(strings = {"0", "00", "+0", "-0"})
     void zeroShouldBeZero(String arg) {
         final String EXPECTED = "0";
         underTest = new HyperInteger(arg);
@@ -57,21 +56,14 @@ class TestHyperInteger {
         assertEquals(EXPECTED, underTest.getSign());
     }
 
-    @Test
-    void multiplePositiveSignShouldBeOne() {
-        final int EXPECTED = 1;
-        underTest = new HyperInteger("++123");
+    @ParameterizedTest
+    @ValueSource(strings = {"++0", "--0", "+-0", "-+0"})
+    void multipleSignsShouldThrowNumberFormatException(String arg) {
+        final Class<? extends NumberFormatException> EXPECTED = NumberFormatException.class;
 
-        assertEquals(EXPECTED, underTest.getSign());
+        assertThrows(EXPECTED, () -> underTest = new HyperInteger(arg));
     }
 
-    @Test
-    void multipleNegativeSignShouldBeMinusOne() {
-        final int EXPECTED = -1;
-        underTest = new HyperInteger("--123");
-
-        assertEquals(EXPECTED, underTest.getSign());
-    }
 
     @Test
     void compareToShouldReturnZeroWhenNumbersAreEqual() {
@@ -103,8 +95,8 @@ class TestHyperInteger {
     @Test
     void addShouldReturnSum() {
         final String EXPECTED = "124";
-        HyperReal number1 = new HyperInteger("123");
-        HyperReal number2 = new HyperInteger("1");
+        HyperInteger number1 = new HyperInteger("123");
+        HyperInteger number2 = new HyperInteger("1");
         underTest = number1.add(number2);
 
         assertEquals(EXPECTED, underTest.toString());
