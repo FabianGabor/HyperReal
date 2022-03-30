@@ -5,6 +5,7 @@
  */
 
 import com.fabiangabor.hyperreal.HyperInteger;
+import com.fabiangabor.hyperreal.HyperReal;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TestHyperInteger {
 
-    HyperInteger underTest;
+    HyperReal underTest;
 
     @ParameterizedTest
     @ValueSource(strings = {"0", "00", "+0", "-0", "++0", "--0", "+-0"})
@@ -45,7 +46,7 @@ class TestHyperInteger {
         final int EXPECTED = 1;
         underTest = new HyperInteger("+123");
 
-        assertEquals(EXPECTED, underTest.sign);
+        assertEquals(EXPECTED, underTest.getSign());
     }
 
     @Test
@@ -53,7 +54,7 @@ class TestHyperInteger {
         final int EXPECTED = -1;
         underTest = new HyperInteger("-123");
 
-        assertEquals(EXPECTED, underTest.sign);
+        assertEquals(EXPECTED, underTest.getSign());
     }
 
     @Test
@@ -61,7 +62,7 @@ class TestHyperInteger {
         final int EXPECTED = 1;
         underTest = new HyperInteger("++123");
 
-        assertEquals(EXPECTED, underTest.sign);
+        assertEquals(EXPECTED, underTest.getSign());
     }
 
     @Test
@@ -69,7 +70,7 @@ class TestHyperInteger {
         final int EXPECTED = -1;
         underTest = new HyperInteger("--123");
 
-        assertEquals(EXPECTED, underTest.sign);
+        assertEquals(EXPECTED, underTest.getSign());
     }
 
     @Test
@@ -102,8 +103,8 @@ class TestHyperInteger {
     @Test
     void addShouldReturnSum() {
         final String EXPECTED = "124";
-        HyperInteger number1 = new HyperInteger("123");
-        HyperInteger number2 = new HyperInteger("1");
+        HyperReal number1 = new HyperInteger("123");
+        HyperReal number2 = new HyperInteger("1");
         underTest = number1.add(number2);
 
         assertEquals(EXPECTED, underTest.toString());

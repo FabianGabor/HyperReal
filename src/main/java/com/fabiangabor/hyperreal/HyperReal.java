@@ -14,4 +14,11 @@ public interface HyperReal {
 
     int compareTo(HyperReal x);
 
+    byte[] getDigits();
+
+    int getSign();
+
+    void setSign(int i);
+
+    void setDigits(byte[] digits);
 }
