@@ -270,13 +270,11 @@ public class HyperInteger implements Comparable<HyperInteger> {
 
 	private HyperInteger divide(HyperInteger number1, HyperInteger number2) {
 		int start = 0;
-		int end = 1;
-		HyperInteger zero = new HyperInteger("0");
 		StringBuilder sq = new StringBuilder();
 		HyperInteger subDivident;
 		HyperInteger remainder = new HyperInteger("0");
 
-		for (end = 1; end < number1.digits.length + 1; end++) {
+		for (int end = 1; end < number1.digits.length + 1; end++) {
 			if (remainder.sign == 0)
 				subDivident = subArray(number1, start, end).abs();
 			else {
