@@ -375,9 +375,4 @@ public class HyperInteger implements Comparable<HyperInteger> {
 		for (int i = start; i < end; i++) s.append(arr.digits[i]);
 		return new HyperInteger(s.toString(), arr.sign);
 	}
-	public HyperInteger subArray(HyperInteger arr, int start, int end, int prepend) {
-		StringBuilder s = new StringBuilder(prepend);
-		for (int i = start; i < end; i++) s.append(arr.digits[i]);
-		return new HyperInteger(s.toString(), arr.sign);
-	}
 }
