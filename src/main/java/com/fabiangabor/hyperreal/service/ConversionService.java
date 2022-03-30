@@ -4,7 +4,9 @@
  * https://github.com/FabianGabor
  */
 
-package com.fabiangabor.hyperreal;
+package com.fabiangabor.hyperreal.service;
+
+import com.fabiangabor.hyperreal.HyperInteger;
 
 public final class ConversionService {
 
