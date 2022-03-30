@@ -7,8 +7,9 @@
 package com.fabiangabor.hyperreal;
 
 import com.fabiangabor.hyperreal.operation.*;
-import com.fabiangabor.hyperreal.service.ConversionService;
-import com.fabiangabor.hyperreal.service.HelperService;
+
+import static com.fabiangabor.hyperreal.service.ConversionService.*;
+import static com.fabiangabor.hyperreal.service.HelperService.*;
 
 public class HyperInteger {
     public static final String ZERO = "0";
@@ -31,6 +32,12 @@ public class HyperInteger {
             this.sign = sign;
     }
 
+    private void setValue(String number) {
+        HyperInteger hyperInteger = convertToHyperInteger(number);
+        this.digits = hyperInteger.getDigits();
+        this.sign = hyperInteger.getSign();
+    }
+
     public int getSign() {
         return sign;
     }
@@ -45,12 +52,6 @@ public class HyperInteger {
 
     public void setDigits(byte[] digits) {
         this.digits = digits;
-    }
-
-    private void setValue(String number) {
-        HyperInteger hyperInteger = ConversionService.convertToHyperInteger(number);
-        this.digits = hyperInteger.getDigits();
-        this.sign = hyperInteger.getSign();
     }
 
     public HyperInteger add(HyperInteger number2) {
@@ -83,7 +84,7 @@ public class HyperInteger {
     }
 
     public int compareTo(HyperInteger number2) {
-        int returnValue = 0;
+        int returnValue;
 
         returnValue = compareSigns(this, number2);
         if (returnValue != 0) return returnValue;
@@ -92,14 +93,14 @@ public class HyperInteger {
         if (returnValue != 0) return returnValue;
 
         for (int i = 0; i < this.digits.length; i++) {
-            if (HelperService.isNumber1BiggerThanNumber2(this.digits[i], number2.getDigits()[i])) {
+            if (isNumber1BiggerThanNumber2(this.digits[i], number2.getDigits()[i])) {
                 if (this.sign == 1) {
                     return 1;
                 } else {
                     return -1;
                 }
             }
-            if (HelperService.isNumber1BiggerThanNumber2(number2.getDigits()[i], this.digits[i])) {
+            if (isNumber1BiggerThanNumber2(number2.getDigits()[i], this.digits[i])) {
                 if (this.sign == 1) {
                     return -1;
                 } else {
@@ -111,21 +112,8 @@ public class HyperInteger {
         return 0;
     }
 
-    private int compareSigns(HyperInteger number1, HyperInteger number2) {
-        if (HelperService.isNumber1BiggerThanNumber2(number1.getSign(), number2.getSign())) return 1;
-        if (HelperService.isNumber1BiggerThanNumber2(number2.getSign(), number1.getSign())) return -1;
-        return 0;
-    }
-
-    private int compareLenghts(HyperInteger number1, HyperInteger number2) {
-        if (HelperService.isNumber1BiggerThanNumber2(number1.getDigits().length, number2.getDigits().length)) return 1;
-        if (HelperService.isNumber1BiggerThanNumber2(number2.getDigits().length, number1.getDigits().length)) return -1;
-        return 0;
-    }
-
     public HyperInteger abs() {
         return new HyperInteger(this.toString(), 1);
     }
-
 
 }
