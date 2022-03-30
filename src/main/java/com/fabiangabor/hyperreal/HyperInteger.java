@@ -68,15 +68,15 @@ public class HyperInteger {
             return new HyperInteger(ZERO);
         }
 
-        if (this.compareTo(number2) > 0) {
-            if (this.abs().compareTo(number2.abs()) > 0) {
+        if (isNumber1BiggerThanNumber2(this.compareTo(number2), 0)) {
+            if (isNumber1BiggerThanNumber2(this.abs().compareTo(number2.abs()), 0)) {
                 return new HyperInteger(subtract(this.digits, number2.getDigits()));
             } else {
                 return new HyperInteger(subtract(number2.getDigits(), this.digits), -1);
             }
         }
         if (this.compareTo(number2) < 0) {
-            if (this.abs().compareTo(number2.abs()) > 0) {
+            if (isNumber1BiggerThanNumber2(this.abs().compareTo(number2.abs()), 0)) {
                 return new HyperInteger(subtract(this.digits, number2.getDigits()), -1);
             } else {
                 return new HyperInteger(subtract(number2.getDigits(), this.digits));
@@ -109,7 +109,7 @@ public class HyperInteger {
             i++;
             j++;
 
-            if (localSum > 9) {
+            if (isNumber1BiggerThanNumber2(localSum, 9)) {
                 localSum -= 10;
                 carry = 1;
             } else {
@@ -117,7 +117,7 @@ public class HyperInteger {
             }
 
             sum.append(localSum);
-        } while (carry > 0 || i < number1.length || j < number2.length);
+        } while (isNumber1BiggerThanNumber2(carry, 0) || i < number1.length || j < number2.length);
 
         reverse(number1);
         reverse(number2);
@@ -136,14 +136,14 @@ public class HyperInteger {
         }
 
         if (this.sign < 0 && number2.getSign() < 0) {
-            if (this.abs().compareTo(number2.abs()) > 0) {
+            if (isNumber1BiggerThanNumber2(this.abs().compareTo(number2.abs()), 0)) {
                 return new HyperInteger(subtract(this.digits, number2.getDigits()), -1);
             } else {
                 return new HyperInteger(subtract(number2.getDigits(), this.digits), 1);
             }
         }
 
-        if (this.compareTo(number2) > 0) {
+        if (isNumber1BiggerThanNumber2(this.compareTo(number2), 0)) {
             return new HyperInteger(add(digits, number2.getDigits()));
         }
         if (this.compareTo(number2) < 0) {
@@ -201,7 +201,7 @@ public class HyperInteger {
             }
 
             diff.append(localDiff);
-        } while (carry > 0 || i < number1.length || j < number2.length);
+        } while (isNumber1BiggerThanNumber2(carry, 0) || i < number1.length || j < number2.length);
 
         reverse(number1);
         reverse(number2);
@@ -247,7 +247,7 @@ public class HyperInteger {
                 graph.get(i).add((number2[i] * number1[j] + carry) % 10);
                 carry = (number2[i] * number1[j] + carry) / 10;
             }
-            if (carry > 0) graph.get(i).add(carry);
+            if (isNumber1BiggerThanNumber2(carry, 0)) graph.get(i).add(carry);
         }
 
         HyperInteger sum = new HyperInteger(ZERO);
@@ -296,14 +296,14 @@ public class HyperInteger {
             do {
                 subQuotient = subQuotient.subtract(new HyperInteger("1")); // subQuotient--
                 tmp = number2.multiply(subQuotient).abs();
-            } while (tmp.compareTo(subDivident.abs()) > 0);
+            } while (isNumber1BiggerThanNumber2(tmp.compareTo(subDivident.abs()), 0));
             start = end;
 
             remainder = subDivident.abs().subtract(tmp);
 
             sq.append(subQuotient.toString());
         }
-        
+
         HyperInteger quotient = new HyperInteger(sq.toString());
         quotient.sign = number1.getSign() * number2.getSign();
         return ConversionService.stripLeadingZeros(quotient);
@@ -314,7 +314,7 @@ public class HyperInteger {
         number1.setDigits(number2.getDigits());
         number2.setDigits(tmp);
     }
-    
+
     private void reverse(byte[] num) {
         byte tmp;
         for (int i = 0; i < num.length / 2; i++) {
@@ -334,22 +334,23 @@ public class HyperInteger {
     }
 
     public int compareTo(HyperInteger number2) {
-        if (this.sign > number2.getSign()) return 1;
-        if (this.sign < number2.getSign()) return -1;
+        int returnValue = 0;
 
-        if (this.digits.length < number2.getDigits().length) return -1;
+        returnValue = compareSigns(this, number2);
+        if (returnValue != 0) return returnValue;
 
-        if (this.digits.length > number2.getDigits().length) return 1;
+        returnValue = compareLenghts(this, number2);
+        if (returnValue != 0) return returnValue;
 
         for (int i = 0; i < this.digits.length; i++) {
-            if (this.digits[i] > number2.getDigits()[i]) {
+            if (isNumber1BiggerThanNumber2(this.digits[i], number2.getDigits()[i])) {
                 if (this.sign == 1) {
                     return 1;
                 } else {
                     return -1;
                 }
             }
-            if (this.digits[i] < number2.getDigits()[i]) {
+            if (isNumber1BiggerThanNumber2(number2.getDigits()[i], this.digits[i])) {
                 if (this.sign == 1) {
                     return -1;
                 } else {
@@ -361,11 +362,27 @@ public class HyperInteger {
         return 0;
     }
 
+    private int compareSigns(HyperInteger number1, HyperInteger number2) {
+        if (isNumber1BiggerThanNumber2(number1.getSign(), number2.getSign())) return 1;
+        if (isNumber1BiggerThanNumber2(number2.getSign(), number1.getSign())) return -1;
+        return 0;
+    }
+
+    private int compareLenghts(HyperInteger number1, HyperInteger number2) {
+        if (isNumber1BiggerThanNumber2(number1.getDigits().length, number2.getDigits().length)) return 1;
+        if (isNumber1BiggerThanNumber2(number2.getDigits().length, number1.getDigits().length)) return -1;
+        return 0;
+    }
+
+    private boolean isNumber1BiggerThanNumber2(int number1, int number2) {
+        return number1 > number2;
+    }
+
     public HyperInteger abs() {
         return new HyperInteger(this.toString(), 1);
     }
 
-    public HyperInteger subArray(HyperInteger arr, int start, int end) {
+    private HyperInteger subArray(HyperInteger arr, int start, int end) {
         StringBuilder s = new StringBuilder();
         for (int i = start; i < end; i++) s.append(arr.getDigits()[i]);
         return new HyperInteger(s.toString(), arr.getSign());
