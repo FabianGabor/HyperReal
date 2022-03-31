@@ -5,6 +5,7 @@
  */
 
 import com.fabiangabor.hyperreal.domain.HyperInteger;
+import com.fabiangabor.hyperreal.domain.HyperReal;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TestHyperInteger {
 
-    HyperInteger underTest;
+    HyperReal underTest;
 
     @ParameterizedTest
     @ValueSource(strings = {"0", "00", "+0", "-0"})

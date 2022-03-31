@@ -7,14 +7,16 @@
 package com.fabiangabor.hyperreal.operation;
 
 import com.fabiangabor.hyperreal.domain.HyperInteger;
+import com.fabiangabor.hyperreal.domain.HyperReal;
 import com.fabiangabor.hyperreal.service.ConversionService;
 
 import static com.fabiangabor.hyperreal.domain.HyperInteger.ZERO;
-import static com.fabiangabor.hyperreal.service.HelperService.*;
+import static com.fabiangabor.hyperreal.service.HelperService.reverse;
+import static com.fabiangabor.hyperreal.service.HelperService.swap;
 
 public class SubtractOperation implements Operation {
     @Override
-    public HyperInteger execute(HyperInteger number1, HyperInteger number2) {
+    public HyperReal execute(HyperReal number1, HyperReal number2) {
         Operation add = new AddOperation();
 
         if (number1.compareTo(number2) == 0) {
@@ -43,7 +45,7 @@ public class SubtractOperation implements Operation {
         return null;
     }
 
-    private HyperInteger subtract(HyperInteger number1, HyperInteger number2) {
+    private HyperReal subtract(HyperReal number1, HyperReal number2) {
         HyperInteger diff;
 
         if (number1.compareTo(number2) < 0) {

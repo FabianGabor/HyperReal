@@ -7,17 +7,18 @@
 package com.fabiangabor.hyperreal.operation;
 
 import com.fabiangabor.hyperreal.domain.HyperInteger;
+import com.fabiangabor.hyperreal.domain.HyperReal;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 import static com.fabiangabor.hyperreal.domain.HyperInteger.ZERO;
-import static com.fabiangabor.hyperreal.service.HelperService.*;
+import static com.fabiangabor.hyperreal.service.HelperService.swap;
 
 public class MultiplyOperation implements Operation {
     @Override
-    public HyperInteger execute(HyperInteger number1, HyperInteger number2) {
-        HyperInteger prod;
+    public HyperReal execute(HyperReal number1, HyperReal number2) {
+        HyperReal prod;
 
         if (number1.toString().equals(ZERO) || number2.toString().equals(ZERO)) return new HyperInteger(ZERO);
         if (number1.toString().equals("1")) return number2;
@@ -39,7 +40,7 @@ public class MultiplyOperation implements Operation {
         return prod;
     }
 
-    private HyperInteger multiply(byte[] number1, byte[] number2) {
+    private HyperReal multiply(byte[] number1, byte[] number2) {
         ArrayList<ArrayList<Integer>> graph = new ArrayList<>(number2.length);
         for (int i = 0; i < number2.length; i++) {
             graph.add(new ArrayList<>());
@@ -61,7 +62,7 @@ public class MultiplyOperation implements Operation {
             }
         }
 
-        HyperInteger sum = new HyperInteger(ZERO);
+        HyperReal sum = new HyperInteger(ZERO);
         for (ArrayList<Integer> integers : graph) {
             Collections.reverse(integers);
             HyperInteger tmp = new HyperInteger();

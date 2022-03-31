@@ -11,7 +11,7 @@ import com.fabiangabor.hyperreal.operation.*;
 import static com.fabiangabor.hyperreal.service.ConversionService.*;
 import static com.fabiangabor.hyperreal.service.HelperService.*;
 
-public class HyperInteger {
+public class HyperInteger implements HyperReal{
     public static final String ZERO = "0";
 
     private int sign;
@@ -58,22 +58,22 @@ public class HyperInteger {
         this.digits = digits;
     }
 
-    public HyperInteger add(HyperInteger number2) {
+    public HyperReal add(HyperReal number2) {
         Operation add = new AddOperation();
         return add.execute(this, number2);
     }
 
-    public HyperInteger subtract(HyperInteger number2) {
+    public HyperReal subtract(HyperReal number2) {
         Operation subtract = new SubtractOperation();
         return subtract.execute(this, number2);
     }
 
-    public HyperInteger multiply(HyperInteger number2) {
+    public HyperReal multiply(HyperReal number2) {
         Operation multiply = new MultiplyOperation();
         return multiply.execute(this, number2);
     }
 
-    public HyperInteger divide(HyperInteger number2) throws ArithmeticException {
+    public HyperReal divide(HyperReal number2) throws ArithmeticException {
         Operation divide = new DivideOperation();
         return divide.execute(this, number2);
     }
@@ -87,7 +87,7 @@ public class HyperInteger {
         return sb.toString();
     }
 
-    public int compareTo(HyperInteger number2) {
+    public int compareTo(HyperReal number2) {
         int returnValue;
 
         returnValue = compareSigns(this, number2);
@@ -116,7 +116,7 @@ public class HyperInteger {
         return 0;
     }
 
-    public HyperInteger abs() {
+    public HyperReal abs() {
         return new HyperInteger(this.toString(), 1);
     }
 

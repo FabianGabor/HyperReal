@@ -7,13 +7,14 @@
 package com.fabiangabor.hyperreal.operation;
 
 import com.fabiangabor.hyperreal.domain.HyperInteger;
+import com.fabiangabor.hyperreal.domain.HyperReal;
 
 import static com.fabiangabor.hyperreal.domain.HyperInteger.ZERO;
-import static com.fabiangabor.hyperreal.service.HelperService.*;
+import static com.fabiangabor.hyperreal.service.HelperService.reverse;
 
 public class AddOperation implements Operation {
     @Override
-    public HyperInteger execute(HyperInteger number1, HyperInteger number2) {
+    public HyperReal execute(HyperReal number1, HyperReal number2) {
         Operation subtract = new SubtractOperation();
 
         if (number1.toString().equals(ZERO)) return number2;

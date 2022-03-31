@@ -7,6 +7,7 @@
 package com.fabiangabor.hyperreal.operation;
 
 import com.fabiangabor.hyperreal.domain.HyperInteger;
+import com.fabiangabor.hyperreal.domain.HyperReal;
 import com.fabiangabor.hyperreal.service.ConversionService;
 
 import static com.fabiangabor.hyperreal.domain.HyperInteger.ZERO;
@@ -14,7 +15,7 @@ import static com.fabiangabor.hyperreal.service.HelperService.subArray;
 
 public class DivideOperation implements Operation {
     @Override
-    public HyperInteger execute(HyperInteger number1, HyperInteger number2) {
+    public HyperReal execute(HyperReal number1, HyperReal number2) {
         if (number1.toString().equals(ZERO)) return new HyperInteger(ZERO);
         if (number2.toString().equals(ZERO)) throw new ArithmeticException("Division by 0");
         if (number2.toString().equals("1")) return number1;
@@ -29,11 +30,11 @@ public class DivideOperation implements Operation {
         return divide(number1, number2);
     }
 
-    private HyperInteger divide(HyperInteger number1, HyperInteger number2) {
+    private HyperReal divide(HyperReal number1, HyperReal number2) {
         int start = 0;
         StringBuilder sq = new StringBuilder();
-        HyperInteger subDivident;
-        HyperInteger remainder = new HyperInteger(ZERO);
+        HyperReal subDivident;
+        HyperReal remainder = new HyperInteger(ZERO);
 
         for (int end = 1; end < number1.getDigits().length + 1; end++) {
             if (remainder.getSign() == 0) {
@@ -42,8 +43,8 @@ public class DivideOperation implements Operation {
                 subDivident = subArray(number1, start, end).abs().add(remainder.multiply(new HyperInteger("10")).abs());
             }
 
-            HyperInteger subQuotient = new HyperInteger("10");
-            HyperInteger tmp;
+            HyperReal subQuotient = new HyperInteger("10");
+            HyperReal tmp;
             do {
                 subQuotient = subQuotient.subtract(new HyperInteger("1")); // subQuotient--
                 tmp = number2.multiply(subQuotient).abs();
@@ -55,7 +56,7 @@ public class DivideOperation implements Operation {
             sq.append(subQuotient.toString());
         }
 
-        HyperInteger quotient = new HyperInteger(sq.toString());
+        HyperReal quotient = new HyperInteger(sq.toString());
         quotient.setSign(number1.getSign() * number2.getSign());
         return ConversionService.stripLeadingZeros(quotient);
     }

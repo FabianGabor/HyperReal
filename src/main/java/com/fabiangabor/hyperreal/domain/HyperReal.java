@@ -8,16 +8,26 @@ package com.fabiangabor.hyperreal.domain;
 
 public interface HyperReal {
 
-    HyperInteger add(HyperInteger x);
+    HyperReal add(HyperReal x);
 
-    HyperInteger subtract(HyperInteger x);
+    HyperReal subtract(HyperReal x);
 
-    HyperInteger multiply(HyperInteger x);
+    HyperReal multiply(HyperReal x);
 
-    HyperInteger divide(HyperInteger x);
+    HyperReal divide(HyperReal x);
 
-    HyperInteger abs();
+    HyperReal abs();
 
-    int compareTo(HyperInteger x);
+    int compareTo(HyperReal x);
+
+    int getSign();
+
+    void setSign(int sign);
+
+    byte[] getDigits();
+
+    void setDigits(byte[] digits);
+
+    public String toString();
 
 }

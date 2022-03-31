@@ -7,6 +7,7 @@
 package com.fabiangabor.hyperreal.service;
 
 import com.fabiangabor.hyperreal.domain.HyperInteger;
+import com.fabiangabor.hyperreal.domain.HyperReal;
 
 public final class ConversionService {
 
@@ -71,7 +72,7 @@ public final class ConversionService {
         return diff.toString();
     }
 
-    public static HyperInteger stripLeadingZeros(HyperInteger hyperInteger) {
+    public static HyperReal stripLeadingZeros(HyperReal hyperInteger) {
         StringBuilder sb = new StringBuilder(hyperInteger.toString());
         int i = (hyperInteger.getSign() < 0) ? 1 : 0;
         while (sb.charAt(i) == '0' && sb.length() > 1)

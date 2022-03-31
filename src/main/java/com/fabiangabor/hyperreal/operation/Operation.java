@@ -6,8 +6,8 @@
 
 package com.fabiangabor.hyperreal.operation;
 
-import com.fabiangabor.hyperreal.domain.HyperInteger;
+import com.fabiangabor.hyperreal.domain.HyperReal;
 
 public interface Operation {
-    HyperInteger execute(HyperInteger number1, HyperInteger number2);
+    HyperReal execute(HyperReal number1, HyperReal number2);
 }
