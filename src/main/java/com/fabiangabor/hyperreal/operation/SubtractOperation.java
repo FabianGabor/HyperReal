@@ -26,14 +26,14 @@ public class SubtractOperation implements Operation {
         }
 
         if (number1.getSign() < 0 && number2.getSign() < 0) {
-            if (isNumber1BiggerThanNumber2(number1.abs().compareTo(number2.abs()), 0)) {
+            if (number1.abs().compareTo(number2.abs()) > 0) {
                 return new HyperInteger(subtract(number1.getDigits(), number2.getDigits()), -1);
             } else {
                 return new HyperInteger(subtract(number2.getDigits(), number1.getDigits()), 1);
             }
         }
 
-        if (isNumber1BiggerThanNumber2(number1.compareTo(number2), 0)) {
+        if (number1.compareTo(number2) > 0) {
             return new HyperInteger(add.execute(number1, number2).toString());
         }
         if (number1.compareTo(number2) < 0) {
@@ -91,7 +91,7 @@ public class SubtractOperation implements Operation {
             }
 
             diff.append(localDiff);
-        } while (isNumber1BiggerThanNumber2(carry, 0) || i < number1.length || j < number2.length);
+        } while (carry > 0 || i < number1.length || j < number2.length);
 
         diff.reverse();
 

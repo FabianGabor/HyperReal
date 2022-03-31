@@ -7,7 +7,11 @@
 import com.fabiangabor.hyperreal.domain.HyperInteger;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -92,14 +96,30 @@ class TestHyperInteger {
         assertEquals(EXPECTED, underTest.compareTo(underTest2));
     }
 
-    @Test
-    void addShouldReturnSum() {
-        final String EXPECTED = "124";
-        HyperInteger number1 = new HyperInteger("123");
-        HyperInteger number2 = new HyperInteger("1");
+    private static Stream<Arguments> addition() {
+        return Stream.of(
+                Arguments.of(0, 0, 0),
+                Arguments.of(0, 1, 1),
+                Arguments.of(1, 0, 1),
+                Arguments.of(1, 1, 2),
+                Arguments.of(1, -1, 0),
+                Arguments.of(-1, 1, 0),
+                Arguments.of(-1, -1, -2),
+                Arguments.of(-1, 0, -1),
+                Arguments.of(0, -1, -1),
+                Arguments.of(123, 1, 124)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("addition")
+    void addShouldReturnSum(int num1, int num2, final int EXPECTED) {
+
+        HyperInteger number1 = new HyperInteger(num1);
+        HyperInteger number2 = new HyperInteger(num2);
         underTest = number1.add(number2);
 
-        assertEquals(EXPECTED, underTest.toString());
+        assertEquals(String.valueOf(EXPECTED), underTest.toString());
     }
 
     @Test
@@ -113,17 +133,7 @@ class TestHyperInteger {
     }
 
     @Test
-    void addShouldReturnSumWhenAddingNegativeNumbers() {
-        final String EXPECTED = "-7";
-        HyperInteger number1 = new HyperInteger("-2");
-        HyperInteger number2 = new HyperInteger("-5");
-        underTest = number1.add(number2);
-
-        assertEquals(EXPECTED, underTest.toString());
-    }
-
-    @Test
-    void addTwoBigNegativeNumbers() {
+    void addShouldReturnSumWhenAddingBigNegativeNumbers() {
         final String EXPECTED = "-111111111011111111100";
         HyperInteger number1 = new HyperInteger("-98765432109876543210");
         HyperInteger number2 = new HyperInteger("-12345678901234567890");
