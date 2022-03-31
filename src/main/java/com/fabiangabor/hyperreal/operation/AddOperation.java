@@ -31,15 +31,15 @@ public class AddOperation implements Operation {
             return new HyperInteger(ZERO);
         }
 
-        if (isNumber1BiggerThanNumber2(number1.compareTo(number2), 0)) {
-            if (isNumber1BiggerThanNumber2(number1.abs().compareTo(number2.abs()), 0)) {
+        if (number1.compareTo(number2) > 0) {
+            if (number1.abs().compareTo(number2.abs()) > 0) {
                 return new HyperInteger(subtract.execute(number1, number2).toString());
             } else {
                 return new HyperInteger(subtract.execute(number2, number1).toString(), -1);
             }
         }
         if (number1.compareTo(number2) < 0) {
-            if (isNumber1BiggerThanNumber2(number1.abs().compareTo(number2.abs()), 0)) {
+            if (number1.abs().compareTo(number2.abs()) > 0) {
                 return new HyperInteger(subtract.execute(number1, number2).toString(), -1);
             } else {
                 return new HyperInteger(subtract.execute(number2, number1).toString());
@@ -73,7 +73,7 @@ public class AddOperation implements Operation {
             i++;
             j++;
 
-            if (isNumber1BiggerThanNumber2(localSum, 9)) {
+            if (localSum > 9) {
                 localSum -= 10;
                 carry = 1;
             } else {
@@ -81,7 +81,7 @@ public class AddOperation implements Operation {
             }
 
             sum.append(localSum);
-        } while (isNumber1BiggerThanNumber2(carry, 0) || i < number1.length || j < number2.length);
+        } while (carry > 0 || i < number1.length || j < number2.length);
 
         sum.reverse();
 

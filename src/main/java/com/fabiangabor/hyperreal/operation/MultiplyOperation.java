@@ -14,7 +14,7 @@ import java.util.Collections;
 
 import static com.fabiangabor.hyperreal.domain.HyperInteger.ZERO;
 
-public class MultiplyOperation implements  Operation {
+public class MultiplyOperation implements Operation {
     @Override
     public HyperInteger execute(HyperInteger number1, HyperInteger number2) {
         HyperInteger prod;
@@ -41,20 +41,24 @@ public class MultiplyOperation implements  Operation {
 
     private HyperInteger multiply(byte[] number1, byte[] number2) {
         ArrayList<ArrayList<Integer>> graph = new ArrayList<>(number2.length);
-        for (int i = 0; i < number2.length; i++)
+        for (int i = 0; i < number2.length; i++) {
             graph.add(new ArrayList<>());
+        }
 
         for (int i = number2.length - 1; i >= 0; i--) {
             int carry = 0;
 
-            for (int k = i; k < number2.length - 1; k++)
+            for (int k = i; k < number2.length - 1; k++) {
                 graph.get(i).add(0);
+            }
 
             for (int j = number1.length - 1; j >= 0; j--) {
                 graph.get(i).add((number2[i] * number1[j] + carry) % 10);
                 carry = (number2[i] * number1[j] + carry) / 10;
             }
-            if (HelperService.isNumber1BiggerThanNumber2(carry, 0)) graph.get(i).add(carry);
+            if (carry > 0) {
+                graph.get(i).add(carry);
+            }
         }
 
         HyperInteger sum = new HyperInteger(ZERO);
@@ -62,8 +66,9 @@ public class MultiplyOperation implements  Operation {
             Collections.reverse(integers);
             HyperInteger tmp = new HyperInteger();
             tmp.setDigits(new byte[integers.size()]);
-            for (int j = 0; j < integers.size(); j++)
+            for (int j = 0; j < integers.size(); j++) {
                 tmp.getDigits()[j] = integers.get(j).byteValue();
+            }
             sum = sum.add(tmp);
         }
 

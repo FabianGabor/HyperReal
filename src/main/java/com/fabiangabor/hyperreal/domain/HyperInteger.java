@@ -32,6 +32,10 @@ public class HyperInteger {
             this.sign = sign;
     }
 
+    public HyperInteger(int number) {
+        this(String.valueOf(number));
+    }
+
     private void setValue(String number) {
         HyperInteger hyperInteger = convertToHyperInteger(number);
         this.digits = hyperInteger.getDigits();
@@ -93,14 +97,14 @@ public class HyperInteger {
         if (returnValue != 0) return returnValue;
 
         for (int i = 0; i < this.digits.length; i++) {
-            if (isNumber1BiggerThanNumber2(this.digits[i], number2.getDigits()[i])) {
+            if (this.digits[i] > number2.getDigits()[i]) {
                 if (this.sign == 1) {
                     return 1;
                 } else {
                     return -1;
                 }
             }
-            if (isNumber1BiggerThanNumber2(number2.getDigits()[i], this.digits[i])) {
+            if (number2.getDigits()[i] > this.digits[i]) {
                 if (this.sign == 1) {
                     return -1;
                 } else {

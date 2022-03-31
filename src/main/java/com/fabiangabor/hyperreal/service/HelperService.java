@@ -26,20 +26,12 @@ public final class HelperService {
         return reverse;
     }
 
-    public static boolean isNumber1BiggerThanNumber2(int number1, int number2) {
-        return number1 > number2;
-    }
-
     public static int compareSigns(HyperInteger number1, HyperInteger number2) {
-        if (isNumber1BiggerThanNumber2(number1.getSign(), number2.getSign())) return 1;
-        if (isNumber1BiggerThanNumber2(number2.getSign(), number1.getSign())) return -1;
-        return 0;
+        return Integer.compare(number1.getSign(), number2.getSign());
     }
 
     public static int compareLenghts(HyperInteger number1, HyperInteger number2) {
-        if (isNumber1BiggerThanNumber2(number1.getDigits().length, number2.getDigits().length)) return 1;
-        if (isNumber1BiggerThanNumber2(number2.getDigits().length, number1.getDigits().length)) return -1;
-        return 0;
+        return Integer.compare(number1.getDigits().length, number2.getDigits().length);
     }
 
     public static HyperInteger subArray(HyperInteger arr, int start, int end) {

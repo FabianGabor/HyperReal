@@ -10,7 +10,6 @@ import com.fabiangabor.hyperreal.domain.HyperInteger;
 import com.fabiangabor.hyperreal.service.ConversionService;
 
 import static com.fabiangabor.hyperreal.domain.HyperInteger.ZERO;
-import static com.fabiangabor.hyperreal.service.HelperService.isNumber1BiggerThanNumber2;
 import static com.fabiangabor.hyperreal.service.HelperService.subArray;
 
 public class DivideOperation implements Operation {
@@ -48,7 +47,7 @@ public class DivideOperation implements Operation {
             do {
                 subQuotient = subQuotient.subtract(new HyperInteger("1")); // subQuotient--
                 tmp = number2.multiply(subQuotient).abs();
-            } while (isNumber1BiggerThanNumber2(tmp.compareTo(subDivident.abs()), 0));
+            } while (tmp.compareTo(subDivident.abs()) > 0);
             start = end;
 
             remainder = subDivident.abs().subtract(tmp);
