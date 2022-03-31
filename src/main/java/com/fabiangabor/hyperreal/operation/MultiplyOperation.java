@@ -7,12 +7,12 @@
 package com.fabiangabor.hyperreal.operation;
 
 import com.fabiangabor.hyperreal.domain.HyperInteger;
-import com.fabiangabor.hyperreal.service.HelperService;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 import static com.fabiangabor.hyperreal.domain.HyperInteger.ZERO;
+import static com.fabiangabor.hyperreal.service.HelperService.*;
 
 public class MultiplyOperation implements Operation {
     @Override
@@ -24,9 +24,9 @@ public class MultiplyOperation implements Operation {
         if (number2.toString().equals("1")) return number1;
 
         if (number1.abs().compareTo(number2.abs()) < 0) {
-            HelperService.swap(number1, number2);
+            swap(number1, number2);
             prod = multiply(number1.getDigits(), number2.getDigits());
-            HelperService.swap(number1, number2);
+            swap(number1, number2);
         } else {
             prod = multiply(number1.getDigits(), number2.getDigits());
         }
