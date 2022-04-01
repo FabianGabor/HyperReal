@@ -80,9 +80,11 @@ public class MultiplyOperation implements Operation {
         }
 
         HyperReal sum = new HyperInteger(ZERO);
+        HyperInteger tmp;
+
         for (List<Integer> integers : graph) {
             Collections.reverse(integers);
-            HyperInteger tmp = new HyperInteger();
+            tmp = new HyperInteger();
             tmp.setDigits(new byte[integers.size()]);
             for (int j = 0; j < integers.size(); j++) {
                 tmp.setDigit(j, integers.get(j).byteValue());

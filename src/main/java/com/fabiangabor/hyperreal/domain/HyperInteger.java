@@ -6,12 +6,13 @@
 
 package com.fabiangabor.hyperreal.domain;
 
-import com.fabiangabor.hyperreal.constants.EqualityConstants;
 import com.fabiangabor.hyperreal.operation.*;
 
+import static com.fabiangabor.hyperreal.constants.EqualityConstants.EQUAL;
 import static com.fabiangabor.hyperreal.constants.NumberConstants.*;
-import static com.fabiangabor.hyperreal.service.ConversionService.*;
-import static com.fabiangabor.hyperreal.service.HelperService.*;
+import static com.fabiangabor.hyperreal.service.ConversionService.convertToHyperInteger;
+import static com.fabiangabor.hyperreal.service.HelperService.compareLenghts;
+import static com.fabiangabor.hyperreal.service.HelperService.compareSigns;
 
 public class HyperInteger implements HyperReal {
 
@@ -104,12 +105,12 @@ public class HyperInteger implements HyperReal {
         int returnValue;
 
         returnValue = compareSigns(this, number2);
-        if (returnValue != EqualityConstants.EQUAL) {
+        if (returnValue != EQUAL) {
             return returnValue;
         }
 
         returnValue = compareLenghts(this, number2);
-        if (returnValue != EqualityConstants.EQUAL) {
+        if (returnValue != EQUAL) {
             return returnValue;
         }
 
