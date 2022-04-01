@@ -22,12 +22,12 @@ public interface HyperReal {
 
     int getSign();
 
-    void setSign(int sign);
+    void setPositive();
 
-    byte[] getDigits();
+    void setNegative();
 
-    void setDigits(byte[] digits);
+    int getLength();
 
-    public String toString();
+    byte getDigit(int i);
 
 }

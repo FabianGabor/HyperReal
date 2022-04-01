@@ -42,6 +42,14 @@ public class HyperInteger implements HyperReal{
         this.sign = hyperInteger.getSign();
     }
 
+    public byte[] getDigits() {
+        return digits;
+    }
+
+    public void setDigits(byte[] digits) {
+        this.digits = digits;
+    }
+
     public int getSign() {
         return sign;
     }
@@ -50,12 +58,20 @@ public class HyperInteger implements HyperReal{
         this.sign = sign;
     }
 
-    public byte[] getDigits() {
-        return digits;
+    public void setPositive() {
+        this.sign = 1;
     }
 
-    public void setDigits(byte[] digits) {
-        this.digits = digits;
+    public void setNegative() {
+        this.sign = -1;
+    }
+
+    public int getLength() {
+        return this.digits.length;
+    }
+
+    public byte getDigit(int index) {
+        return this.digits[index];
     }
 
     public HyperReal add(HyperReal number2) {
@@ -78,15 +94,6 @@ public class HyperInteger implements HyperReal{
         return divide.execute(this, number2);
     }
 
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        if (sign < 0)
-            sb.insert(0, '-');
-        for (byte b : digits)
-            sb.append(b);
-        return sb.toString();
-    }
-
     public int compareTo(HyperReal number2) {
         int returnValue;
 
@@ -97,19 +104,11 @@ public class HyperInteger implements HyperReal{
         if (returnValue != 0) return returnValue;
 
         for (int i = 0; i < this.digits.length; i++) {
-            if (this.digits[i] > number2.getDigits()[i]) {
-                if (this.sign == 1) {
-                    return 1;
-                } else {
-                    return -1;
-                }
+            if (this.getDigit(i) > number2.getDigit(i)) {
+                return this.sign;
             }
-            if (number2.getDigits()[i] > this.digits[i]) {
-                if (this.sign == 1) {
-                    return -1;
-                } else {
-                    return 1;
-                }
+            if (number2.getDigit(i) > this.getDigit(i)) {
+                return this.sign * -1;
             }
         }
 
@@ -118,6 +117,15 @@ public class HyperInteger implements HyperReal{
 
     public HyperReal abs() {
         return new HyperInteger(this.toString(), 1);
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        if (sign < 0)
+            sb.insert(0, '-');
+        for (byte b : digits)
+            sb.append(b);
+        return sb.toString();
     }
 
 }

@@ -9,6 +9,7 @@ package com.fabiangabor.hyperreal.operation;
 import com.fabiangabor.hyperreal.domain.HyperInteger;
 import com.fabiangabor.hyperreal.domain.HyperReal;
 import com.fabiangabor.hyperreal.service.ConversionService;
+import org.jetbrains.annotations.NotNull;
 
 import static com.fabiangabor.hyperreal.domain.HyperInteger.ZERO;
 import static com.fabiangabor.hyperreal.service.HelperService.subArray;
@@ -16,6 +17,15 @@ import static com.fabiangabor.hyperreal.service.HelperService.subArray;
 public class DivideOperation implements Operation {
     @Override
     public HyperReal execute(HyperReal number1, HyperReal number2) {
+        if (number1 instanceof HyperInteger && number2 instanceof HyperInteger) {
+            return divide((HyperInteger) number1, (HyperInteger) number2);
+        }
+
+        throw new  IllegalArgumentException("Division is not supported for this type of numbers");
+    }
+
+    @NotNull
+    private HyperReal divide(HyperInteger number1, HyperInteger number2) {
         if (number1.toString().equals(ZERO)) return new HyperInteger(ZERO);
         if (number2.toString().equals(ZERO)) throw new ArithmeticException("Division by 0");
         if (number2.toString().equals("1")) return number1;
@@ -27,10 +37,10 @@ public class DivideOperation implements Operation {
         if (number1.getDigits().length == number2.getDigits().length && number1.getDigits()[0] / number2.getDigits()[0] == 1)
             return new HyperInteger("1", number1.getSign() * number2.getSign());
 
-        return divide(number1, number2);
+        return div(number1, number2);
     }
 
-    private HyperReal divide(HyperReal number1, HyperReal number2) {
+    private HyperReal div(HyperInteger number1, HyperInteger number2) {
         int start = 0;
         StringBuilder sq = new StringBuilder();
         HyperReal subDivident;
@@ -56,7 +66,7 @@ public class DivideOperation implements Operation {
             sq.append(subQuotient.toString());
         }
 
-        HyperReal quotient = new HyperInteger(sq.toString());
+        HyperInteger quotient = new HyperInteger(sq.toString());
         quotient.setSign(number1.getSign() * number2.getSign());
         return ConversionService.stripLeadingZeros(quotient);
     }
