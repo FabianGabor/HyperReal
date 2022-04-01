@@ -6,15 +6,16 @@
 
 package com.fabiangabor.hyperreal.service;
 
+import com.fabiangabor.hyperreal.constants.ExceptionMessageConstants;
 import com.fabiangabor.hyperreal.domain.HyperInteger;
 import com.fabiangabor.hyperreal.domain.HyperReal;
 
-import static com.fabiangabor.hyperreal.domain.Constants.*;
+import static com.fabiangabor.hyperreal.constants.NumberConstants.*;
 
 public final class ConversionService {
 
     private ConversionService() {
-        throw new IllegalStateException(MSG_UTILITY_CLASS);
+        throw new IllegalStateException(ExceptionMessageConstants.MSG_UTILITY_CLASS);
     }
 
     public static HyperInteger convertToHyperInteger(String number) {
@@ -43,7 +44,7 @@ public final class ConversionService {
         return hyperInteger;
     }
 
-    private static int calculateSign(String number, String[] sign) {
+    private static int calculateSign(String number, String... sign) {
         checkValidSign(number, sign);
 
         if (number.equals(ZERO)) {
@@ -57,9 +58,9 @@ public final class ConversionService {
         return POSITIVE_SIGN_VAL;
     }
 
-    private static void checkValidSign(String number, String[] sign) {
+    private static void checkValidSign(String number, String... sign) {
         if (sign.length == POSITIVE_SIGN_VAL && sign[0].length() > 1) {
-            throw new NumberFormatException(String.format("%s: %s", INVALID_NUMBER, number));
+            throw new NumberFormatException(String.format("%s: %s", ExceptionMessageConstants.INVALID_NUMBER, number));
         }
     }
 

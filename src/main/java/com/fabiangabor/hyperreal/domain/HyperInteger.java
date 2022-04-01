@@ -6,9 +6,10 @@
 
 package com.fabiangabor.hyperreal.domain;
 
+import com.fabiangabor.hyperreal.constants.EqualityConstants;
 import com.fabiangabor.hyperreal.operation.*;
 
-import static com.fabiangabor.hyperreal.domain.Constants.*;
+import static com.fabiangabor.hyperreal.constants.NumberConstants.*;
 import static com.fabiangabor.hyperreal.service.ConversionService.*;
 import static com.fabiangabor.hyperreal.service.HelperService.*;
 
@@ -102,10 +103,10 @@ public class HyperInteger implements HyperReal{
         int returnValue;
 
         returnValue = compareSigns(this, number2);
-        if (returnValue != EQUAL) return returnValue;
+        if (returnValue != EqualityConstants.EQUAL) return returnValue;
 
         returnValue = compareLenghts(this, number2);
-        if (returnValue != EQUAL) return returnValue;
+        if (returnValue != EqualityConstants.EQUAL) return returnValue;
 
         for (int i = 0; i < this.getLength(); i++) {
             if (this.getDigit(i) > number2.getDigit(i)) {

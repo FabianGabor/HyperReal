@@ -6,6 +6,7 @@
 
 package com.fabiangabor.hyperreal.operation;
 
+import com.fabiangabor.hyperreal.constants.ExceptionMessageConstants;
 import com.fabiangabor.hyperreal.domain.HyperInteger;
 import com.fabiangabor.hyperreal.domain.HyperReal;
 import org.jetbrains.annotations.NotNull;
@@ -13,8 +14,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-import static com.fabiangabor.hyperreal.domain.Constants.*;
+import static com.fabiangabor.hyperreal.constants.NumberConstants.*;
 
 public class MultiplyOperation implements Operation {
     @Override
@@ -23,7 +26,7 @@ public class MultiplyOperation implements Operation {
             return getProduct((HyperInteger) number1, (HyperInteger) number2);
         }
 
-        throw new  IllegalArgumentException(String.format("%s %s", MULTIPLICATION, NUMBERS_NOT_SUPPORTED));
+        throw new  IllegalArgumentException(String.format("%s %s", ExceptionMessageConstants.MULTIPLICATION, ExceptionMessageConstants.NUMBERS_NOT_SUPPORTED));
     }
 
     @NotNull
@@ -46,10 +49,7 @@ public class MultiplyOperation implements Operation {
     }
 
     private HyperReal multiply(byte[] number1, byte[] number2) {
-        List<List<Integer>> graph = new ArrayList<>();
-        for (int i = 0; i < number2.length; i++) {
-            graph.add(new ArrayList<>());
-        }
+        List<List<Integer>> graph = IntStream.range(0, number2.length).<List<Integer>>mapToObj(i -> new ArrayList<>()).collect(Collectors.toList());
 
         for (int i = number2.length - 1; i >= 0; i--) {
             int carry = 0;

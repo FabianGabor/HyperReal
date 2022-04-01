@@ -6,12 +6,12 @@
 
 package com.fabiangabor.hyperreal.operation;
 
-import com.fabiangabor.hyperreal.domain.Constants;
-import com.fabiangabor.hyperreal.domain.HyperInteger;
-import com.fabiangabor.hyperreal.domain.HyperReal;
+import com.fabiangabor.hyperreal.constants.EqualityConstants;
+import com.fabiangabor.hyperreal.constants.ExceptionMessageConstants;
+import com.fabiangabor.hyperreal.constants.NumberConstants;
+import com.fabiangabor.hyperreal.domain.*;
 import com.fabiangabor.hyperreal.service.ConversionService;
 
-import static com.fabiangabor.hyperreal.domain.Constants.*;
 import static com.fabiangabor.hyperreal.service.HelperService.*;
 
 public class SubtractOperation implements Operation {
@@ -21,34 +21,34 @@ public class SubtractOperation implements Operation {
             return subtract((HyperInteger) number1, (HyperInteger) number2);
         }
 
-        throw new  IllegalArgumentException(String.format("%s %s", SUBTRACTION, NUMBERS_NOT_SUPPORTED));
+        throw new  IllegalArgumentException(String.format("%s %s", ExceptionMessageConstants.SUBTRACTION, ExceptionMessageConstants.NUMBERS_NOT_SUPPORTED));
     }
 
     private HyperReal subtract(HyperInteger number1, HyperInteger number2) {
 
-        if (number1.compareTo(number2) == Constants.EQUAL) {
-            return new HyperInteger(Constants.ZERO);
+        if (number1.compareTo(number2) == EqualityConstants.EQUAL) {
+            return new HyperInteger(NumberConstants.ZERO);
         }
 
-        if (number1.getSign() >= Constants.ZERO_SIGN_VAL && number2.getSign() >= Constants.ZERO_SIGN_VAL) {
+        if (number1.getSign() >= NumberConstants.ZERO_SIGN_VAL && number2.getSign() >= NumberConstants.ZERO_SIGN_VAL) {
             return getDiff(number1, number2);
         }
 
-        if (number1.getSign() == Constants.NEGATIVE_SIGN_VAL && number2.getSign() == Constants.NEGATIVE_SIGN_VAL) {
-            if (number1.abs().compareTo(number2.abs()) == Constants.BIGGER) {
-                return new HyperInteger(subtract(number1.getDigits(), number2.getDigits()), Constants.NEGATIVE_SIGN_VAL);
+        if (number1.getSign() == NumberConstants.NEGATIVE_SIGN_VAL && number2.getSign() == NumberConstants.NEGATIVE_SIGN_VAL) {
+            if (number1.abs().compareTo(number2.abs()) == EqualityConstants.BIGGER) {
+                return new HyperInteger(subtract(number1.getDigits(), number2.getDigits()), NumberConstants.NEGATIVE_SIGN_VAL);
             } else {
-                return new HyperInteger(subtract(number2.getDigits(), number1.getDigits()), Constants.POSITIVE_SIGN_VAL);
+                return new HyperInteger(subtract(number2.getDigits(), number1.getDigits()), NumberConstants.POSITIVE_SIGN_VAL);
             }
         }
 
         Operation add = new AddOperation();
 
-        if (number1.compareTo(number2) == Constants.BIGGER) {
+        if (number1.compareTo(number2) == EqualityConstants.BIGGER) {
             return new HyperInteger(add.execute(number1, number2).toString());
         }
-        if (number1.compareTo(number2) == Constants.SMALLER) {
-            return new HyperInteger(add.execute(number1, number2).toString(), Constants.NEGATIVE_SIGN_VAL);
+        if (number1.compareTo(number2) == EqualityConstants.SMALLER) {
+            return new HyperInteger(add.execute(number1, number2).toString(), NumberConstants.NEGATIVE_SIGN_VAL);
         }
 
         return null;
@@ -57,14 +57,14 @@ public class SubtractOperation implements Operation {
     private HyperReal getDiff(HyperInteger number1, HyperInteger number2) {
         HyperInteger diff;
 
-        if (number1.compareTo(number2) == Constants.SMALLER) {
+        if (number1.compareTo(number2) == EqualityConstants.SMALLER) {
             diff = new HyperInteger(subtract(number1.getDigits(), number2.getDigits()));
             diff.setNegative();
             return diff;
         }
 
-        if (number1.compareTo(number2) == Constants.EQUAL) {
-            diff = new HyperInteger(Constants.ZERO);
+        if (number1.compareTo(number2) == EqualityConstants.EQUAL) {
+            diff = new HyperInteger(NumberConstants.ZERO);
             return diff;
         }
 
@@ -75,8 +75,8 @@ public class SubtractOperation implements Operation {
     private String subtract(byte[] number1, byte[] number2) {
         StringBuilder diff = new StringBuilder();
 
-        number1 = reverse(number1);
-        number2 = reverse(number2);
+        byte[] revNumber1 = reverse(number1);
+        byte[] revNumber2 = reverse(number2);
 
         int i = 0;
         int j = 0;
@@ -86,8 +86,8 @@ public class SubtractOperation implements Operation {
             int localDiff = 0;
             localDiff -= carry;
 
-            if (i < number1.length) localDiff += number1[i];
-            if (j < number2.length) localDiff -= number2[j];
+            if (i < revNumber1.length) localDiff += revNumber1[i];
+            if (j < revNumber2.length) localDiff -= revNumber2[j];
 
             i++;
             j++;
@@ -100,7 +100,7 @@ public class SubtractOperation implements Operation {
             }
 
             diff.append(localDiff);
-        } while (carry > 0 || i < number1.length || j < number2.length);
+        } while (carry > 0 || i < revNumber1.length || j < revNumber2.length);
 
         diff.reverse();
 
