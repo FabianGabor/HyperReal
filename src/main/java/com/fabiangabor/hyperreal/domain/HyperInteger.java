@@ -8,11 +8,13 @@ package com.fabiangabor.hyperreal.domain;
 
 import com.fabiangabor.hyperreal.operation.*;
 
-import static com.fabiangabor.hyperreal.domain.Constants.*;
-import static com.fabiangabor.hyperreal.service.ConversionService.*;
-import static com.fabiangabor.hyperreal.service.HelperService.*;
+import static com.fabiangabor.hyperreal.constants.EqualityConstants.EQUAL;
+import static com.fabiangabor.hyperreal.constants.NumberConstants.*;
+import static com.fabiangabor.hyperreal.service.ConversionService.convertToHyperInteger;
+import static com.fabiangabor.hyperreal.service.HelperService.compareLenghts;
+import static com.fabiangabor.hyperreal.service.HelperService.compareSigns;
 
-public class HyperInteger implements HyperReal{
+public class HyperInteger implements HyperReal {
 
     private int sign;
     private byte[] digits;
@@ -26,10 +28,11 @@ public class HyperInteger implements HyperReal{
 
     public HyperInteger(String number, int sign) {
         setValue(number);
-        if (number.equals(ZERO))
+        if (number.equals(ZERO)) {
             this.sign = ZERO_SIGN_VAL;
-        else
+        } else {
             this.sign = sign;
+        }
     }
 
     public HyperInteger(int number) {
@@ -43,7 +46,7 @@ public class HyperInteger implements HyperReal{
     }
 
     public byte[] getDigits() {
-        return digits;
+        return digits.clone();
     }
 
     public void setDigits(byte[] digits) {
@@ -102,10 +105,14 @@ public class HyperInteger implements HyperReal{
         int returnValue;
 
         returnValue = compareSigns(this, number2);
-        if (returnValue != EQUAL) return returnValue;
+        if (returnValue != EQUAL) {
+            return returnValue;
+        }
 
         returnValue = compareLenghts(this, number2);
-        if (returnValue != EQUAL) return returnValue;
+        if (returnValue != EQUAL) {
+            return returnValue;
+        }
 
         for (int i = 0; i < this.getLength(); i++) {
             if (this.getDigit(i) > number2.getDigit(i)) {
@@ -125,10 +132,12 @@ public class HyperInteger implements HyperReal{
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        if (sign < ZERO_SIGN_VAL)
+        if (sign < ZERO_SIGN_VAL) {
             sb.insert(0, NEGATIVE_SIGN);
-        for (byte b : digits)
+        }
+        for (byte b : digits) {
             sb.append(b);
+        }
         return sb.toString();
     }
 
