@@ -21,7 +21,7 @@ public class SubtractOperation implements Operation {
             return subtract((HyperInteger) number1, (HyperInteger) number2);
         }
 
-        throw new  IllegalArgumentException(String.format("%s %s", ExceptionMessageConstants.SUBTRACTION, ExceptionMessageConstants.NUMBERS_NOT_SUPPORTED));
+        throw new  IllegalArgumentException(String.format("%s %s", ExceptionMessageConstants.SUBTRACTION, ExceptionMessageConstants.UNSUPPORTED_NUMBER));
     }
 
     private HyperReal subtract(HyperInteger number1, HyperInteger number2) {

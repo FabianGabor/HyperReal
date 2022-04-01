@@ -23,7 +23,7 @@ public class DivideOperation implements Operation {
             return divide((HyperInteger) number1, (HyperInteger) number2);
         }
 
-        throw new  IllegalArgumentException(String.format("%s %s", ExceptionMessageConstants.DIVISION, ExceptionMessageConstants.NUMBERS_NOT_SUPPORTED));
+        throw new  IllegalArgumentException(String.format("%s %s", ExceptionMessageConstants.DIVISION, ExceptionMessageConstants.UNSUPPORTED_NUMBER));
     }
 
     @NotNull

@@ -26,7 +26,7 @@ public class MultiplyOperation implements Operation {
             return getProduct((HyperInteger) number1, (HyperInteger) number2);
         }
 
-        throw new  IllegalArgumentException(String.format("%s %s", ExceptionMessageConstants.MULTIPLICATION, ExceptionMessageConstants.NUMBERS_NOT_SUPPORTED));
+        throw new  IllegalArgumentException(String.format("%s %s", ExceptionMessageConstants.MULTIPLICATION, ExceptionMessageConstants.UNSUPPORTED_NUMBER));
     }
 
     @NotNull

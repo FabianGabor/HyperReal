@@ -21,7 +21,7 @@ public class AddOperation implements Operation {
             return add((HyperInteger) number1, (HyperInteger) number2);
         }
 
-        throw new  IllegalArgumentException(String.format("%s %s", ExceptionMessageConstants.ADDITION, ExceptionMessageConstants.NUMBERS_NOT_SUPPORTED));
+        throw new  IllegalArgumentException(String.format("%s %s", ExceptionMessageConstants.ADDITION, ExceptionMessageConstants.UNSUPPORTED_NUMBER));
     }
 
     private HyperReal add(HyperInteger number1, HyperInteger number2) {

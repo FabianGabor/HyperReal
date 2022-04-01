@@ -12,7 +12,7 @@ public class ExceptionMessageConstants {
     public static final String MSG_UTILITY_CLASS = "Utility class";
     public static final String INVALID_NUMBER = "Invalid number";
     public static final String DIVISION_BY_ZERO = "Division by " + ZERO;
-    public static final String NUMBERS_NOT_SUPPORTED = "is not supported for this type of numbers";
+    public static final String UNSUPPORTED_NUMBER = "is not supported for this type of numbers";
     public static final String ADDITION = "Addition";
     public static final String SUBTRACTION = "Subtraction";
     public static final String MULTIPLICATION = "Multiplication";
