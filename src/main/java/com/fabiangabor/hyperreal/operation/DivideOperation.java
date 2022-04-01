@@ -18,9 +18,6 @@ import static com.fabiangabor.hyperreal.service.HelperService.subArray;
 
 public class DivideOperation implements Operation {
 
-    public DivideOperation() {
-    }
-
     @Override
     public HyperReal execute(HyperReal number1, HyperReal number2) {
         if (number1 instanceof HyperInteger && number2 instanceof HyperInteger) {

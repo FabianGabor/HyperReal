@@ -17,9 +17,6 @@ import static com.fabiangabor.hyperreal.service.HelperService.reverse;
 
 public class AddOperation implements Operation {
 
-    public AddOperation() {
-    }
-
     @Override
     public HyperReal execute(HyperReal number1, HyperReal number2) {
         if (number1 instanceof HyperInteger && number2 instanceof HyperInteger) {

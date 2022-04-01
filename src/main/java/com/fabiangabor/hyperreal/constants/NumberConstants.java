@@ -6,6 +6,8 @@
 
 package com.fabiangabor.hyperreal.constants;
 
+import static com.fabiangabor.hyperreal.constants.ExceptionMessageConstants.MSG_UTILITY_CLASS;
+
 public final class NumberConstants {
 
     public static final int POSITIVE_SIGN_VAL = 1;
@@ -17,6 +19,6 @@ public final class NumberConstants {
     public static final String TEN = "10";
 
     private NumberConstants() {
-        throw new IllegalStateException(ExceptionMessageConstants.MSG_UTILITY_CLASS);
+        throw new IllegalStateException(MSG_UTILITY_CLASS);
     }
 }

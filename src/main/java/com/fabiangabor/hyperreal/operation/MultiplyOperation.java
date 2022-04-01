@@ -23,9 +23,6 @@ import static com.fabiangabor.hyperreal.constants.NumberConstants.ZERO;
 
 public class MultiplyOperation implements Operation {
 
-    public MultiplyOperation() {
-    }
-
     @Override
     public HyperReal execute(HyperReal number1, HyperReal number2) {
         if (number1 instanceof HyperInteger && number2 instanceof HyperInteger) {

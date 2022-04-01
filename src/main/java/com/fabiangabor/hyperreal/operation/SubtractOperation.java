@@ -18,9 +18,6 @@ import static com.fabiangabor.hyperreal.service.HelperService.reverse;
 
 public class SubtractOperation implements Operation {
 
-    public SubtractOperation() {
-    }
-
     @Override
     public HyperReal execute(HyperReal number1, HyperReal number2) {
         if (number1 instanceof HyperInteger && number2 instanceof HyperInteger) {
