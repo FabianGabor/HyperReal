@@ -11,6 +11,10 @@ import com.fabiangabor.hyperreal.domain.HyperReal;
 
 public final class HelperService {
 
+    private HelperService() {
+        throw new IllegalStateException("Cannot be instantiated");
+    }
+
     public static byte[] reverse(byte[] num) {
         byte[] reverse = new byte[num.length];
 
