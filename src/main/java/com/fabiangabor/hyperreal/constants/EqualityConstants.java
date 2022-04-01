@@ -6,8 +6,15 @@
 
 package com.fabiangabor.hyperreal.constants;
 
-public class EqualityConstants {
+import static com.fabiangabor.hyperreal.constants.ExceptionMessageConstants.MSG_UTILITY_CLASS;
+
+public final class EqualityConstants {
+
     public static final int BIGGER = 1;
     public static final int EQUAL = 0;
     public static final int SMALLER = -1;
+
+    private EqualityConstants() {
+        throw new IllegalStateException(MSG_UTILITY_CLASS);
+    }
 }
