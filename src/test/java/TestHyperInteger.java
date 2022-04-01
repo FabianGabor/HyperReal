@@ -5,6 +5,7 @@
  */
 
 import com.fabiangabor.hyperreal.domain.HyperInteger;
+import com.fabiangabor.hyperreal.domain.HyperReal;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TestHyperInteger {
 
-    HyperInteger underTest;
+    HyperReal underTest;
 
     @ParameterizedTest
     @ValueSource(strings = {"0", "00", "+0", "-0"})
@@ -96,7 +97,7 @@ class TestHyperInteger {
         assertEquals(EXPECTED, underTest.compareTo(underTest2));
     }
 
-    private static Stream<Arguments> addition() {
+    private static Stream<Arguments> additionParameters() {
         return Stream.of(
                 Arguments.of(0, 0, 0),
                 Arguments.of(0, 1, 1),
@@ -112,7 +113,7 @@ class TestHyperInteger {
     }
 
     @ParameterizedTest
-    @MethodSource("addition")
+    @MethodSource("additionParameters")
     void addShouldReturnSum(int num1, int num2, final int EXPECTED) {
 
         HyperInteger number1 = new HyperInteger(num1);
@@ -183,44 +184,37 @@ class TestHyperInteger {
         assertEquals(EXPECTED, underTest.toString());
     }
 
-    @Test
-    void multiplyShouldReturnProductWhenMultiplyingTwoPositiveNumbers() {
-        final String EXPECTED = "15129";
-        HyperInteger number1 = new HyperInteger("123");
-        HyperInteger number2 = new HyperInteger("123");
-        underTest = number1.multiply(number2);
-
-        assertEquals(EXPECTED, underTest.toString());
+    private static Stream<Arguments> multiplicationParameters() {
+        return Stream.of(
+                Arguments.of("0", "0", "0"),
+                Arguments.of("0", "1", "0"),
+                Arguments.of("1", "0", "0"),
+                Arguments.of("10", "1", "10"),
+                Arguments.of("1", "10", "10"),
+                Arguments.of("-1", "10", "-10"),
+                Arguments.of("-10", "1", "-10"),
+                Arguments.of("-10", "-1", "10"),
+                Arguments.of("10", "10", "100"),
+                Arguments.of("-10", "-10", "100"),
+                Arguments.of("123", "123", "15129"),
+                Arguments.of("-123", "-123", "15129"),
+                Arguments.of("-123", "123", "-15129"),
+                Arguments.of("123", "-123", "-15129"),
+                /*
+                 * https://mae.ufl.edu/~uhk/QUICK-SEMI-PRIME-FACTORING.pdf
+                 */
+                Arguments.of("289673451203483", "672897345109469", "194920496263521028482429080527"),
+                Arguments.of("-289673451203483", "-672897345109469", "194920496263521028482429080527"),
+                Arguments.of("-289673451203483", "672897345109469", "-194920496263521028482429080527"),
+                Arguments.of("289673451203483", "-672897345109469", "-194920496263521028482429080527")
+                );
     }
 
-    @Test
-        /*
-         * https://mae.ufl.edu/~uhk/QUICK-SEMI-PRIME-FACTORING.pdf
-         */
-    void multiplyShouldReturnProductWhenMultiplyingTwoReallyBigPositiveNumbers() {
-        final String EXPECTED = "194920496263521028482429080527";
-        HyperInteger number1 = new HyperInteger("289673451203483");
-        HyperInteger number2 = new HyperInteger("672897345109469");
-        underTest = number1.multiply(number2);
-
-        assertEquals(EXPECTED, underTest.toString());
-    }
-
-    @Test
-    void multiplyShouldReturnProductWhenMultiplyingTwoNegativeNumbers() {
-        final String EXPECTED = "15129";
-        HyperInteger number1 = new HyperInteger("-123");
-        HyperInteger number2 = new HyperInteger("-123");
-        underTest = number1.multiply(number2);
-
-        assertEquals(EXPECTED, underTest.toString());
-    }
-
-    @Test
-    void multiplyShouldReturnProductWhenMultiplyingOnePositiveOneNegativeNumber() {
-        final String EXPECTED = "-15129";
-        HyperInteger number1 = new HyperInteger("123");
-        HyperInteger number2 = new HyperInteger("-123");
+    @ParameterizedTest
+    @MethodSource("multiplicationParameters")
+    void multiplyShouldReturnProduct(String num1, String num2, final String EXPECTED) {
+        HyperInteger number1 = new HyperInteger(num1);
+        HyperInteger number2 = new HyperInteger(num2);
         underTest = number1.multiply(number2);
 
         assertEquals(EXPECTED, underTest.toString());

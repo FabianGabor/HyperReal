@@ -6,47 +6,56 @@
 
 package com.fabiangabor.hyperreal.operation;
 
+import com.fabiangabor.hyperreal.domain.Constants;
 import com.fabiangabor.hyperreal.domain.HyperInteger;
+import com.fabiangabor.hyperreal.domain.HyperReal;
 
-import static com.fabiangabor.hyperreal.domain.HyperInteger.ZERO;
+import static com.fabiangabor.hyperreal.domain.Constants.*;
 import static com.fabiangabor.hyperreal.service.HelperService.*;
 
 public class AddOperation implements Operation {
     @Override
-    public HyperInteger execute(HyperInteger number1, HyperInteger number2) {
+    public HyperReal execute(HyperReal number1, HyperReal number2) {
+        if (number1 instanceof HyperInteger && number2 instanceof HyperInteger) {
+            return add((HyperInteger) number1, (HyperInteger) number2);
+        }
+
+        throw new  IllegalArgumentException(String.format("%s %s", ADDITION, NUMBERS_NOT_SUPPORTED));
+    }
+
+    private HyperReal add(HyperInteger number1, HyperInteger number2) {
         Operation subtract = new SubtractOperation();
 
-        if (number1.toString().equals(ZERO)) return number2;
-        if (number2.toString().equals(ZERO)) return number1;
+        if (number1.toString().equals(Constants.ZERO)) return number2;
+        if (number2.toString().equals(Constants.ZERO)) return number1;
 
-        if (number1.getSign() >= 0 && number2.getSign() >= 0) {
+        if (number1.getSign() >= Constants.ZERO_SIGN_VAL && number2.getSign() >= Constants.ZERO_SIGN_VAL) {
             return new HyperInteger(add(number1.getDigits(), number2.getDigits()));
         }
-        if (number1.getSign() < 0 && number2.getSign() < 0) {
-            return new HyperInteger(add(number1.getDigits(), number2.getDigits()), -1);
+        if (number1.getSign() < Constants.ZERO_SIGN_VAL && number2.getSign() < Constants.ZERO_SIGN_VAL) {
+            return new HyperInteger(add(number1.getDigits(), number2.getDigits()), Constants.NEGATIVE_SIGN_VAL);
         }
 
         // fentebb ellenőriztük az előjelek egyezését. Alább már különböző előjelűek a számok
-        if (number1.abs().compareTo(number2.abs()) == 0) {
-            return new HyperInteger(ZERO);
+        if (number1.abs().compareTo(number2.abs()) == Constants.EQUAL) {
+            return new HyperInteger(Constants.ZERO);
         }
 
-        if (number1.compareTo(number2) > 0) {
+        if (number1.compareTo(number2) == Constants.BIGGER) {
             if (number1.abs().compareTo(number2.abs()) > 0) {
                 return new HyperInteger(subtract.execute(number1, number2).toString());
             } else {
-                return new HyperInteger(subtract.execute(number2, number1).toString(), -1);
+                return new HyperInteger(subtract.execute(number2, number1).toString(), Constants.NEGATIVE_SIGN_VAL);
             }
         }
-        if (number1.compareTo(number2) < 0) {
+        if (number1.compareTo(number2) == Constants.SMALLER) {
             if (number1.abs().compareTo(number2.abs()) > 0) {
-                return new HyperInteger(subtract.execute(number1, number2).toString(), -1);
+                return new HyperInteger(subtract.execute(number1, number2).toString(), Constants.NEGATIVE_SIGN_VAL);
             } else {
                 return new HyperInteger(subtract.execute(number2, number1).toString());
             }
         }
         return null;
-
     }
 
     private String add(byte[] number1, byte[] number2) {

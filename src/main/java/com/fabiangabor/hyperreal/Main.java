@@ -4,13 +4,16 @@
  * https://github.com/FabianGabor
  */
 
-package com.fabiangabor.hyperreal;import com.fabiangabor.hyperreal.domain.HyperInteger;
+package com.fabiangabor.hyperreal;
+
+import com.fabiangabor.hyperreal.domain.HyperInteger;
+import com.fabiangabor.hyperreal.domain.HyperReal;
 
 public class Main {
 	public static void main(String[] args)  {
 
-		HyperInteger number1;
-		HyperInteger number2;
+		HyperReal number1;
+		HyperReal number2;
 
 		number1 = new HyperInteger("-98765432109876543210");
 		number2 = new HyperInteger("-12345678901234567890");

@@ -7,13 +7,14 @@
 package com.fabiangabor.hyperreal.service;
 
 import com.fabiangabor.hyperreal.domain.HyperInteger;
+import com.fabiangabor.hyperreal.domain.HyperReal;
+
+import static com.fabiangabor.hyperreal.domain.Constants.MSG_UTILITY_CLASS;
 
 public final class HelperService {
 
-    public static void swap(HyperInteger number1, HyperInteger number2) {
-        byte[] tmp = number1.getDigits();
-        number1.setDigits(number2.getDigits());
-        number2.setDigits(tmp);
+    private HelperService() {
+        throw new IllegalStateException(MSG_UTILITY_CLASS);
     }
 
     public static byte[] reverse(byte[] num) {
@@ -26,17 +27,19 @@ public final class HelperService {
         return reverse;
     }
 
-    public static int compareSigns(HyperInteger number1, HyperInteger number2) {
+    public static int compareSigns(HyperReal number1, HyperReal number2) {
         return Integer.compare(number1.getSign(), number2.getSign());
     }
 
-    public static int compareLenghts(HyperInteger number1, HyperInteger number2) {
-        return Integer.compare(number1.getDigits().length, number2.getDigits().length);
+    public static int compareLenghts(HyperReal number1, HyperReal number2) {
+        return Integer.compare(number1.getLength(), number2.getLength());
     }
 
-    public static HyperInteger subArray(HyperInteger arr, int start, int end) {
+    public static HyperReal subArray(HyperReal arr, int start, int end) {
         StringBuilder s = new StringBuilder();
-        for (int i = start; i < end; i++) s.append(arr.getDigits()[i]);
+        for (int i = start; i < end; i++) {
+            s.append(arr.getDigit(i));
+        }
         return new HyperInteger(s.toString(), arr.getSign());
     }
 }

@@ -6,41 +6,48 @@
 
 package com.fabiangabor.hyperreal.operation;
 
+import com.fabiangabor.hyperreal.domain.Constants;
 import com.fabiangabor.hyperreal.domain.HyperInteger;
+import com.fabiangabor.hyperreal.domain.HyperReal;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
-import static com.fabiangabor.hyperreal.domain.HyperInteger.ZERO;
-import static com.fabiangabor.hyperreal.service.HelperService.*;
+import static com.fabiangabor.hyperreal.domain.Constants.*;
 
 public class MultiplyOperation implements Operation {
     @Override
-    public HyperInteger execute(HyperInteger number1, HyperInteger number2) {
-        HyperInteger prod;
-
-        if (number1.toString().equals(ZERO) || number2.toString().equals(ZERO)) return new HyperInteger(ZERO);
-        if (number1.toString().equals("1")) return number2;
-        if (number2.toString().equals("1")) return number1;
-
-        if (number1.abs().compareTo(number2.abs()) < 0) {
-            swap(number1, number2);
-            prod = multiply(number1.getDigits(), number2.getDigits());
-            swap(number1, number2);
-        } else {
-            prod = multiply(number1.getDigits(), number2.getDigits());
+    public HyperReal execute(HyperReal number1, HyperReal number2) {
+        if (number1 instanceof HyperInteger && number2 instanceof HyperInteger) {
+            return getProduct((HyperInteger) number1, (HyperInteger) number2);
         }
+
+        throw new  IllegalArgumentException(String.format("%s %s", MULTIPLICATION, NUMBERS_NOT_SUPPORTED));
+    }
+
+    @NotNull
+    private HyperReal getProduct(HyperInteger number1, HyperInteger number2) {
+        HyperReal prod;
+
+        if (number1.toString().equals(Constants.ZERO) || number2.toString().equals(Constants.ZERO)) return new HyperInteger(Constants.ZERO);
+        if (number1.toString().equals(Constants.ONE)) return number2;
+        if (number2.toString().equals(Constants.ONE)) return number1;
+
+        prod = multiply(number1.getDigits(), number2.getDigits());
+
         if (number1.getSign() != number2.getSign()) {
-            prod.setSign(-1);
+            prod.setNegative();
         } else {
-            prod.setSign(1);
+            prod.setPositive();
         }
 
         return prod;
     }
 
-    private HyperInteger multiply(byte[] number1, byte[] number2) {
-        ArrayList<ArrayList<Integer>> graph = new ArrayList<>(number2.length);
+    private HyperReal multiply(byte[] number1, byte[] number2) {
+        List<List<Integer>> graph = new ArrayList<>();
         for (int i = 0; i < number2.length; i++) {
             graph.add(new ArrayList<>());
         }
@@ -61,13 +68,13 @@ public class MultiplyOperation implements Operation {
             }
         }
 
-        HyperInteger sum = new HyperInteger(ZERO);
-        for (ArrayList<Integer> integers : graph) {
+        HyperReal sum = new HyperInteger(Constants.ZERO);
+        for (List<Integer> integers : graph) {
             Collections.reverse(integers);
             HyperInteger tmp = new HyperInteger();
             tmp.setDigits(new byte[integers.size()]);
             for (int j = 0; j < integers.size(); j++) {
-                tmp.getDigits()[j] = integers.get(j).byteValue();
+                tmp.setDigit(j, integers.get(j).byteValue());
             }
             sum = sum.add(tmp);
         }
