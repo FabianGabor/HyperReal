@@ -92,8 +92,12 @@ public class SubtractOperation implements Operation {
             int localDiff = 0;
             localDiff -= carry;
 
-            if (i < revNumber1.length) localDiff += revNumber1[i];
-            if (j < revNumber2.length) localDiff -= revNumber2[j];
+            if (i < revNumber1.length) {
+                localDiff += revNumber1[i];
+            }
+            if (j < revNumber2.length) {
+                localDiff -= revNumber2[j];
+            }
 
             i++;
             j++;
