@@ -6,12 +6,11 @@
 
 package com.fabiangabor.hyperreal.operation;
 
-import com.fabiangabor.hyperreal.domain.Constants;
 import com.fabiangabor.hyperreal.domain.HyperInteger;
 import com.fabiangabor.hyperreal.domain.HyperReal;
 
 import static com.fabiangabor.hyperreal.domain.Constants.*;
-import static com.fabiangabor.hyperreal.service.HelperService.*;
+import static com.fabiangabor.hyperreal.service.HelperService.reverse;
 
 public class AddOperation implements Operation {
     @Override
@@ -26,31 +25,31 @@ public class AddOperation implements Operation {
     private HyperReal add(HyperInteger number1, HyperInteger number2) {
         Operation subtract = new SubtractOperation();
 
-        if (number1.toString().equals(Constants.ZERO)) return number2;
-        if (number2.toString().equals(Constants.ZERO)) return number1;
+        if (number1.toString().equals(ZERO)) return number2;
+        if (number2.toString().equals(ZERO)) return number1;
 
-        if (number1.getSign() >= Constants.ZERO_SIGN_VAL && number2.getSign() >= Constants.ZERO_SIGN_VAL) {
+        if (number1.getSign() >= ZERO_SIGN_VAL && number2.getSign() >= ZERO_SIGN_VAL) {
             return new HyperInteger(add(number1.getDigits(), number2.getDigits()));
         }
-        if (number1.getSign() < Constants.ZERO_SIGN_VAL && number2.getSign() < Constants.ZERO_SIGN_VAL) {
-            return new HyperInteger(add(number1.getDigits(), number2.getDigits()), Constants.NEGATIVE_SIGN_VAL);
+        if (number1.getSign() < ZERO_SIGN_VAL && number2.getSign() < ZERO_SIGN_VAL) {
+            return new HyperInteger(add(number1.getDigits(), number2.getDigits()), NEGATIVE_SIGN_VAL);
         }
 
         // fentebb ellenőriztük az előjelek egyezését. Alább már különböző előjelűek a számok
-        if (number1.abs().compareTo(number2.abs()) == Constants.EQUAL) {
-            return new HyperInteger(Constants.ZERO);
+        if (number1.abs().compareTo(number2.abs()) == EQUAL) {
+            return new HyperInteger(ZERO);
         }
 
-        if (number1.compareTo(number2) == Constants.BIGGER) {
+        if (number1.compareTo(number2) == BIGGER) {
             if (number1.abs().compareTo(number2.abs()) > 0) {
                 return new HyperInteger(subtract.execute(number1, number2).toString());
             } else {
-                return new HyperInteger(subtract.execute(number2, number1).toString(), Constants.NEGATIVE_SIGN_VAL);
+                return new HyperInteger(subtract.execute(number2, number1).toString(), NEGATIVE_SIGN_VAL);
             }
         }
-        if (number1.compareTo(number2) == Constants.SMALLER) {
+        if (number1.compareTo(number2) == SMALLER) {
             if (number1.abs().compareTo(number2.abs()) > 0) {
-                return new HyperInteger(subtract.execute(number1, number2).toString(), Constants.NEGATIVE_SIGN_VAL);
+                return new HyperInteger(subtract.execute(number1, number2).toString(), NEGATIVE_SIGN_VAL);
             } else {
                 return new HyperInteger(subtract.execute(number2, number1).toString());
             }

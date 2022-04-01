@@ -6,7 +6,6 @@
 
 package com.fabiangabor.hyperreal.operation;
 
-import com.fabiangabor.hyperreal.domain.Constants;
 import com.fabiangabor.hyperreal.domain.HyperInteger;
 import com.fabiangabor.hyperreal.domain.HyperReal;
 import org.jetbrains.annotations.NotNull;
@@ -31,9 +30,9 @@ public class MultiplyOperation implements Operation {
     private HyperReal getProduct(HyperInteger number1, HyperInteger number2) {
         HyperReal prod;
 
-        if (number1.toString().equals(Constants.ZERO) || number2.toString().equals(Constants.ZERO)) return new HyperInteger(Constants.ZERO);
-        if (number1.toString().equals(Constants.ONE)) return number2;
-        if (number2.toString().equals(Constants.ONE)) return number1;
+        if (number1.toString().equals(ZERO) || number2.toString().equals(ZERO)) return new HyperInteger(ZERO);
+        if (number1.toString().equals(ONE)) return number2;
+        if (number2.toString().equals(ONE)) return number1;
 
         prod = multiply(number1.getDigits(), number2.getDigits());
 
@@ -68,7 +67,7 @@ public class MultiplyOperation implements Operation {
             }
         }
 
-        HyperReal sum = new HyperInteger(Constants.ZERO);
+        HyperReal sum = new HyperInteger(ZERO);
         for (List<Integer> integers : graph) {
             Collections.reverse(integers);
             HyperInteger tmp = new HyperInteger();

@@ -43,7 +43,7 @@ public class HyperInteger implements HyperReal{
     }
 
     public byte[] getDigits() {
-        return digits;
+        return digits.clone();
     }
 
     public void setDigits(byte[] digits) {
