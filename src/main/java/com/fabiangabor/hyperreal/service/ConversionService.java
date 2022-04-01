@@ -81,7 +81,7 @@ public final class ConversionService {
 
     public static HyperReal stripLeadingZeros(HyperReal hyperInteger) {
         StringBuilder sb = new StringBuilder(hyperInteger.toString());
-        int i = (hyperInteger.getSign() < 0) ? 1 : 0;
+        int i = hyperInteger.getSign() == NEGATIVE_SIGN_VAL ? 1 : 0;
         while (sb.charAt(i) == ZERO.charAt(0) && sb.length() > 1) {
             sb.deleteCharAt(i);
         }
