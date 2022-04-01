@@ -21,14 +21,18 @@ public class AddOperation implements Operation {
             return add((HyperInteger) number1, (HyperInteger) number2);
         }
 
-        throw new  IllegalArgumentException(String.format("%s %s", ExceptionMessageConstants.ADDITION, ExceptionMessageConstants.UNSUPPORTED_NUMBER));
+        throw new IllegalArgumentException(String.format("%s %s", ExceptionMessageConstants.ADDITION, ExceptionMessageConstants.UNSUPPORTED_NUMBER));
     }
 
     private HyperReal add(HyperInteger number1, HyperInteger number2) {
         Operation subtract = new SubtractOperation();
 
-        if (number1.toString().equals(ZERO)) return number2;
-        if (number2.toString().equals(ZERO)) return number1;
+        if (number1.toString().equals(ZERO)) {
+            return number2;
+        }
+        if (number2.toString().equals(ZERO)) {
+            return number1;
+        }
 
         if (number1.getSign() >= ZERO_SIGN_VAL && number2.getSign() >= ZERO_SIGN_VAL) {
             return new HyperInteger(add(number1.getDigits(), number2.getDigits()));

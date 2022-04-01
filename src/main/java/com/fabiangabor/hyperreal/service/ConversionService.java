@@ -65,23 +65,26 @@ public final class ConversionService {
     }
 
     public static String stripLeadingZeros(StringBuilder diff) {
-        while (diff.charAt(0) == ZERO.charAt(0) && diff.length() > 1)
+        while (diff.charAt(0) == ZERO.charAt(0) && diff.length() > 1) {
             diff.deleteCharAt(0);
+        }
         return diff.toString();
     }
 
     public static String stripLeadingZeros(String s) {
         StringBuilder diff = new StringBuilder(s);
-        while (diff.charAt(0) == ZERO.charAt(0) && diff.length() > 1)
+        while (diff.charAt(0) == ZERO.charAt(0) && diff.length() > 1) {
             diff.deleteCharAt(0);
+        }
         return diff.toString();
     }
 
     public static HyperReal stripLeadingZeros(HyperReal hyperInteger) {
         StringBuilder sb = new StringBuilder(hyperInteger.toString());
         int i = (hyperInteger.getSign() < 0) ? 1 : 0;
-        while (sb.charAt(i) == ZERO.charAt(0) && sb.length() > 1)
+        while (sb.charAt(i) == ZERO.charAt(0) && sb.length() > 1) {
             sb.deleteCharAt(i);
+        }
 
         return new HyperInteger(sb.toString());
     }

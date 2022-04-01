@@ -26,16 +26,22 @@ public class MultiplyOperation implements Operation {
             return getProduct((HyperInteger) number1, (HyperInteger) number2);
         }
 
-        throw new  IllegalArgumentException(String.format("%s %s", ExceptionMessageConstants.MULTIPLICATION, ExceptionMessageConstants.UNSUPPORTED_NUMBER));
+        throw new IllegalArgumentException(String.format("%s %s", ExceptionMessageConstants.MULTIPLICATION, ExceptionMessageConstants.UNSUPPORTED_NUMBER));
     }
 
     @NotNull
     private HyperReal getProduct(HyperInteger number1, HyperInteger number2) {
         HyperReal prod;
 
-        if (number1.toString().equals(ZERO) || number2.toString().equals(ZERO)) return new HyperInteger(ZERO);
-        if (number1.toString().equals(ONE)) return number2;
-        if (number2.toString().equals(ONE)) return number1;
+        if (number1.toString().equals(ZERO) || number2.toString().equals(ZERO)) {
+            return new HyperInteger(ZERO);
+        }
+        if (number1.toString().equals(ONE)) {
+            return number2;
+        }
+        if (number2.toString().equals(ONE)) {
+            return number1;
+        }
 
         prod = multiply(number1.getDigits(), number2.getDigits());
 
