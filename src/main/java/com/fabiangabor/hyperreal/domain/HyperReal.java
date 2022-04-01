@@ -19,7 +19,7 @@ public interface HyperReal {
     HyperReal abs();
 
     int compareTo(HyperReal x);
-
+//
     int getSign();
 
     void setPositive();
