@@ -15,6 +15,14 @@ import static com.fabiangabor.hyperreal.service.HelperService.reverse;
 public class AddOperation implements Operation {
     @Override
     public HyperReal execute(HyperReal number1, HyperReal number2) {
+        if (number1 instanceof HyperInteger && number2 instanceof HyperInteger) {
+            return add((HyperInteger) number1, (HyperInteger) number2);
+        }
+
+        throw new  IllegalArgumentException("Addition is not supported for this type of numbers");
+    }
+
+    private HyperReal add(HyperInteger number1, HyperInteger number2) {
         Operation subtract = new SubtractOperation();
 
         if (number1.toString().equals(ZERO)) return number2;
@@ -47,7 +55,6 @@ public class AddOperation implements Operation {
             }
         }
         return null;
-
     }
 
     private String add(byte[] number1, byte[] number2) {

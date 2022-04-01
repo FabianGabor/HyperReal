@@ -8,33 +8,37 @@ package com.fabiangabor.hyperreal.operation;
 
 import com.fabiangabor.hyperreal.domain.HyperInteger;
 import com.fabiangabor.hyperreal.domain.HyperReal;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 import static com.fabiangabor.hyperreal.domain.HyperInteger.ZERO;
-import static com.fabiangabor.hyperreal.service.HelperService.swap;
 
 public class MultiplyOperation implements Operation {
     @Override
     public HyperReal execute(HyperReal number1, HyperReal number2) {
+        if (number1 instanceof HyperInteger && number2 instanceof HyperInteger) {
+            return getProduct((HyperInteger) number1, (HyperInteger) number2);
+        }
+
+        throw new  IllegalArgumentException("Multiplication is not supported for this type of numbers");
+    }
+
+    @NotNull
+    private HyperReal getProduct(HyperInteger number1, HyperInteger number2) {
         HyperReal prod;
 
         if (number1.toString().equals(ZERO) || number2.toString().equals(ZERO)) return new HyperInteger(ZERO);
         if (number1.toString().equals("1")) return number2;
         if (number2.toString().equals("1")) return number1;
 
-        if (number1.abs().compareTo(number2.abs()) < 0) {
-            swap(number1, number2);
-            prod = multiply(number1.getDigits(), number2.getDigits());
-            swap(number1, number2);
-        } else {
-            prod = multiply(number1.getDigits(), number2.getDigits());
-        }
+        prod = multiply(number1.getDigits(), number2.getDigits());
+
         if (number1.getSign() != number2.getSign()) {
-            prod.setSign(-1);
+            prod.setNegative();
         } else {
-            prod.setSign(1);
+            prod.setPositive();
         }
 
         return prod;

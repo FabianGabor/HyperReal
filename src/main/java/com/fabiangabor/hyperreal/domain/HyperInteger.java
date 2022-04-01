@@ -50,12 +50,28 @@ public class HyperInteger implements HyperReal{
         this.sign = sign;
     }
 
+    public void setPositive() {
+        this.sign = 1;
+    }
+
+    public void setNegative() {
+        this.sign = -1;
+    }
+
     public byte[] getDigits() {
         return digits;
     }
 
     public void setDigits(byte[] digits) {
         this.digits = digits;
+    }
+
+    public int getLength() {
+        return this.digits.length;
+    }
+
+    public byte getDigit(int index) {
+        return this.digits[index];
     }
 
     public HyperReal add(HyperReal number2) {
@@ -97,19 +113,11 @@ public class HyperInteger implements HyperReal{
         if (returnValue != 0) return returnValue;
 
         for (int i = 0; i < this.digits.length; i++) {
-            if (this.digits[i] > number2.getDigits()[i]) {
-                if (this.sign == 1) {
-                    return 1;
-                } else {
-                    return -1;
-                }
+            if (this.getDigit(i) > number2.getDigit(i)) {
+                return this.sign;
             }
-            if (number2.getDigits()[i] > this.digits[i]) {
-                if (this.sign == 1) {
-                    return -1;
-                } else {
-                    return 1;
-                }
+            if (number2.getDigit(i) > this.getDigit(i)) {
+                return this.sign * -1;
             }
         }
 
