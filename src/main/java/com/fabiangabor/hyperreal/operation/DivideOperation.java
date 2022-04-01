@@ -6,24 +6,28 @@
 
 package com.fabiangabor.hyperreal.operation;
 
-import com.fabiangabor.hyperreal.constants.ExceptionMessageConstants;
 import com.fabiangabor.hyperreal.domain.HyperInteger;
 import com.fabiangabor.hyperreal.domain.HyperReal;
 import com.fabiangabor.hyperreal.service.ConversionService;
 import org.jetbrains.annotations.NotNull;
 
 import static com.fabiangabor.hyperreal.constants.EqualityConstants.*;
+import static com.fabiangabor.hyperreal.constants.ExceptionMessageConstants.*;
 import static com.fabiangabor.hyperreal.constants.NumberConstants.*;
 import static com.fabiangabor.hyperreal.service.HelperService.subArray;
 
 public class DivideOperation implements Operation {
+
+    public DivideOperation() {
+    }
+
     @Override
     public HyperReal execute(HyperReal number1, HyperReal number2) {
         if (number1 instanceof HyperInteger && number2 instanceof HyperInteger) {
             return divide((HyperInteger) number1, (HyperInteger) number2);
         }
 
-        throw new IllegalArgumentException(String.format("%s %s", ExceptionMessageConstants.DIVISION, ExceptionMessageConstants.UNSUPPORTED_NUMBER));
+        throw new IllegalArgumentException(String.format("%s %s", DIVISION, UNSUPPORTED_NUMBER));
     }
 
     @NotNull
@@ -32,7 +36,7 @@ public class DivideOperation implements Operation {
             return new HyperInteger(ZERO);
         }
         if (number2.toString().equals(ZERO)) {
-            throw new ArithmeticException(ExceptionMessageConstants.DIVISION_BY_ZERO);
+            throw new ArithmeticException(DIVISION_BY_ZERO);
         }
         if (number2.toString().equals(ONE)) {
             return number1;

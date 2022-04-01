@@ -6,7 +6,6 @@
 
 package com.fabiangabor.hyperreal.operation;
 
-import com.fabiangabor.hyperreal.constants.ExceptionMessageConstants;
 import com.fabiangabor.hyperreal.domain.HyperInteger;
 import com.fabiangabor.hyperreal.domain.HyperReal;
 import org.jetbrains.annotations.NotNull;
@@ -17,16 +16,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.fabiangabor.hyperreal.constants.NumberConstants.*;
+import static com.fabiangabor.hyperreal.constants.ExceptionMessageConstants.MULTIPLICATION;
+import static com.fabiangabor.hyperreal.constants.ExceptionMessageConstants.UNSUPPORTED_NUMBER;
+import static com.fabiangabor.hyperreal.constants.NumberConstants.ONE;
+import static com.fabiangabor.hyperreal.constants.NumberConstants.ZERO;
 
 public class MultiplyOperation implements Operation {
+
+    public MultiplyOperation() {
+    }
+
     @Override
     public HyperReal execute(HyperReal number1, HyperReal number2) {
         if (number1 instanceof HyperInteger && number2 instanceof HyperInteger) {
             return getProduct((HyperInteger) number1, (HyperInteger) number2);
         }
 
-        throw new IllegalArgumentException(String.format("%s %s", ExceptionMessageConstants.MULTIPLICATION, ExceptionMessageConstants.UNSUPPORTED_NUMBER));
+        throw new IllegalArgumentException(String.format("%s %s", MULTIPLICATION, UNSUPPORTED_NUMBER));
     }
 
     @NotNull
