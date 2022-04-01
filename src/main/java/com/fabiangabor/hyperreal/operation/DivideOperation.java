@@ -66,6 +66,8 @@ public class DivideOperation implements Operation {
         StringBuilder sq = new StringBuilder();
         HyperReal subDivident;
         HyperReal remainder = new HyperInteger(ZERO);
+        HyperReal subQuotient;
+        HyperReal tmp;
 
         for (int end = 1; end < number1.getLength() + 1; end++) {
             if (remainder.getSign() == ZERO_SIGN_VAL) {
@@ -74,8 +76,8 @@ public class DivideOperation implements Operation {
                 subDivident = subArray(number1, start, end).abs().add(remainder.multiply(new HyperInteger(TEN)).abs());
             }
 
-            HyperReal subQuotient = new HyperInteger(TEN);
-            HyperReal tmp;
+            subQuotient = new HyperInteger(TEN);
+
             do {
                 subQuotient = subQuotient.subtract(new HyperInteger(ONE)); // subQuotient--
                 tmp = number2.multiply(subQuotient).abs();
