@@ -9,10 +9,12 @@ package com.fabiangabor.hyperreal.service;
 import com.fabiangabor.hyperreal.domain.HyperInteger;
 import com.fabiangabor.hyperreal.domain.HyperReal;
 
+import static com.fabiangabor.hyperreal.domain.Constants.MSG_UTILITY_CLASS;
+
 public final class HelperService {
 
     private HelperService() {
-        throw new IllegalStateException("Cannot be instantiated");
+        throw new IllegalStateException(MSG_UTILITY_CLASS);
     }
 
     public static byte[] reverse(byte[] num) {

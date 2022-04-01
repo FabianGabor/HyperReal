@@ -6,12 +6,13 @@
 
 package com.fabiangabor.hyperreal.operation;
 
+import com.fabiangabor.hyperreal.domain.Constants;
 import com.fabiangabor.hyperreal.domain.HyperInteger;
 import com.fabiangabor.hyperreal.domain.HyperReal;
 import com.fabiangabor.hyperreal.service.ConversionService;
 
-import static com.fabiangabor.hyperreal.domain.HyperInteger.ZERO;
-import static com.fabiangabor.hyperreal.service.HelperService.reverse;
+import static com.fabiangabor.hyperreal.domain.Constants.*;
+import static com.fabiangabor.hyperreal.service.HelperService.*;
 
 public class SubtractOperation implements Operation {
     @Override
@@ -20,34 +21,34 @@ public class SubtractOperation implements Operation {
             return subtract((HyperInteger) number1, (HyperInteger) number2);
         }
 
-        throw new  IllegalArgumentException("Subtraction is not supported for this type of numbers");
+        throw new  IllegalArgumentException(String.format("%s %s", SUBTRACTION, NUMBERS_NOT_SUPPORTED));
     }
 
     private HyperReal subtract(HyperInteger number1, HyperInteger number2) {
 
-        if (number1.compareTo(number2) == 0) {
-            return new HyperInteger(ZERO);
+        if (number1.compareTo(number2) == Constants.EQUAL) {
+            return new HyperInteger(Constants.ZERO);
         }
 
-        if (number1.getSign() >= 0 && number2.getSign() >= 0) {
+        if (number1.getSign() >= Constants.ZERO_SIGN_VAL && number2.getSign() >= Constants.ZERO_SIGN_VAL) {
             return getDiff(number1, number2);
         }
 
-        if (number1.getSign() < 0 && number2.getSign() < 0) {
-            if (number1.abs().compareTo(number2.abs()) > 0) {
-                return new HyperInteger(subtract(number1.getDigits(), number2.getDigits()), -1);
+        if (number1.getSign() == Constants.NEGATIVE_SIGN_VAL && number2.getSign() == Constants.NEGATIVE_SIGN_VAL) {
+            if (number1.abs().compareTo(number2.abs()) == Constants.BIGGER) {
+                return new HyperInteger(subtract(number1.getDigits(), number2.getDigits()), Constants.NEGATIVE_SIGN_VAL);
             } else {
-                return new HyperInteger(subtract(number2.getDigits(), number1.getDigits()), 1);
+                return new HyperInteger(subtract(number2.getDigits(), number1.getDigits()), Constants.POSITIVE_SIGN_VAL);
             }
         }
 
         Operation add = new AddOperation();
 
-        if (number1.compareTo(number2) > 0) {
+        if (number1.compareTo(number2) == Constants.BIGGER) {
             return new HyperInteger(add.execute(number1, number2).toString());
         }
-        if (number1.compareTo(number2) < 0) {
-            return new HyperInteger(add.execute(number1, number2).toString(), -1);
+        if (number1.compareTo(number2) == Constants.SMALLER) {
+            return new HyperInteger(add.execute(number1, number2).toString(), Constants.NEGATIVE_SIGN_VAL);
         }
 
         return null;
@@ -56,14 +57,14 @@ public class SubtractOperation implements Operation {
     private HyperReal getDiff(HyperInteger number1, HyperInteger number2) {
         HyperInteger diff;
 
-        if (number1.compareTo(number2) < 0) {
+        if (number1.compareTo(number2) == Constants.SMALLER) {
             diff = new HyperInteger(subtract(number1.getDigits(), number2.getDigits()));
-            diff.setSign(-1);
+            diff.setNegative();
             return diff;
         }
 
-        if (number1.compareTo(number2) == 0) {
-            diff = new HyperInteger(ZERO);
+        if (number1.compareTo(number2) == Constants.EQUAL) {
+            diff = new HyperInteger(Constants.ZERO);
             return diff;
         }
 
