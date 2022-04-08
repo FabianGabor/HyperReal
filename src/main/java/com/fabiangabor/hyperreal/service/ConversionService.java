@@ -23,7 +23,7 @@ public final class ConversionService {
         HyperInteger hyperInteger = new HyperInteger();
 
         if (number.equals(ZERO)) {
-            hyperInteger.setSign(0);
+            hyperInteger.setSign(ZERO_SIGN_VAL);
             hyperInteger.setDigits(new byte[]{0});
             return hyperInteger;
         } else {
