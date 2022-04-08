@@ -111,6 +111,6 @@ public class SubtractOperation implements Operation {
 
         diff.reverse();
 
-        return ConversionService.stripLeadingZeros(diff);
+        return ConversionService.stripLeadingZeros(diff.toString());
     }
 }
