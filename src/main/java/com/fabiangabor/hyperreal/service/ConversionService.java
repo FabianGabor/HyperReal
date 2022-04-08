@@ -25,7 +25,6 @@ public final class ConversionService {
         if (number.equals(ZERO)) {
             hyperInteger.setSign(ZERO_SIGN_VAL);
             hyperInteger.setDigits(new byte[]{0});
-            return hyperInteger;
         } else {
             String[] sign = number.split(SIGN_REGEX);
             String[] digits = number.split(DIGITS_REGEX);
