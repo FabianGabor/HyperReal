@@ -17,6 +17,8 @@ public final class NumberConstants {
     public static final String ZERO = "0";
     public static final String ONE = "1";
     public static final String TEN = "10";
+    public static final String SIGN_REGEX = "([0-9]+)";
+    public static final String DIGITS_REGEX = "([+-])";
 
     private NumberConstants() {
         throw new IllegalStateException(MSG_UTILITY_CLASS);

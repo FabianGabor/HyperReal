@@ -27,8 +27,8 @@ public final class ConversionService {
             hyperInteger.setDigits(new byte[]{0});
             return hyperInteger;
         } else {
-            String[] sign = number.split("([0-9]+)");
-            String[] digits = number.split("([+-])");
+            String[] sign = number.split(SIGN_REGEX);
+            String[] digits = number.split(DIGITS_REGEX);
 
             number = stripLeadingZeros(digits[digits.length - 1]);
             hyperInteger.setSign(calculateSign(number, sign));
