@@ -72,32 +72,33 @@ public class AddOperation implements Operation {
 
         int i = 0;
         int carry = 0;
+        int localSum;
 
         do {
-            int localSum = 0;
+            localSum = addDigits(revNumber1, revNumber2, i);
             localSum += carry;
 
-            if (i < revNumber1.length) {
-                localSum += revNumber1[i];
-            }
-            if (i < revNumber2.length) {
-                localSum += revNumber2[i];
-            }
-
-            i++;
-
-            if (localSum > 9) {
-                localSum -= 10;
-                carry = 1;
-            } else {
-                carry = 0;
-            }
+            carry = localSum / 10;
+            localSum %= 10;
 
             sum.append(localSum);
+
+            i++;
         } while (carry > 0 || i < revNumber1.length || i < revNumber2.length);
 
         sum.reverse();
 
         return sum.toString();
+    }
+
+    private int addDigits(byte[] revNumber1, byte[] revNumber2, int i) {
+        int localSum = 0;
+        if (i < revNumber1.length) {
+            localSum += revNumber1[i];
+        }
+        if (i < revNumber2.length) {
+            localSum += revNumber2[i];
+        }
+        return localSum;
     }
 }
