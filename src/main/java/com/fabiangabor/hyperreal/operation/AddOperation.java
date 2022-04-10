@@ -50,17 +50,17 @@ public class AddOperation implements Operation {
         Operation subtract = new SubtractOperation();
 
         if (number1.compareTo(number2) == BIGGER) {
-            if (number1.abs().compareTo(number2.abs()) > 0) {
+            if (number1.abs().compareTo(number2.abs()) == BIGGER) {
                 return new HyperInteger(subtract.execute(number1, number2).toString());
             } else {
                 return new HyperInteger(subtract.execute(number2, number1).toString(), NEGATIVE_SIGN_VAL);
             }
         }
-        if (number1.compareTo(number2) == SMALLER) {
-            if (number1.abs().compareTo(number2.abs()) > 0) {
-                return new HyperInteger(subtract.execute(number1, number2).toString(), NEGATIVE_SIGN_VAL);
-            }
+
+        if (number1.abs().compareTo(number2.abs()) == BIGGER) {
+            return new HyperInteger(subtract.execute(number1, number2).toString(), NEGATIVE_SIGN_VAL);
         }
+
         return new HyperInteger(subtract.execute(number2, number1).toString());
     }
 
