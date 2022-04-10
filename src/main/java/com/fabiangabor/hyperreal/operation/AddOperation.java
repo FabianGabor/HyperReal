@@ -27,7 +27,6 @@ public class AddOperation implements Operation {
     }
 
     private HyperReal add(HyperInteger number1, HyperInteger number2) {
-        Operation subtract = new SubtractOperation();
 
         if (number1.toString().equals(ZERO)) {
             return number2;
@@ -47,6 +46,8 @@ public class AddOperation implements Operation {
         if (number1.abs().compareTo(number2.abs()) == EQUAL) {
             return new HyperInteger(ZERO);
         }
+
+        Operation subtract = new SubtractOperation();
 
         if (number1.compareTo(number2) == BIGGER) {
             if (number1.abs().compareTo(number2.abs()) > 0) {
