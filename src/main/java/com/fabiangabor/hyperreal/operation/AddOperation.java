@@ -60,6 +60,7 @@ public class AddOperation implements Operation {
         if (number1.abs().compareTo(number2.abs()) == BIGGER) {
             return new HyperInteger(subtract.execute(number1, number2).toString(), NEGATIVE_SIGN_VAL);
         }
+
         return new HyperInteger(subtract.execute(number2, number1).toString());
     }
 
