@@ -71,7 +71,6 @@ public class AddOperation implements Operation {
         byte[] revNumber2 = reverse(number2);
 
         int i = 0;
-        int j = 0;
         int carry = 0;
 
         do {
@@ -81,12 +80,11 @@ public class AddOperation implements Operation {
             if (i < revNumber1.length) {
                 localSum += revNumber1[i];
             }
-            if (j < revNumber2.length) {
-                localSum += revNumber2[j];
+            if (i < revNumber2.length) {
+                localSum += revNumber2[i];
             }
 
             i++;
-            j++;
 
             if (localSum > 9) {
                 localSum -= 10;
@@ -96,7 +94,7 @@ public class AddOperation implements Operation {
             }
 
             sum.append(localSum);
-        } while (carry > 0 || i < revNumber1.length || j < revNumber2.length);
+        } while (carry > 0 || i < revNumber1.length || i < revNumber2.length);
 
         sum.reverse();
 
