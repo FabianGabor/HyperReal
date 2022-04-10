@@ -36,10 +36,10 @@ public class AddOperation implements Operation {
         }
 
         if (number1.getSign() >= ZERO_SIGN_VAL && number2.getSign() >= ZERO_SIGN_VAL) {
-            return new HyperInteger(add(number1.getDigits(), number2.getDigits()));
+            return new HyperInteger(sum(number1, number2));
         }
         if (number1.getSign() < ZERO_SIGN_VAL && number2.getSign() < ZERO_SIGN_VAL) {
-            return new HyperInteger(add(number1.getDigits(), number2.getDigits()), NEGATIVE_SIGN_VAL);
+            return new HyperInteger(sum(number1, number2), NEGATIVE_SIGN_VAL);
         }
 
         // fentebb ellenőriztük az előjelek egyezését. Alább már különböző előjelűek a számok
@@ -64,11 +64,11 @@ public class AddOperation implements Operation {
         return new HyperInteger(subtract.execute(number2, number1).toString());
     }
 
-    private String add(byte[] number1, byte[] number2) {
+    private String sum(HyperInteger number1, HyperInteger number2) {
         StringBuilder sum = new StringBuilder();
 
-        byte[] revNumber1 = reverse(number1);
-        byte[] revNumber2 = reverse(number2);
+        byte[] revNumber1 = reverse(number1.getDigits());
+        byte[] revNumber2 = reverse(number2.getDigits());
 
         int i = 0;
         int carry = 0;
