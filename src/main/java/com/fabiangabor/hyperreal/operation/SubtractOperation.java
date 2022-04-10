@@ -50,11 +50,7 @@ public class SubtractOperation implements Operation {
         if (number1.compareTo(number2) == BIGGER) {
             return new HyperInteger(add.execute(number1, number2).toString());
         }
-        if (number1.compareTo(number2) == SMALLER) {
-            return new HyperInteger(add.execute(number1, number2).toString(), NEGATIVE_SIGN_VAL);
-        }
-
-        return null;
+        return new HyperInteger(add.execute(number1, number2).toString(), NEGATIVE_SIGN_VAL);
     }
 
     private HyperReal getDiff(HyperInteger number1, HyperInteger number2) {
