@@ -37,15 +37,6 @@ public final class ConversionService {
         return hyperInteger;
     }
 
-    private static byte[] getDigitsFromString(String number) {
-        byte[] digits = new byte[number.length()];
-
-        for (int i = 0; i < number.length(); i++) {
-            digits[i] = Byte.parseByte(String.valueOf(number.charAt(i)));
-        }
-        return digits;
-    }
-
     public static String stripLeadingZeros(String s) {
         StringBuilder diff = new StringBuilder(s);
         while (diff.charAt(0) == ZERO.charAt(0) && diff.length() > 1) {
@@ -64,6 +55,15 @@ public final class ConversionService {
         return new HyperInteger(sb.toString());
     }
 
+    private static byte[] getDigitsFromString(String number) {
+        byte[] digits = new byte[number.length()];
+
+        for (int i = 0; i < number.length(); i++) {
+            digits[i] = Byte.parseByte(String.valueOf(number.charAt(i)));
+        }
+        return digits;
+    }
+
     private static int calculateSign(String number, String... sign) {
         checkValidSign(number, sign);
 
@@ -79,7 +79,7 @@ public final class ConversionService {
     }
 
     private static void checkValidSign(String number, String... sign) {
-        if (sign.length == POSITIVE_SIGN_VAL && sign[0].length() > 1) {
+        if (sign.length == 1 && sign[0].length() > 1) {
             throw new NumberFormatException(String.format("%s: %s", ExceptionMessageConstants.INVALID_NUMBER, number));
         }
     }
