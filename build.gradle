@@ -10,12 +10,17 @@ repositories {
     mavenCentral()
 }
 
+application {
+    mainClass = 'Main'
+}
+
 task execute(type: JavaExec) {
     group = "Execution"
     description = "Run the main class with JavaExecTask"
     classpath = sourceSets.main.runtimeClasspath
-    mainClass = "Main"
+    mainClassName = "Main"
 }
+
 
 tasks.withType(Test).configureEach {
     maxParallelForks = 4

@@ -127,7 +127,7 @@ public class HyperInteger implements HyperReal {
     }
 
     public HyperReal abs() {
-        return new HyperInteger(this.toString(), 1);
+        return new HyperInteger(this.toString(), POSITIVE_SIGN_VAL);
     }
 
     public String toString() {

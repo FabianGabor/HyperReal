@@ -23,52 +23,18 @@ public final class ConversionService {
         HyperInteger hyperInteger = new HyperInteger();
 
         if (number.equals(ZERO)) {
-            hyperInteger.setSign(0);
+            hyperInteger.setSign(ZERO_SIGN_VAL);
             hyperInteger.setDigits(new byte[]{0});
-            return hyperInteger;
         } else {
-            String[] sign = number.split("([0-9]+)");
-            String[] digits = number.split("([+-])");
+            String[] sign = number.split(SIGN_REGEX);
+            String[] digits = number.split(DIGITS_REGEX);
 
-            number = stripLeadingZeros(digits[digits.length - 1]);
-            hyperInteger.setSign(calculateSign(number, sign));
-            byte[] num = new byte[number.length()];
-
-            for (int i = 0; i < number.length(); i++) {
-                num[i] = Byte.parseByte(String.valueOf(number.charAt(i)));
-            }
-
-            hyperInteger.setDigits(num);
+            String digitsProcessed = stripLeadingZeros(digits[digits.length - 1]);
+            hyperInteger.setSign(calculateSign(digitsProcessed, sign));
+            hyperInteger.setDigits(getDigitsFromString(digitsProcessed));
         }
 
         return hyperInteger;
-    }
-
-    private static int calculateSign(String number, String... sign) {
-        checkValidSign(number, sign);
-
-        if (number.equals(ZERO)) {
-            return 0;
-        }
-
-        if (sign.length == 1 && sign[0].equals(NEGATIVE_SIGN)) {
-            return NEGATIVE_SIGN_VAL;
-        }
-
-        return POSITIVE_SIGN_VAL;
-    }
-
-    private static void checkValidSign(String number, String... sign) {
-        if (sign.length == POSITIVE_SIGN_VAL && sign[0].length() > 1) {
-            throw new NumberFormatException(String.format("%s: %s", ExceptionMessageConstants.INVALID_NUMBER, number));
-        }
-    }
-
-    public static String stripLeadingZeros(StringBuilder diff) {
-        while (diff.charAt(0) == ZERO.charAt(0) && diff.length() > 1) {
-            diff.deleteCharAt(0);
-        }
-        return diff.toString();
     }
 
     public static String stripLeadingZeros(String s) {
@@ -87,5 +53,34 @@ public final class ConversionService {
         }
 
         return new HyperInteger(sb.toString());
+    }
+
+    private static byte[] getDigitsFromString(String number) {
+        byte[] digits = new byte[number.length()];
+
+        for (int i = 0; i < number.length(); i++) {
+            digits[i] = Byte.parseByte(String.valueOf(number.charAt(i)));
+        }
+        return digits;
+    }
+
+    private static int calculateSign(String number, String... sign) {
+        checkValidSign(number, sign);
+
+        if (number.equals(ZERO)) {
+            return ZERO_SIGN_VAL;
+        }
+
+        if (sign.length == 1 && sign[0].equals(NEGATIVE_SIGN)) {
+            return NEGATIVE_SIGN_VAL;
+        }
+
+        return POSITIVE_SIGN_VAL;
+    }
+
+    private static void checkValidSign(String number, String... sign) {
+        if (sign.length == 1 && sign[0].length() > 1) {
+            throw new NumberFormatException(String.format("%s: %s", ExceptionMessageConstants.INVALID_NUMBER, number));
+        }
     }
 }

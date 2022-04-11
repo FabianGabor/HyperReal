@@ -27,7 +27,6 @@ public class AddOperation implements Operation {
     }
 
     private HyperReal add(HyperInteger number1, HyperInteger number2) {
-        Operation subtract = new SubtractOperation();
 
         if (number1.toString().equals(ZERO)) {
             return number2;
@@ -37,10 +36,10 @@ public class AddOperation implements Operation {
         }
 
         if (number1.getSign() >= ZERO_SIGN_VAL && number2.getSign() >= ZERO_SIGN_VAL) {
-            return new HyperInteger(add(number1.getDigits(), number2.getDigits()));
+            return new HyperInteger(sum(number1, number2));
         }
         if (number1.getSign() < ZERO_SIGN_VAL && number2.getSign() < ZERO_SIGN_VAL) {
-            return new HyperInteger(add(number1.getDigits(), number2.getDigits()), NEGATIVE_SIGN_VAL);
+            return new HyperInteger(sum(number1, number2), NEGATIVE_SIGN_VAL);
         }
 
         // fentebb ellenőriztük az előjelek egyezését. Alább már különböző előjelűek a számok
@@ -48,59 +47,57 @@ public class AddOperation implements Operation {
             return new HyperInteger(ZERO);
         }
 
+        Operation subtract = new SubtractOperation();
+
         if (number1.compareTo(number2) == BIGGER) {
-            if (number1.abs().compareTo(number2.abs()) > 0) {
+            if (number1.abs().compareTo(number2.abs()) == BIGGER) {
                 return new HyperInteger(subtract.execute(number1, number2).toString());
             } else {
                 return new HyperInteger(subtract.execute(number2, number1).toString(), NEGATIVE_SIGN_VAL);
             }
         }
-        if (number1.compareTo(number2) == SMALLER) {
-            if (number1.abs().compareTo(number2.abs()) > 0) {
-                return new HyperInteger(subtract.execute(number1, number2).toString(), NEGATIVE_SIGN_VAL);
-            } else {
-                return new HyperInteger(subtract.execute(number2, number1).toString());
-            }
+
+        if (number1.abs().compareTo(number2.abs()) == BIGGER) {
+            return new HyperInteger(subtract.execute(number1, number2).toString(), NEGATIVE_SIGN_VAL);
         }
-        return null;
+
+        return new HyperInteger(subtract.execute(number2, number1).toString());
     }
 
-    private String add(byte[] number1, byte[] number2) {
+    private String sum(HyperInteger number1, HyperInteger number2) {
         StringBuilder sum = new StringBuilder();
 
-        byte[] revNumber1 = reverse(number1);
-        byte[] revNumber2 = reverse(number2);
+        byte[] revNumber1 = reverse(number1.getDigits());
+        byte[] revNumber2 = reverse(number2.getDigits());
 
         int i = 0;
-        int j = 0;
         int carry = 0;
+        int localSum;
 
         do {
-            int localSum = 0;
+            localSum = addDigits(revNumber1, revNumber2, i);
             localSum += carry;
 
-            if (i < revNumber1.length) {
-                localSum += revNumber1[i];
-            }
-            if (j < revNumber2.length) {
-                localSum += revNumber2[j];
-            }
+            carry = localSum / 10;
+
+            sum.append(localSum % 10);
 
             i++;
-            j++;
-
-            if (localSum > 9) {
-                localSum -= 10;
-                carry = 1;
-            } else {
-                carry = 0;
-            }
-
-            sum.append(localSum);
-        } while (carry > 0 || i < revNumber1.length || j < revNumber2.length);
+        } while (carry > 0 || i < revNumber1.length || i < revNumber2.length);
 
         sum.reverse();
 
         return sum.toString();
+    }
+
+    private int addDigits(byte[] revNumber1, byte[] revNumber2, int i) {
+        int localSum = 0;
+        if (i < revNumber1.length) {
+            localSum += revNumber1[i];
+        }
+        if (i < revNumber2.length) {
+            localSum += revNumber2[i];
+        }
+        return localSum;
     }
 }

@@ -143,46 +143,39 @@ class TestHyperInteger {
         assertEquals(EXPECTED, underTest.toString());
     }
 
+    private static Stream<Arguments> subtractionParameters() {
+        return Stream.of(
+                Arguments.of("0", "0", "0"),
+                Arguments.of("0", "1", "-1"),
+                Arguments.of("1", "0", "1"),
+                Arguments.of("1", "1", "0"),
+                Arguments.of("1", "-1", "2"),
+                Arguments.of("-1", "1", "-2"),
+                Arguments.of("-1", "-1", "0"),
+                Arguments.of("-1", "0", "-1"),
+                Arguments.of("0", "-1", "1"),
+                Arguments.of("123", "1", "122"),
+                Arguments.of("-123", "1", "-124"),
+                Arguments.of("-123", "-1", "-122"),
+                Arguments.of("-1", "-123", "122"),
+                Arguments.of("123", "-1", "124"),
+                Arguments.of("123", "123", "0"),
+                Arguments.of("111111111011111111100", "98765432109876543210", "12345678901234567890" ),
+                Arguments.of("-111111111011111111100", "-98765432109876543210", "-12345678901234567890" )
+        );
+    }
 
-    @Test
-    void subtractShouldReturnDifference() {
-        final String EXPECTED = "122";
-        HyperInteger number1 = new HyperInteger("123");
-        HyperInteger number2 = new HyperInteger("1");
+
+    @ParameterizedTest
+    @MethodSource("subtractionParameters")
+    void subtractShouldReturnDifference(String num1, String num2, final String EXPECTED) {
+        HyperInteger number1 = new HyperInteger(num1);
+        HyperInteger number2 = new HyperInteger(num2);
         underTest = number1.subtract(number2);
 
         assertEquals(EXPECTED, underTest.toString());
     }
 
-    @Test
-    void subtractShouldReturnDifferenceWhenSubtractingBigNumbers() {
-        final String EXPECTED = "12345678901234567890";
-        HyperInteger number1 = new HyperInteger("111111111011111111100");
-        HyperInteger number2 = new HyperInteger("98765432109876543210");
-        underTest = number1.subtract(number2);
-
-        assertEquals(EXPECTED, underTest.toString());
-    }
-
-    @Test
-    void subtractShouldReturnDifferenceWhenSubtractingNegativeNumbers() {
-        final String EXPECTED = "3";
-        HyperInteger number1 = new HyperInteger("-2");
-        HyperInteger number2 = new HyperInteger("-5");
-        underTest = number1.subtract(number2);
-
-        assertEquals(EXPECTED, underTest.toString());
-    }
-
-    @Test
-    void subtractTwoBigNegativeNumbers() {
-        final String EXPECTED = "-12345678901234567890";
-        HyperInteger number1 = new HyperInteger("-111111111011111111100");
-        HyperInteger number2 = new HyperInteger("-98765432109876543210");
-        underTest = number1.subtract(number2);
-
-        assertEquals(EXPECTED, underTest.toString());
-    }
 
     private static Stream<Arguments> multiplicationParameters() {
         return Stream.of(
