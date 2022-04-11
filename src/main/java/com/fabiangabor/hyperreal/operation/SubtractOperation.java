@@ -59,10 +59,9 @@ public class SubtractOperation implements Operation {
         if (number1.compareTo(number2) == SMALLER) {
             diff = new HyperInteger(subtract(number2.getDigits(), number1.getDigits()));
             diff.setNegative();
-            return diff;
+        } else {
+            diff = new HyperInteger(subtract(number1.getDigits(), number2.getDigits()));
         }
-
-        diff = new HyperInteger(subtract(number1.getDigits(), number2.getDigits()));
         return diff;
     }
 
