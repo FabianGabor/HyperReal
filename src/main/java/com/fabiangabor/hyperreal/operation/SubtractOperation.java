@@ -48,22 +48,17 @@ public class SubtractOperation implements Operation {
         Operation add = new AddOperation();
 
         if (number1.compareTo(number2) == BIGGER) {
-            return new HyperInteger(add.execute(number1, number2).toString());
+            return new HyperInteger(add.execute(number1.abs(), number2.abs()).toString());
         }
-        return new HyperInteger(add.execute(number1, number2).toString(), NEGATIVE_SIGN_VAL);
+        return new HyperInteger(add.execute(number1.abs(), number2.abs()).toString(), NEGATIVE_SIGN_VAL);
     }
 
     private HyperReal getDiff(HyperInteger number1, HyperInteger number2) {
         HyperInteger diff;
 
         if (number1.compareTo(number2) == SMALLER) {
-            diff = new HyperInteger(subtract(number1.getDigits(), number2.getDigits()));
+            diff = new HyperInteger(subtract(number2.getDigits(), number1.getDigits()));
             diff.setNegative();
-            return diff;
-        }
-
-        if (number1.compareTo(number2) == EQUAL) {
-            diff = new HyperInteger(ZERO);
             return diff;
         }
 
