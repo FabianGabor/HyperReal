@@ -79,9 +79,8 @@ public class AddOperation implements Operation {
             localSum += carry;
 
             carry = localSum / 10;
-            localSum %= 10;
 
-            sum.append(localSum);
+            sum.append(localSum % 10);
 
             i++;
         } while (carry > 0 || i < revNumber1.length || i < revNumber2.length);
