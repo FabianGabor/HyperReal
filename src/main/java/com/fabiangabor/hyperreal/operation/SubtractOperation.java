@@ -8,7 +8,6 @@ package com.fabiangabor.hyperreal.operation;
 
 import com.fabiangabor.hyperreal.domain.HyperInteger;
 import com.fabiangabor.hyperreal.domain.HyperReal;
-import com.fabiangabor.hyperreal.service.ConversionService;
 
 import static com.fabiangabor.hyperreal.constants.EqualityConstants.*;
 import static com.fabiangabor.hyperreal.constants.ExceptionMessageConstants.SUBTRACTION;
@@ -72,22 +71,12 @@ public class SubtractOperation implements Operation {
         byte[] revNumber2 = reverse(number2);
 
         int i = 0;
-        int j = 0;
         int carry = 0;
+        int localDiff;
 
         do {
-            int localDiff = 0;
+            localDiff = subtractDigits(revNumber1, revNumber2, i);
             localDiff -= carry;
-
-            if (i < revNumber1.length) {
-                localDiff += revNumber1[i];
-            }
-            if (j < revNumber2.length) {
-                localDiff -= revNumber2[j];
-            }
-
-            i++;
-            j++;
 
             if (localDiff < 0) {
                 localDiff += 10;
@@ -97,10 +86,24 @@ public class SubtractOperation implements Operation {
             }
 
             diff.append(localDiff);
-        } while (carry > 0 || i < revNumber1.length || j < revNumber2.length);
+
+            i++;
+        } while (carry > 0 || i < revNumber1.length || i < revNumber2.length);
 
         diff.reverse();
 
-        return ConversionService.stripLeadingZeros(diff.toString());
+        return diff.toString();
+    }
+
+    private int subtractDigits(byte[] revNumber1, byte[] revNumber2, int i) {
+        int localDiff = 0;
+
+        if (i < revNumber1.length) {
+            localDiff += revNumber1[i];
+        }
+        if (i < revNumber2.length) {
+            localDiff -= revNumber2[i];
+        }
+        return localDiff;
     }
 }
