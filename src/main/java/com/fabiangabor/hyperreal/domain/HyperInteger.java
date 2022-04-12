@@ -53,6 +53,7 @@ public class HyperInteger implements HyperReal {
         this.digits = digits;
     }
 
+    @Override
     public int getSign() {
         return sign;
     }
@@ -61,18 +62,22 @@ public class HyperInteger implements HyperReal {
         this.sign = sign;
     }
 
+    @Override
     public void setPositive() {
         this.sign = POSITIVE_SIGN_VAL;
     }
 
+    @Override
     public void setNegative() {
         this.sign = NEGATIVE_SIGN_VAL;
     }
 
+    @Override
     public int getLength() {
         return this.digits.length;
     }
 
+    @Override
     public byte getDigit(int index) {
         return this.digits[index];
     }
@@ -81,26 +86,31 @@ public class HyperInteger implements HyperReal {
         this.digits[index] = digit;
     }
 
+    @Override
     public HyperReal add(HyperReal number2) {
         Operation add = new AddOperation();
         return add.execute(this, number2);
     }
 
+    @Override
     public HyperReal subtract(HyperReal number2) {
         Operation subtract = new SubtractOperation();
         return subtract.execute(this, number2);
     }
 
+    @Override
     public HyperReal multiply(HyperReal number2) {
         Operation multiply = new MultiplyOperation();
         return multiply.execute(this, number2);
     }
 
+    @Override
     public HyperReal divide(HyperReal number2) throws ArithmeticException {
         Operation divide = new DivideOperation();
         return divide.execute(this, number2);
     }
 
+    @Override
     public int compareTo(HyperReal number2) {
         int returnValue;
 
