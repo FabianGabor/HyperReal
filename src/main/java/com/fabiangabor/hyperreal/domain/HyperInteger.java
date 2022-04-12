@@ -126,6 +126,51 @@ public class HyperInteger implements HyperReal {
         return 0;
     }
 
+    @Override
+    public boolean isBigger(HyperReal x) {
+        return this.compareTo(x) > 0;
+    }
+
+    @Override
+    public boolean isBiggerOrEqual(HyperReal x) {
+        return this.compareTo(x) >= 0;
+    }
+
+    @Override
+    public boolean isSmaller(HyperReal x) {
+        return this.compareTo(x) < 0;
+    }
+
+    @Override
+    public boolean isSmallerOrEqual(HyperReal x) {
+        return this.compareTo(x) <= 0;
+    }
+
+    @Override
+    public boolean isEqual(HyperReal x) {
+        return this.compareTo(x) == 0;
+    }
+
+    @Override
+    public boolean isPositive() {
+        return this.sign == POSITIVE_SIGN_VAL;
+    }
+
+    @Override
+    public boolean isPositiveOrZero() {
+        return this.sign >= ZERO_SIGN_VAL;
+    }
+
+    @Override
+    public boolean isNegative() {
+        return this.sign == NEGATIVE_SIGN_VAL;
+    }
+
+    @Override
+    public boolean isNegativeOrZero() {
+        return this.sign <= ZERO_SIGN_VAL;
+    }
+
     public HyperReal abs() {
         return new HyperInteger(this.toString(), POSITIVE_SIGN_VAL);
     }

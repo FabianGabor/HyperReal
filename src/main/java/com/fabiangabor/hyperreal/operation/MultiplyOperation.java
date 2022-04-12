@@ -34,15 +34,19 @@ public class MultiplyOperation implements Operation {
 
     @NotNull
     private HyperReal getProduct(HyperInteger number1, HyperInteger number2) {
+
+        final HyperReal zero = new HyperInteger(ZERO);
+        final HyperReal one = new HyperInteger(ONE);
+
         HyperReal prod;
 
-        if (number1.toString().equals(ZERO) || number2.toString().equals(ZERO)) {
-            return new HyperInteger(ZERO);
+        if (number1.isEqual(zero) || number2.isEqual(zero)) {
+            return zero;
         }
-        if (number1.toString().equals(ONE)) {
+        if (number1.isEqual(one)) {
             return number2;
         }
-        if (number2.toString().equals(ONE)) {
+        if (number2.isEqual(one)) {
             return number1;
         }
 

@@ -18,9 +18,25 @@ public interface HyperReal {
 
     HyperReal abs();
 
-    int compareTo(HyperReal x);
+    boolean isBigger(HyperReal x);
+
+    boolean isBiggerOrEqual(HyperReal x);
+
+    boolean isSmaller(HyperReal x);
+
+    boolean isSmallerOrEqual(HyperReal x);
+
+    boolean isEqual(HyperReal x);
 
     int getSign();
+
+    boolean isPositive();
+
+    boolean isPositiveOrZero();
+
+    boolean isNegative();
+
+    boolean isNegativeOrZero();
 
     void setPositive();
 
