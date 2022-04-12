@@ -60,37 +60,60 @@ public class MultiplyOperation implements Operation {
     }
 
     private HyperReal multiply(byte[] number1, byte[] number2) {
-        List<List<Integer>> graph = IntStream.range(0, number2.length).<List<Integer>>mapToObj(i -> new ArrayList<>()).collect(Collectors.toList());
-
-        for (int i = number2.length - 1; i >= 0; i--) {
-            int carry = 0;
-
-            for (int k = i; k < number2.length - 1; k++) {
-                graph.get(i).add(0);
-            }
-
-            for (int j = number1.length - 1; j >= 0; j--) {
-                graph.get(i).add((number2[i] * number1[j] + carry) % 10);
-                carry = (number2[i] * number1[j] + carry) / 10;
-            }
-            if (carry > 0) {
-                graph.get(i).add(carry);
-            }
-        }
+        List<List<Integer>> graph = buildGraph(number1, number2);
 
         HyperReal sum = new HyperInteger(ZERO);
         HyperInteger tmp;
 
-        for (List<Integer> integers : graph) {
-            Collections.reverse(integers);
+        for (List<Integer> digits : graph) {
+            Collections.reverse(digits);
             tmp = new HyperInteger();
-            tmp.setDigits(new byte[integers.size()]);
-            for (int j = 0; j < integers.size(); j++) {
-                tmp.setDigit(j, integers.get(j).byteValue());
+            tmp.setDigits(new byte[digits.size()]);
+            for (int j = 0; j < digits.size(); j++) {
+                tmp.setDigit(j, digits.get(j).byteValue());
             }
             sum = sum.add(tmp);
         }
 
         return sum;
+    }
+
+    private List<List<Integer>> buildGraph(byte[] number1, byte[] number2) {
+        List<List<Integer>> graph = IntStream.range(0, number2.length).<List<Integer>>mapToObj(i -> new ArrayList<>()).collect(Collectors.toList());
+
+        for (int i = number2.length - 1; i >= 0; i--) {
+            initGraphRow(graph, i, number2.length);
+
+            int carry = multiplyDigitsAndGetCarry(number1, number2, graph, i);
+            if (carry > 0) {
+                graph.get(i).add(carry);
+            }
+        }
+
+        return graph;
+    }
+
+    private int multiplyDigitsAndGetCarry(byte[] number1, byte[] number2, List<List<Integer>> graph, int i) {
+        int carry = 0;
+
+        for (int j = number1.length - 1; j >= 0; j--) {
+            graph.get(i).add(getLocalProductLastDigit(carry, number1[j], number2[i]));
+            carry = getCarry(carry, number1[j], number2[i]);
+        }
+        return carry;
+    }
+
+    private int getLocalProductLastDigit(int carry, byte number1, byte number2) {
+        return (number2 * number1 + carry) % 10;
+    }
+
+    private int getCarry(int carry, byte number1, byte number2) {
+        return (number2 * number1 + carry) / 10;
+    }
+
+    private void initGraphRow(List<List<Integer>> graph, int i, int n) {
+        for (int k = i; k < n - 1; k++) {
+            graph.get(i).add(0);
+        }
     }
 }
