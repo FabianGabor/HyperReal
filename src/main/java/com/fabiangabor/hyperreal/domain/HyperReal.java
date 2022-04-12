@@ -18,6 +18,8 @@ public interface HyperReal {
 
     HyperReal abs();
 
+    int compareTo(HyperReal x);
+
     boolean isBigger(HyperReal x);
 
     boolean isBiggerOrEqual(HyperReal x);
