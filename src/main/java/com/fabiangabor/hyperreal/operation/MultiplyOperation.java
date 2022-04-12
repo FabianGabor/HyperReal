@@ -8,7 +8,6 @@ package com.fabiangabor.hyperreal.operation;
 
 import com.fabiangabor.hyperreal.domain.HyperInteger;
 import com.fabiangabor.hyperreal.domain.HyperReal;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +31,6 @@ public class MultiplyOperation implements Operation {
         throw new IllegalArgumentException(String.format("%s %s", MULTIPLICATION, UNSUPPORTED_NUMBER));
     }
 
-    @NotNull
     private HyperReal getProduct(HyperInteger number1, HyperInteger number2) {
 
         final HyperReal zero = new HyperInteger(ZERO);
