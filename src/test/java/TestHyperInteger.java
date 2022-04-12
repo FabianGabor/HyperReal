@@ -71,30 +71,43 @@ class TestHyperInteger {
 
 
     @Test
-    void compareToShouldReturnZeroWhenNumbersAreEqual() {
-        final int EXPECTED = 0;
+    void isEqualShouldReturnTrueWhenNumbersAreEqual() {
         underTest = new HyperInteger("123");
         HyperInteger underTest2 = new HyperInteger("123");
 
-        assertEquals(EXPECTED, underTest.compareTo(underTest2));
+        assertTrue(underTest.isEqual(underTest2));
     }
 
     @Test
-    void compareToShouldReturnOneWhenFirstNumberIsBigger() {
-        final int EXPECTED = 1;
+    void isBiggerShouldReturnTrueWhenFirstNumberIsBigger() {
         underTest = new HyperInteger("1234");
         HyperInteger underTest2 = new HyperInteger("123");
 
-        assertEquals(EXPECTED, underTest.compareTo(underTest2));
+        assertTrue(underTest.isBigger(underTest2));
     }
 
     @Test
-    void compareToShouldReturnMinusOneWhenSecondNumberIsBigger() {
-        final int EXPECTED = -1;
+    void isBiggerShouldReturnFalseWhenFirstNumberIsSmaller() {
+        underTest = new HyperInteger("1233");
+        HyperInteger underTest2 = new HyperInteger("1234");
+
+        assertFalse(underTest.isBigger(underTest2));
+    }
+
+    @Test
+    void isSmallerShouldReturnTrueWhenSecondNumberIsSmaller() {
         underTest = new HyperInteger("123");
         HyperInteger underTest2 = new HyperInteger("1234");
 
-        assertEquals(EXPECTED, underTest.compareTo(underTest2));
+        assertTrue(underTest.isSmaller(underTest2));
+    }
+
+    @Test
+    void isSmallerShouldReturnFalseWhenSecondNumberIsBigger() {
+        underTest = new HyperInteger("1234");
+        HyperInteger underTest2 = new HyperInteger("1233");
+
+        assertFalse(underTest.isSmaller(underTest2));
     }
 
     private static Stream<Arguments> additionParameters() {
