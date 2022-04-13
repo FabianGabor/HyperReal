@@ -63,13 +63,13 @@ public class MultiplyOperation implements Operation {
         HyperReal sum = new HyperInteger(ZERO);
         HyperInteger tmp;
 
-        for (List<Integer> digits : partialProducts) {
-            Collections.reverse(digits);
+        for (List<Integer> partialProduct : partialProducts) {
+            Collections.reverse(partialProduct);
             tmp = new HyperInteger();
-            tmp.setDigits(new byte[digits.size()]);
+            tmp.setDigits(new byte[partialProduct.size()]);
 
-            for (int j = 0; j < digits.size(); j++) {
-                tmp.setDigit(j, digits.get(j).byteValue());
+            for (int j = 0; j < partialProduct.size(); j++) {
+                tmp.setDigit(j, partialProduct.get(j).byteValue());
             }
             sum = sum.add(tmp);
         }
