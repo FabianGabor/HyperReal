@@ -58,15 +58,16 @@ public class MultiplyOperation implements Operation {
     }
 
     private HyperReal multiply(byte[] number1, byte[] number2) {
-        List<List<Integer>> graph = buildGraph(number1, number2);
+        List<List<Integer>> partialProducts = getPartialProducts(number1, number2);
 
         HyperReal sum = new HyperInteger(ZERO);
         HyperInteger tmp;
 
-        for (List<Integer> digits : graph) {
+        for (List<Integer> digits : partialProducts) {
             Collections.reverse(digits);
             tmp = new HyperInteger();
             tmp.setDigits(new byte[digits.size()]);
+
             for (int j = 0; j < digits.size(); j++) {
                 tmp.setDigit(j, digits.get(j).byteValue());
             }
@@ -76,7 +77,7 @@ public class MultiplyOperation implements Operation {
         return sum;
     }
 
-    private List<List<Integer>> buildGraph(byte[] number1, byte[] number2) {
+    private List<List<Integer>> getPartialProducts(byte[] number1, byte[] number2) {
         List<List<Integer>> graph = IntStream.range(0, number2.length).<List<Integer>>mapToObj(i -> new ArrayList<>()).collect(Collectors.toList());
 
         for (int i = number2.length - 1; i >= 0; i--) {
