@@ -78,18 +78,18 @@ public class MultiplyOperation implements Operation {
     }
 
     private List<List<Integer>> getPartialProducts(byte[] number1, byte[] number2) {
-        List<List<Integer>> graph = IntStream.range(0, number2.length).<List<Integer>>mapToObj(i -> new ArrayList<>()).collect(Collectors.toList());
+        List<List<Integer>> partialProducts = IntStream.range(0, number2.length).<List<Integer>>mapToObj(i -> new ArrayList<>()).collect(Collectors.toList());
 
         for (int i = number2.length - 1; i >= 0; i--) {
-            initGraphRow(graph, i, number2.length);
+            initGraphRow(partialProducts, i, number2.length);
 
-            int carry = multiplyDigitsAndGetCarry(number1, number2, graph, i);
+            int carry = multiplyDigitsAndGetCarry(number1, number2, partialProducts, i);
             if (carry > 0) {
-                graph.get(i).add(carry);
+                partialProducts.get(i).add(carry);
             }
         }
 
-        return graph;
+        return partialProducts;
     }
 
     private int multiplyDigitsAndGetCarry(byte[] number1, byte[] number2, List<List<Integer>> graph, int i) {
