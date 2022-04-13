@@ -36,8 +36,6 @@ public class MultiplyOperation implements Operation {
         final HyperReal zero = new HyperInteger(ZERO);
         final HyperReal one = new HyperInteger(ONE);
 
-        HyperReal prod;
-
         if (number1.isEqual(zero) || number2.isEqual(zero)) {
             return zero;
         }
@@ -48,7 +46,7 @@ public class MultiplyOperation implements Operation {
             return number1;
         }
 
-        prod = multiply(number1.getDigits(), number2.getDigits());
+        HyperReal prod = multiply(number1.getDigits(), number2.getDigits());
 
         if (number1.getSign() != number2.getSign()) {
             prod.setNegative();
