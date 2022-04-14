@@ -32,11 +32,11 @@ public class DivideOperation implements Operation {
         final HyperReal zero = new HyperInteger(ZERO);
         final HyperReal one = new HyperInteger(ONE);
 
-        if (number1.isEqual(zero)) {
-            return zero;
-        }
         if (number2.isEqual(zero)) {
             throw new ArithmeticException(DIVISION_BY_ZERO);
+        }
+        if (number1.isEqual(zero)) {
+            return zero;
         }
         if (number2.isEqual(one)) {
             return number1;
