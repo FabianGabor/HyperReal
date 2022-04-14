@@ -40,7 +40,7 @@ public class DivideOperation implements Operation {
             return number1;
         }
         if (number2.abs().isEqual(one)) {
-            return new HyperInteger(number1.toString(), number1.getSign() * number2.getSign());
+            return new HyperInteger(number1.toString(), number1.getSign() * NEGATIVE_SIGN_VAL);
         }
         if (number1.isEqual(number2)) {
             return one;
