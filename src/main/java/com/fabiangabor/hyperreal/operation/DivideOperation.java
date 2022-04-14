@@ -9,7 +9,6 @@ package com.fabiangabor.hyperreal.operation;
 import com.fabiangabor.hyperreal.domain.HyperInteger;
 import com.fabiangabor.hyperreal.domain.HyperReal;
 import com.fabiangabor.hyperreal.service.ConversionService;
-import org.jetbrains.annotations.NotNull;
 
 import static com.fabiangabor.hyperreal.constants.ExceptionMessageConstants.*;
 import static com.fabiangabor.hyperreal.constants.NumberConstants.*;
@@ -26,7 +25,6 @@ public class DivideOperation implements Operation {
         throw new IllegalArgumentException(String.format("%s %s", DIVISION, UNSUPPORTED_NUMBER));
     }
 
-    @NotNull
     private HyperReal divide(HyperInteger number1, HyperInteger number2) {
 
         final HyperReal zero = new HyperInteger(ZERO);
