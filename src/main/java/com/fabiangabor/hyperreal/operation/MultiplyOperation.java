@@ -81,7 +81,7 @@ public class MultiplyOperation implements Operation {
         List<List<Integer>> partialProducts = IntStream.range(0, number2.length).<List<Integer>>mapToObj(i -> new ArrayList<>()).collect(Collectors.toList());
 
         for (int i = number2.length - 1; i >= 0; i--) {
-            initGraphRow(partialProducts, i, number2.length);
+            initPartialProductsRow(partialProducts, i, number2.length);
 
             int carry = multiplyDigitsAndGetCarry(number1, number2, partialProducts, i);
             if (carry > 0) {
@@ -90,6 +90,12 @@ public class MultiplyOperation implements Operation {
         }
 
         return partialProducts;
+    }
+
+    private void initPartialProductsRow(List<List<Integer>> graph, int i, int n) {
+        for (int k = i; k < n - 1; k++) {
+            graph.get(i).add(0);
+        }
     }
 
     private int multiplyDigitsAndGetCarry(byte[] number1, byte[] number2, List<List<Integer>> graph, int i) {
@@ -103,16 +109,10 @@ public class MultiplyOperation implements Operation {
     }
 
     private int getLocalProductLastDigit(int carry, byte number1, byte number2) {
-        return (number2 * number1 + carry) % 10;
+        return (number1 * number2 + carry) % 10;
     }
 
     private int getCarry(int carry, byte number1, byte number2) {
-        return (number2 * number1 + carry) / 10;
-    }
-
-    private void initGraphRow(List<List<Integer>> graph, int i, int n) {
-        for (int k = i; k < n - 1; k++) {
-            graph.get(i).add(0);
-        }
+        return (number1 * number2 + carry) / 10;
     }
 }
