@@ -8,10 +8,10 @@ package com.fabiangabor.hyperreal.operation;
 
 import com.fabiangabor.hyperreal.domain.HyperInteger;
 import com.fabiangabor.hyperreal.domain.HyperReal;
-import com.fabiangabor.hyperreal.service.ConversionService;
 
 import static com.fabiangabor.hyperreal.constants.ExceptionMessageConstants.*;
 import static com.fabiangabor.hyperreal.constants.NumberConstants.*;
+import static com.fabiangabor.hyperreal.service.ConversionService.stripLeadingZeros;
 import static com.fabiangabor.hyperreal.service.HelperService.subArray;
 
 public class DivideOperation implements Operation {
@@ -93,6 +93,6 @@ public class DivideOperation implements Operation {
         HyperInteger quotient = new HyperInteger(sq.toString());
         quotient.setSign(number1.getSign() * number2.getSign());
 
-        return ConversionService.stripLeadingZeros(quotient);
+        return stripLeadingZeros(quotient);
     }
 }
