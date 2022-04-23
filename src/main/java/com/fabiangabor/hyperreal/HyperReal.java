@@ -4,7 +4,7 @@
  * https://github.com/FabianGabor
  */
 
-package com.fabiangabor.hyperreal.domain;
+package com.fabiangabor.hyperreal;
 
 public interface HyperReal {
 

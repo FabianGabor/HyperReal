@@ -6,8 +6,8 @@
 
 package com.fabiangabor.hyperreal.operation;
 
-import com.fabiangabor.hyperreal.domain.HyperInteger;
-import com.fabiangabor.hyperreal.domain.HyperReal;
+import com.fabiangabor.hyperreal.HyperInteger;
+import com.fabiangabor.hyperreal.HyperReal;
 
 import static com.fabiangabor.hyperreal.constants.ExceptionMessageConstants.SUBTRACTION;
 import static com.fabiangabor.hyperreal.constants.ExceptionMessageConstants.UNSUPPORTED_NUMBER;

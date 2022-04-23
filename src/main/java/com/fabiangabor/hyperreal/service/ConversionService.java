@@ -7,8 +7,8 @@
 package com.fabiangabor.hyperreal.service;
 
 import com.fabiangabor.hyperreal.constants.ExceptionMessageConstants;
-import com.fabiangabor.hyperreal.domain.HyperInteger;
-import com.fabiangabor.hyperreal.domain.HyperReal;
+import com.fabiangabor.hyperreal.HyperInteger;
+import com.fabiangabor.hyperreal.HyperReal;
 
 import static com.fabiangabor.hyperreal.constants.NumberConstants.*;
 

@@ -4,8 +4,8 @@
  * https://github.com/FabianGabor
  */
 
-import com.fabiangabor.hyperreal.domain.HyperInteger;
-import com.fabiangabor.hyperreal.domain.HyperReal;
+import com.fabiangabor.hyperreal.HyperInteger;
+import com.fabiangabor.hyperreal.HyperReal;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
