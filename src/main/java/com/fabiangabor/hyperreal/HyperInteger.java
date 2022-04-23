@@ -8,6 +8,8 @@ package com.fabiangabor.hyperreal;
 
 import com.fabiangabor.hyperreal.operation.*;
 
+import java.util.Arrays;
+
 import static com.fabiangabor.hyperreal.constants.EqualityConstants.EQUAL;
 import static com.fabiangabor.hyperreal.constants.NumberConstants.*;
 import static com.fabiangabor.hyperreal.service.ConversionService.convertToHyperInteger;
@@ -196,4 +198,21 @@ public class HyperInteger implements HyperReal {
         return sb.toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        HyperInteger that = (HyperInteger) o;
+
+        if (sign != that.sign) return false;
+        return Arrays.equals(digits, that.digits);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = sign;
+        result = 31 * result + Arrays.hashCode(digits);
+        return result;
+    }
 }
