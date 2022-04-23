@@ -10,15 +10,27 @@ repositories {
     mavenCentral()
 }
 
-application {
-    mainClass = 'Main'
+ext {
+    javaMainClass = "com.fabiangabor.Main"
 }
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.fabiangabor.Main'
+    }
+}
+
+
+application {
+    mainClassName = javaMainClass
+}
+
 
 task execute(type: JavaExec) {
     group = "Execution"
     description = "Run the main class with JavaExecTask"
     classpath = sourceSets.main.runtimeClasspath
-    mainClassName = "Main"
+    mainClass = javaMainClass
 }
 
 

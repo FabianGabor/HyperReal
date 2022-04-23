@@ -4,9 +4,11 @@
  * https://github.com/FabianGabor
  */
 
-package com.fabiangabor.hyperreal.domain;
+package com.fabiangabor.hyperreal;
 
 import com.fabiangabor.hyperreal.operation.*;
+
+import java.util.Arrays;
 
 import static com.fabiangabor.hyperreal.constants.EqualityConstants.EQUAL;
 import static com.fabiangabor.hyperreal.constants.NumberConstants.*;
@@ -53,6 +55,7 @@ public class HyperInteger implements HyperReal {
         this.digits = digits;
     }
 
+    @Override
     public int getSign() {
         return sign;
     }
@@ -61,18 +64,22 @@ public class HyperInteger implements HyperReal {
         this.sign = sign;
     }
 
+    @Override
     public void setPositive() {
         this.sign = POSITIVE_SIGN_VAL;
     }
 
+    @Override
     public void setNegative() {
         this.sign = NEGATIVE_SIGN_VAL;
     }
 
+    @Override
     public int getLength() {
         return this.digits.length;
     }
 
+    @Override
     public byte getDigit(int index) {
         return this.digits[index];
     }
@@ -81,26 +88,31 @@ public class HyperInteger implements HyperReal {
         this.digits[index] = digit;
     }
 
+    @Override
     public HyperReal add(HyperReal number2) {
         Operation add = new AddOperation();
         return add.execute(this, number2);
     }
 
+    @Override
     public HyperReal subtract(HyperReal number2) {
         Operation subtract = new SubtractOperation();
         return subtract.execute(this, number2);
     }
 
+    @Override
     public HyperReal multiply(HyperReal number2) {
         Operation multiply = new MultiplyOperation();
         return multiply.execute(this, number2);
     }
 
+    @Override
     public HyperReal divide(HyperReal number2) throws ArithmeticException {
         Operation divide = new DivideOperation();
         return divide.execute(this, number2);
     }
 
+    @Override
     public int compareTo(HyperReal number2) {
         int returnValue;
 
@@ -126,6 +138,51 @@ public class HyperInteger implements HyperReal {
         return 0;
     }
 
+    @Override
+    public boolean isBigger(HyperReal x) {
+        return this.compareTo(x) > 0;
+    }
+
+    @Override
+    public boolean isBiggerOrEqual(HyperReal x) {
+        return this.compareTo(x) >= 0;
+    }
+
+    @Override
+    public boolean isSmaller(HyperReal x) {
+        return this.compareTo(x) < 0;
+    }
+
+    @Override
+    public boolean isSmallerOrEqual(HyperReal x) {
+        return this.compareTo(x) <= 0;
+    }
+
+    @Override
+    public boolean isEqual(HyperReal x) {
+        return this.compareTo(x) == 0;
+    }
+
+    @Override
+    public boolean isPositive() {
+        return this.sign == POSITIVE_SIGN_VAL;
+    }
+
+    @Override
+    public boolean isPositiveOrZero() {
+        return this.sign >= ZERO_SIGN_VAL;
+    }
+
+    @Override
+    public boolean isNegative() {
+        return this.sign == NEGATIVE_SIGN_VAL;
+    }
+
+    @Override
+    public boolean isNegativeOrZero() {
+        return this.sign <= ZERO_SIGN_VAL;
+    }
+
     public HyperReal abs() {
         return new HyperInteger(this.toString(), POSITIVE_SIGN_VAL);
     }
@@ -141,4 +198,21 @@ public class HyperInteger implements HyperReal {
         return sb.toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        HyperInteger that = (HyperInteger) o;
+
+        if (sign != that.sign) return false;
+        return Arrays.equals(digits, that.digits);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = sign;
+        result = 31 * result + Arrays.hashCode(digits);
+        return result;
+    }
 }
