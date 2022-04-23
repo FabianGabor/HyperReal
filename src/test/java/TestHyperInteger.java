@@ -240,9 +240,9 @@ class TestHyperInteger {
     }
 
     @Test
-        /*
-         * https://mae.ufl.edu/~uhk/QUICK-SEMI-PRIME-FACTORING.pdf
-         */
+    /*
+     * https://mae.ufl.edu/~uhk/QUICK-SEMI-PRIME-FACTORING.pdf
+     */
     void divideShouldReturnQuotientWhenDividingTwoBigPositiveNumbers() {
         final String EXPECTED = "672897345109469";
         HyperInteger number1 = new HyperInteger("194920496263521028482429080527");
