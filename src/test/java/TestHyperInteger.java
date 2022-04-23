@@ -1,7 +1,7 @@
 /*
  * Fábián Gábor
  * Copyright (c) 2021.
- * https://github.com/FabianGabor
+ * https://github.com/FabianGabor/HyperReal
  */
 
 import com.fabiangabor.hyperreal.HyperInteger;
