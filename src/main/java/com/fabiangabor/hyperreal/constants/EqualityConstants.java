@@ -1,7 +1,7 @@
 /*
  * Fábián Gábor
  * Copyright (c) 2022.
- * https://github.com/FabianGabor
+ * https://github.com/FabianGabor/HyperReal
  */
 
 package com.fabiangabor.hyperreal.constants;
