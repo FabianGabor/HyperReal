@@ -1,7 +1,7 @@
 /*
- * Fábián Gábor
- * Copyright (c) 2022.
- * https://github.com/FabianGabor/HyperReal
+ * @author Fábián Gábor
+ * Copyright (c) 2022-2022.
+ * @see <a href="https://github.com/FabianGabor/HyperReal">https://github.com/FabianGabor/HyperReal</a>
  */
 
 package com.fabiangabor;
